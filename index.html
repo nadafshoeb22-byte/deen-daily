@@ -2,539 +2,96 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deen Connect Pro 4.0 | Engineered by Shoeb Nadaf</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>ELITE 5.0 | Founder's Dashboard</title>
     <style>
         :root {
-            --bg-dark: #04060f;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-active: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --gold-primary: #E2B747;
-            --gold-glow: rgba(226, 183, 71, 0.3);
-            --text-main: #F8FAFC;
-            --text-muted: #64748B;
-            --neon-green: #10B981;
-            --neon-blue: #3B82F6;
-            --neon-red: #EF4444;
-            --fluid-curve: cubic-bezier(0.16, 1, 0.3, 1);
+            --bg: #030409; --panel: rgba(255,255,255,0.03);
+            --accent: #E2B747; --glass: blur(40px) saturate(200%);
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: radial-gradient(circle at top right, #0d1224, #04060c) !important; 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            color: var(--text-main); 
-            min-height: 100vh; 
-            padding-bottom: 110px; 
-            overflow-x: hidden;
-            position: relative;
-            transition: background 1s ease;
-        }
-
-        /* CINEMATIC BOKEH MODE */
-        body.cinematic-mode {
-            background: #020202 !important;
-        }
-        body.cinematic-mode::before {
-            content: ''; position: fixed; top: 10%; left: 20%; width: 40vw; height: 40vw;
-            background: radial-gradient(circle, rgba(226,183,71,0.15) 0%, transparent 70%);
-            border-radius: 50%; filter: blur(60px); z-index: -1; pointer-events: none;
-        }
-        body.cinematic-mode::after {
-            content: ''; position: fixed; bottom: 10%; right: 10%; width: 50vw; height: 50vw;
-            background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
-            border-radius: 50%; filter: blur(80px); z-index: -1; pointer-events: none;
-        }
-
-        #particle-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
-        .gold-text { background: linear-gradient(135deg, #FFF 30%, var(--gold-primary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding: 20px; }
         
-        .card { 
-            background: var(--glass) !important; 
-            backdrop-filter: blur(30px) saturate(140%) !important;
-            -webkit-backdrop-filter: blur(30px) saturate(140%) !important;
-            border: 1px solid var(--glass-border) !important; 
-            border-radius: 24px !important; padding: 24px; 
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important; 
-            margin-bottom: 20px; position: relative; z-index: 1;
-            transition: transform 0.4s var(--fluid-curve), border-color 0.4s var(--fluid-curve);
-        }
+        /* GRID SYSTEM */
+        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
         
-        .btn-primary { 
-            background: linear-gradient(135deg, #E2B747 0%, #A37A1A 100%) !important; border: none !important; color: #05070f !important; 
-            padding: 16px 24px; font-weight: 700; border-radius: 16px; cursor: pointer; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;
-            transition: all 0.4s var(--fluid-curve); width: 100%; box-shadow: 0 8px 24px rgba(226, 183, 71, 0.2);
+        .panel { 
+            background: var(--panel); border: 1px solid rgba(255,255,255,0.08); 
+            border-radius: 24px; padding: 25px; backdrop-filter: var(--glass);
+            transition: 0.3s; position: relative; overflow: hidden;
         }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(226, 183, 71, 0.4); }
-        .btn-secondary { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); color: var(--text-main); padding: 12px 20px; border-radius: 14px; cursor: pointer; font-weight: 600; transition: all 0.3s; width: 100%; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; }
-
-        .app-header { background: rgba(4, 6, 15, 0.5) !important; backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); padding: 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .app-container { max-width: 600px; margin: 0 auto; padding: 20px; position: relative; z-index: 2; }
+        .panel:hover { border-color: var(--accent); transform: translateY(-5px); }
         
-        /* SIDEBAR MATRIX CONTROL */
-        .sidebar-history {
-            position: fixed; top: 0; right: -320px; width: 320px; height: 100%; 
-            background: rgba(6, 10, 23, 0.98); backdrop-filter: blur(40px);
-            border-left: 1px solid var(--glass-border); z-index: 2000; padding: 30px 24px;
-            transition: right 0.5s var(--fluid-curve); box-shadow: -10px 0 40px rgba(0,0,0,0.8);
-            overflow-y: auto;
+        h2 { font-size: 1rem; color: var(--accent); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        
+        /* UI ELEMENTS */
+        .stat-val { font-size: 2.5rem; font-weight: 800; font-family: 'Orbitron'; }
+        button { 
+            background: var(--accent); border: none; padding: 12px 20px; 
+            border-radius: 12px; font-weight: bold; cursor: pointer; color: #000;
+            width: 100%; margin-top: 10px; transition: 0.3s;
         }
-        .sidebar-history.open { right: 0; }
-        .sidebar-close { position: absolute; top: 20px; left: 20px; background: transparent; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; }
-
-        .lang-btn-box { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 25px; }
-        .lang-toggle-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); color: var(--text-muted); padding: 10px 4px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 700; transition: all 0.3s; }
-        .lang-toggle-btn.active { background: rgba(226, 183, 71, 0.15); border-color: var(--gold-primary); color: #fff; }
-
-        .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; line-height: 2.2; text-align: right; direction: rtl; }
-
-        /* ADVANCED TRACKER ROW & TRI-STATE BUTTONS */
-        .tracker-card-row { display: flex; flex-direction: column; background: rgba(255,255,255,0.01); border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px; margin-bottom: 12px; gap: 12px; }
-        .tracker-header-info { display: flex; justify-content: space-between; font-weight: 600; font-size: 0.95rem; }
-        .tri-btn-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .tri-btn { border: 1px solid var(--glass-border); background: rgba(255,255,255,0.02); color: var(--text-muted); padding: 10px 4px; border-radius: 10px; cursor: pointer; font-size: 0.75rem; font-weight: 700; transition: all 0.3s var(--fluid-curve); text-align: center; }
+        button:hover { filter: brightness(1.2); }
         
-        .tri-btn.active-jamat { background: rgba(16, 185, 129, 0.15) !important; border-color: var(--neon-green) !important; color: var(--neon-green) !important; box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
-        .tri-btn.active-akele { background: rgba(59, 130, 246, 0.15) !important; border-color: var(--neon-blue) !important; color: var(--neon-blue) !important; box-shadow: 0 0 10px rgba(59, 130, 246, 0.2); }
-        .tri-btn.active-qaza { background: rgba(239, 68, 68, 0.15) !important; border-color: var(--neon-red) !important; color: var(--neon-red) !important; box-shadow: 0 0 10px rgba(239, 68, 68, 0.2); }
-
         /* HEATMAP */
-        .heatmap-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin-top: 15px; }
-        .heatmap-cell { aspect-ratio: 1; border-radius: 4px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.02); }
-        .heatmap-cell.lvl-1 { background: rgba(16, 185, 129, 0.3); border-color: rgba(16, 185, 129, 0.5); }
-        .heatmap-cell.lvl-2 { background: rgba(16, 185, 129, 0.6); border-color: rgba(16, 185, 129, 0.8); box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
-        .heatmap-cell.lvl-3 { background: var(--neon-green); border-color: #fff; box-shadow: 0 0 12px var(--neon-green); }
-
-        .name-slider-box { display: flex; flex-direction: column; text-align: center; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); padding: 24px; border-radius: 16px; margin-top: 15px; min-height: 120px; justify-content: center; }
-
-        .bottom-nav { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 568px; background: rgba(10, 14, 26, 0.75) !important; backdrop-filter: blur(30px); border: 1px solid var(--glass-border); display: flex; justify-content: space-around; padding: 14px 0; z-index: 1000; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.7); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-muted); cursor: pointer; font-size: 0.7rem; font-weight: 600; width: 65px; transition: all 0.3s; }
-        .nav-item i { font-size: 1.2rem; }
-        .nav-item.active { color: var(--text-main); }
-        .nav-item.active i { color: var(--gold-primary); filter: drop-shadow(0 0 8px var(--gold-glow)); }
-
-        .prayer-grid { display: flex; flex-direction: column; gap: 12px; }
-        .prayer-item { background: var(--glass) !important; border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .prayer-item .p-left { display: flex; align-items: center; gap: 14px; font-weight: 600; }
-        .icon-prayer { color: var(--gold-primary); font-size: 1.2rem; }
-        .manual-time-input { background: rgba(0,0,0,0.3); border: 1px solid var(--gold-primary); color: #fff; padding: 6px 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.9rem; width: 100px; text-align: center; }
-
-        .tasbeeh-circle { width: 170px; height: 170px; border-radius: 50%; border: 2px dashed var(--gold-primary); margin: 20px auto; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(226, 183, 71, 0.02); transition: all 0.4s var(--fluid-curve); }
-        .tasbeeh-circle:active { transform: scale(0.94); }
-
-        .app-page-view { display: none; opacity: 0; transform: translateY(15px); transition: opacity 0.4s var(--fluid-curve), transform 0.4s var(--fluid-curve); }
-        .app-page-view.active { display: block; opacity: 1; transform: translateY(0); }
-        .sparkle-dot { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
-
-        /* HIKMAH VAULT */
-        .hikmah-box { background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(226, 183, 71, 0.05) 100%); border: 1px dashed var(--gold-primary); border-radius: 16px; padding: 16px; margin-top: 15px; cursor: pointer; transition: all 0.3s; }
-        .hikmah-box:hover { background: rgba(226, 183, 71, 0.1); }
-        .hikmah-answer { display: none; margin-top: 12px; color: var(--gold-primary); font-weight: bold; font-family: 'Orbitron'; letter-spacing: 1px; }
-
+        .heatmap { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+        .cell { aspect-ratio: 1; background: #111; border-radius: 4px; }
+        .cell.active { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
     </style>
 </head>
 <body>
 
-    <canvas id="particle-canvas"></canvas>
-
-    <!-- SIDEBAR FOR CONTROL MATRIX -->
-    <div id="history-sidebar" class="sidebar-history">
-        <button class="sidebar-close" onclick="toggleSidebarHistory(false)"><i class="fa-solid fa-xmark"></i></button>
-        
-        <h3 class="gold-text" style="font-family:'Orbitron'; margin-top:40px; margin-bottom:12px; font-size:1rem;"><i class="fa-solid fa-language"></i> Language Matrix</h3>
-        <div class="lang-btn-box">
-            <button class="lang-toggle-btn active" id="lang-en" onclick="changeSystemLanguage('en')">EN</button>
-            <button class="lang-toggle-btn" id="lang-hi" onclick="changeSystemLanguage('hi')">हिंदी</button>
-            <button class="lang-toggle-btn" id="lang-ur" onclick="changeSystemLanguage('ur')">اردو</button>
-        </div>
-
-        <h3 class="gold-text" style="font-family:'Orbitron'; margin-bottom:12px; margin-top:30px; font-size:1rem;"><i class="fa-solid fa-camera"></i> Environment</h3>
-        <button onclick="toggleCinematicMode()" class="btn-secondary" style="border-color: var(--gold-primary); color: var(--gold-primary);">
-            <i class="fa-solid fa-expand"></i> Toggle Cinematic Focus
-        </button>
-
-        <div style="margin-top: 40px;">
-            <button onclick="handleSessionLogout()" style="width:100%; background:rgba(239,68,68,0.08); border:1px solid var(--neon-red); color:var(--neon-red); padding:14px; border-radius:14px; font-weight:bold; cursor:pointer;">Clear Session / Logout</button>
-        </div>
-        
-        <p style="font-size:0.75rem; color:var(--text-muted); text-align:center; margin-top:30px;">Architecture v4.0 optimized for automated localized processing.</p>
-    </div>
-
-    <!-- 1. AUTH SCREEN -->
-    <div id="page-auth" class="app-page-view active">
-        <div class="app-container" style="margin-top: 60px;">
-            <div style="text-align: center; margin-bottom: 40px;">
-                <i class="fa-solid fa-microchip" style="font-size: 4rem; margin-bottom: 15px; color: var(--gold-primary); filter: drop-shadow(0 0 15px var(--gold-glow));"></i>
-                <h1 style="font-family: 'Orbitron', sans-serif; letter-spacing: 3px;" class="gold-text">DEEN CONNECT PRO</h1>
-                <p style="color: var(--text-muted); font-size: 0.95rem;">System Architecture v4.0 | Engineered by Shoeb Nadaf</p>
-            </div>
-            <div class="card">
-                <input type="text" id="auth-username" value="Shoeb Nadaf" style="width: 100%; padding: 14px; border-radius: 12px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; margin-bottom: 14px;">
-                <input type="text" id="auth-city" value="Islampur" style="width: 100%; padding: 14px; border-radius: 12px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; margin-bottom: 24px;">
-                <button onclick="handleUniversalLogin()" class="btn-primary">LAUNCH ECOSYSTEM</button>
+    <div class="dashboard">
+        <!-- COMMAND CENTER -->
+        <div class="panel" style="grid-column: 1 / -1;">
+            <h2>Shoeb Nadaf // Founder's Terminal</h2>
+            <div style="display:flex; gap:20px;">
+                <input type="text" placeholder="Quick log / Command..." style="width:100%; background:transparent; border:none; border-bottom:1px solid #444; color:#fff; font-size:1.2rem;">
             </div>
         </div>
-    </div>
 
-    <!-- MAIN APP WRAPPER -->
-    <div id="main-app-content" style="display: none;">
-        <header class="app-header">
-            <div>
-                <span id="label-welcome" style="font-size: 0.75rem; color: var(--text-muted);">Welcome,</span>
-                <h2 id="nav-user-name" style="font-size: 1.3rem;" class="gold-text">Shoeb Nadaf</h2>
-            </div>
-            <div style="text-align: right; display:flex; align-items:center; gap:15px;">
-                <div>
-                    <span id="user-location" style="font-size: 0.85rem; font-weight: 600; display:block;">Islampur</span>
-                    <span id="countdown-timer" style="font-size: 0.7rem; color: var(--neon-green); font-weight: 600;">--:--</span>
-                </div>
-                <button onclick="toggleSidebarHistory(true)" style="background:var(--glass); border:1px solid var(--glass-border); color:#fff; padding:10px; border-radius:12px; cursor:pointer;"><i class="fa-solid fa-sliders" style="color:var(--gold-primary)"></i></button>
-            </div>
-        </header>
-
-        <div class="app-container">
-            
-            <!-- 2. HOME PAGE -->
-            <div id="page-home" class="app-page-view">
-                
-                <!-- Hikmah Logic Vault -->
-                <div class="card" style="border-left: 4px solid var(--neon-blue) !important;">
-                    <span style="font-size:0.75rem; color:var(--neon-blue); font-weight:bold; display:block; margin-bottom:6px; letter-spacing:1px;">HIKMAH LOGIC VAULT</span>
-                    <p style="font-size: 0.95rem; font-style: italic; color: #E2E8F0; line-height: 1.6;">"The mind is a muscle. Train it with wisdom."</p>
-                    <div class="hikmah-box" onclick="toggleRiddle()">
-                        <div style="font-size: 0.9rem; font-weight: 600;"><i class="fa-solid fa-lightbulb" style="color:var(--gold-primary)"></i> Daily Riddle:</div>
-                        <p style="font-size: 0.85rem; margin-top: 5px;">I am placed in a glass bottle. I can fill it completely but make it weigh less. What am I?</p>
-                        <div id="riddle-answer" class="hikmah-answer">A Hole (Ek Suraakh)</div>
-                    </div>
-                </div>
-
-                <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
-                    <h3 style="font-size: 1rem;"><i class="fa-solid fa-clock" style="color:var(--gold-primary)"></i> Manual Precision Timings</h3>
-                    <div id="today-date" style="font-weight: 700; font-size: 0.85rem; color:var(--text-muted);"></div>
-                </div>
-
-                <div class="prayer-grid">
-                    <div class="prayer-item"><div class="p-left"><i class="fa-solid fa-cloud-sun icon-prayer"></i> <span id="lbl-fajr">Fajr</span></div>
-                        <input type="time" id="manual-Fajr" class="manual-time-input" onchange="saveManualTimings()">
-                    </div>
-                    <div class="prayer-item"><div class="p-left"><i class="fa-solid fa-sun icon-prayer"></i> <span id="lbl-dhuhr">Dhuhr</span></div>
-                        <input type="time" id="manual-Dhuhr" class="manual-time-input" onchange="saveManualTimings()">
-                    </div>
-                    <div class="prayer-item"><div class="p-left"><i class="fa-solid fa-cloud-sun-rain icon-prayer"></i> <span id="lbl-asr">Asr</span></div>
-                        <input type="time" id="manual-Asr" class="manual-time-input" onchange="saveManualTimings()">
-                    </div>
-                    <div class="prayer-item"><div class="p-left"><i class="fa-solid fa-moon icon-prayer"></i> <span id="lbl-maghrib">Maghrib</span></div>
-                        <input type="time" id="manual-Maghrib" class="manual-time-input" onchange="saveManualTimings()">
-                    </div>
-                    <div class="prayer-item"><div class="p-left"><i class="fa-solid fa-star-and-crescent icon-prayer"></i> <span id="lbl-isha">Isha</span></div>
-                        <input type="time" id="manual-Isha" class="manual-time-input" onchange="saveManualTimings()">
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3. ADVANCED TRI-STATE TRACKER -->
-            <div id="page-tracker" class="app-page-view">
-                <div class="card">
-                    <div style="display:flex; justify-content:space-between; margin-bottom: 12px; font-size: 0.95rem;">
-                        <span id="lbl-score-title"><i class="fa-solid fa-bolt" style="color:var(--gold-primary)"></i> Productivity Score</span>
-                        <strong id="progress-percent" style="color: var(--neon-green);">0%</strong>
-                    </div>
-                    <div style="width:100%; height:8px; background:rgba(255,255,255,0.05); border-radius:10px; overflow:hidden;">
-                        <div id="progress-fill" style="width: 0%; height:100%; background: linear-gradient(90deg, var(--neon-green), var(--neon-blue)); transition: width 0.5s;"></div>
-                    </div>
-                </div>
-
-                <!-- Heatmap Executive Matrix -->
-                <div class="card">
-                    <h3 style="font-size: 1.05rem; margin-bottom: 10px;"><i class="fa-solid fa-chart-line" style="color:var(--gold-primary)"></i> Executive Analytics Matrix</h3>
-                    <p style="font-size: 0.75rem; color: var(--text-muted);">Last 30 days activity intensity</p>
-                    <div class="heatmap-grid" id="heatmap-container">
-                        <!-- Heatmap cells injected via JS -->
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3 id="lbl-verify-title" style="font-size: 1.05rem; margin-bottom: 16px;"><i class="fa-solid fa-list-check" style="color:var(--gold-primary)"></i> Verification Register</h3>
-                    <div id="tri-state-tracker-container"></div>
-                </div>
-            </div>
-
-            <!-- 4. ALPHA AESTHETICS & GROOMING -->
-            <div id="page-alpha" class="app-page-view">
-                <div class="card" style="border: 1px solid var(--gold-primary) !important; background: linear-gradient(180deg, rgba(226,183,71,0.05) 0%, transparent 100%) !important;">
-                    <h3 style="font-size: 1.2rem; font-family:'Orbitron'; margin-bottom: 5px;" class="gold-text">ALPHA AESTHETICS</h3>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px;">Grooming, Fitness & Personal Branding</p>
-                    
-                    <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 16px; border: 1px solid var(--glass-border); margin-bottom: 15px; display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <div style="font-weight:bold; font-size:0.95rem;"><i class="fa-solid fa-scissors" style="color:var(--neon-blue)"></i> Beard Growth Journey</div>
-                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Consistency is key for a sharp look.</div>
-                        </div>
-                        <div style="text-align:right;">
-                            <h2 style="font-family:'Orbitron'; color:var(--neon-blue);" id="beard-days">Day 12</h2>
-                            <button onclick="addBeardDay()" style="background:transparent; border:1px solid var(--neon-blue); color:var(--neon-blue); padding:4px 10px; border-radius:6px; font-size:0.7rem; margin-top:5px; cursor:pointer;">+ Log Day</button>
-                        </div>
-                    </div>
-
-                    <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 16px; border: 1px solid var(--glass-border); display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <div style="font-weight:bold; font-size:0.95rem;"><i class="fa-solid fa-dumbbell" style="color:var(--neon-red)"></i> Physique & Cuts</div>
-                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Track gym consistency for powerful brand image.</div>
-                        </div>
-                        <div style="text-align:right;">
-                            <button onclick="logWorkout(event)" class="btn-primary" style="padding: 10px 15px; font-size:0.8rem; box-shadow:none;">Log Workout</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 5. TASBEEH -->
-            <div id="page-tasbeeh" class="app-page-view">
-                <div class="card" style="text-align: center;">
-                    <div class="tasbeeh-circle" onclick="triggerTasbeehCount(event)">
-                        <span id="lbl-count-dot" style="font-size: 0.75rem; color: var(--text-muted);">COUNT</span>
-                        <h1 id="tasbeeh-display" style="font-family:'Orbitron'; font-size:3.2rem;" class="gold-text">0</h1>
-                        <span id="tasbeeh-cycle" style="font-size: 0.75rem; color: var(--neon-green);">Cycle: 0</span>
-                    </div>
-                    <button id="lbl-reset-btn" onclick="resetTasbeeh()" style="background:transparent; border:1px solid rgba(255,255,255,0.1); color:var(--text-muted); padding:8px 18px; border-radius:10px; cursor:pointer; font-size:0.8rem;">Reset</button>
-                </div>
-            </div>
-
-            <!-- 6. FOUNDER EXCLUSIVITY -->
-            <div id="page-founder" class="app-page-view">
-                <div class="card" style="text-align: center; border: 1px solid var(--gold-primary) !important; background: linear-gradient(180deg, rgba(226,183,71,0.07) 0%, rgba(5,7,15,0.2) 100%) !important; padding: 45px 24px;">
-                    <i class="fa-solid fa-crown" style="font-size: 3.8rem; margin-bottom: 16px; color: var(--gold-primary); filter: drop-shadow(0 0 15px var(--gold-glow));"></i>
-                    <h3 style="font-family: 'Orbitron'; font-size: 0.85rem; color: var(--text-muted); letter-spacing: 6px; font-weight:800;">LEAD SYSTEM ARCHITECT & FOUNDER</h3>
-                    <h1 class="gold-text" style="font-family:'Orbitron'; font-size:2.8rem; font-weight:800; margin:10px 0;">SHOEB NADAF</h1>
-                    <p style="color:#FFF3B0; font-size:1rem; font-weight:600; letter-spacing:1px; margin-bottom:12px;"><i class="fa-solid fa-location-dot"></i> Islampur, Maharashtra, India</p>
-                    <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-border); padding: 12px; border-radius: 14px; font-size: 0.8rem; color: var(--text-muted); text-align:left; line-height:1.5;">
-                        <strong>Enterprise Registry Core:</strong> Verified core structure build v4.0 optimized for automated localized processing, physical tracking, and corporate aesthetics.
-                    </div>
-                </div>
-            </div>
-
+        <!-- PRODUCTIVITY -->
+        <div class="panel">
+            <h2>Consistency Matrix</h2>
+            <div class="stat-val" id="score">88%</div>
+            <div class="heatmap" id="map"></div>
         </div>
 
-        <nav class="bottom-nav">
-            <div class="nav-item active" id="nav-home" onclick="triggerTabSwitch('home')"><i class="fa-solid fa-house"></i><span id="tab-home">Home</span></div>
-            <div class="nav-item" id="nav-tracker" onclick="triggerTabSwitch('tracker')"><i class="fa-solid fa-calendar-check"></i><span id="tab-track">Tracker</span></div>
-            <div class="nav-item" id="nav-alpha" onclick="triggerTabSwitch('alpha')"><i class="fa-solid fa-dumbbell"></i><span id="tab-alpha">Alpha</span></div>
-            <div class="nav-item" id="nav-tasbeeh" onclick="triggerTabSwitch('tasbeeh')"><i class="fa-solid fa-bead-necklace"></i><span id="tab-tasbeeh">Tasbeeh</span></div>
-            <div class="nav-item" id="nav-founder" onclick="triggerTabSwitch('founder')"><i class="fa-solid fa-crown"></i><span id="tab-found">Founder</span></div>
-        </nav>
+        <!-- ALPHA MODULE -->
+        <div class="panel">
+            <h2>Alpha Aesthetics</h2>
+            <p>Beard Streak: <span id="beard-count">12</span> Days</p>
+            <button onclick="incBeard()">Log Grooming Session</button>
+        </div>
+
+        <!-- FOCUS SPRINT -->
+        <div class="panel">
+            <h2>Focus Sprint</h2>
+            <div class="stat-val" id="timer">50:00</div>
+            <button onclick="startSprint()">Start Deep Work</button>
+        </div>
     </div>
 
     <script>
-        const CORE_ENGINE = {
-            user: "Shoeb Nadaf", city: "Islampur", tasbeeh: 0, cycles: 0, currentLang: 'en',
-            manualTimes: { Fajr: "05:00", Dhuhr: "13:30", Asr: "17:00", Maghrib: "19:00", Isha: "20:30" }
-        };
-
-        const LOCALIZATION_DICTIONARY = {
-            en: { welcome: "Welcome,", home: "Home", track: "Tracker", alpha: "Alpha", tasbeeh: "Tasbeeh", found: "Founder", fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha" },
-            hi: { welcome: "स्वागत है,", home: "होम", track: "ट्रैकर", alpha: "अल्फा", tasbeeh: "तस्बीह", found: "फाउंडर", fajr: "फज्र", dhuhr: "धुहर", asr: "असर", maghrib: "मगरिब", isha: "इशा" },
-            ur: { welcome: "خوش آمدید،", home: "ہوم", track: "ٹریکر", alpha: "الفا", tasbeeh: "تسبیح", found: "فاؤنڈر", fajr: "فجر", dhuhr: "ظہر", asr: "عصر", maghrib: "مغرب", isha: "عشاء" }
-        };
-
-        // PARTICLES
-        const canvas = document.getElementById('particle-canvas'); const ctx = canvas.getContext('2d'); let pArray = [];
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas); resizeCanvas();
-        class Particle { constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5; this.speedY = Math.random()*-0.2; } update() { this.y += this.speedY; if(this.y<0) this.y=canvas.height; } draw() { ctx.fillStyle = "rgba(226,183,71,0.3)"; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill(); } }
-        for(let i=0;i<30;i++) pArray.push(new Particle());
-        function anim() { ctx.clearRect(0,0,canvas.width,canvas.height); pArray.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(anim); } anim();
-
-        function toggleSidebarHistory(open) { document.getElementById("history-sidebar").classList.toggle("open", open); }
-        function toggleCinematicMode() { document.body.classList.toggle('cinematic-mode'); }
-        function toggleRiddle() { 
-            const ans = document.getElementById('riddle-answer'); 
-            ans.style.display = (ans.style.display === 'block') ? 'none' : 'block'; 
+        // INIT HEATMAP
+        const map = document.getElementById('map');
+        for(let i=0; i<28; i++) {
+            map.innerHTML += `<div class="cell ${Math.random()>0.7?'active':''}"></div>`;
         }
 
-        function changeSystemLanguage(lang) {
-            CORE_ENGINE.currentLang = lang;
-            document.querySelectorAll(".lang-toggle-btn").forEach(b => b.classList.remove("active"));
-            document.getElementById(`lang-${lang}`).classList.add("active");
-            
-            const dict = LOCALIZATION_DICTIONARY[lang];
-            document.getElementById("label-welcome").innerText = dict.welcome;
-            document.getElementById("tab-home").innerText = dict.home;
-            document.getElementById("tab-track").innerText = dict.track;
-            document.getElementById("tab-alpha").innerText = dict.alpha;
-            document.getElementById("tab-tasbeeh").innerText = dict.tasbeeh;
-            document.getElementById("tab-found").innerText = dict.found;
-
-            document.getElementById("lbl-fajr").innerText = dict.fajr;
-            document.getElementById("lbl-dhuhr").innerText = dict.dhuhr;
-            document.getElementById("lbl-asr").innerText = dict.asr;
-            document.getElementById("lbl-maghrib").innerText = dict.maghrib;
-            document.getElementById("lbl-isha").innerText = dict.isha;
-
-            buildAdvancedTriStateUI(); syncTrackerDashboard();
+        // ALPHA LOGIC
+        function incBeard() {
+            let b = parseInt(document.getElementById('beard-count').innerText) + 1;
+            document.getElementById('beard-count').innerText = b;
         }
 
-        function triggerTargetBurst(e, color) {
-            const cx = e.clientX || (e.touches && e.touches[0].clientX); const cy = e.clientY || (e.touches && e.touches[0].clientY);
-            if(!cx || !cy) return;
-            for(let i=0;i<8;i++){
-                const div = document.createElement('div'); div.className = 'sparkle-dot'; div.style.background = color; document.body.appendChild(div);
-                const a = Math.random()*Math.PI*2; const v = Math.random()*3+2; let x=cx; let y=cy; let o=1;
-                const m = setInterval(()=>{ x+=Math.cos(a)*v; y+=Math.sin(a)*v; o-=0.05; div.style.left=`${x}px`; div.style.top=`${y}px`; div.style.opacity=o; if(o<=0){clearInterval(m); div.remove();} },16);
-            }
+        // TIMER LOGIC
+        function startSprint() {
+            let t = 3000;
+            setInterval(() => {
+                t--;
+                let m = Math.floor(t/60); let s = t%60;
+                document.getElementById('timer').innerText = `${m}:${s}`;
+            }, 1000);
         }
-
-        document.addEventListener("DOMContentLoaded", () => { initializeSystemCore(); });
-
-        function buildAdvancedTriStateUI() {
-            const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-            const dict = LOCALIZATION_DICTIONARY[CORE_ENGINE.currentLang];
-            const container = document.getElementById("tri-state-tracker-container");
-            container.innerHTML = "";
-            prayers.forEach(p => {
-                const localizedPrayerName = dict[p.toLowerCase()];
-                const row = document.createElement("div");
-                row.className = "tracker-card-row";
-                row.innerHTML = `
-                    <div class="tracker-header-info"><span>${localizedPrayerName} Status</span><span id="status-label-${p}" style="color:var(--text-muted)">Unmarked</span></div>
-                    <div class="tri-btn-group">
-                        <button class="tri-btn" id="btn-${p}-jamat" onclick="setPrayerStatus(event, '${p}', 'jamat')">JAMAT</button>
-                        <button class="tri-btn" id="btn-${p}-akele" onclick="setPrayerStatus(event, '${p}', 'akele')">AKELE</button>
-                        <button class="tri-btn" id="btn-${p}-qaza" onclick="setPrayerStatus(event, '${p}', 'qaza')">QAZA</button>
-                    </div>
-                `;
-                container.appendChild(row);
-            });
-        }
-
-        function setPrayerStatus(e, prayer, status) {
-            const key = `track_${CORE_ENGINE.user}_${new Date().toISOString().slice(0,10)}`;
-            let data = JSON.parse(localStorage.getItem(key)) || {};
-            if(data[prayer] === status) { data[prayer] = null; triggerTargetBurst(e, '#64748B'); } 
-            else { data[prayer] = status; triggerTargetBurst(e, status==='jamat'?'#10B981':status==='akele'?'#3B82F6':'#EF4444'); }
-            localStorage.setItem(key, JSON.stringify(data));
-            syncTrackerDashboard();
-        }
-
-        function syncTrackerDashboard() {
-            const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-            const key = `track_${CORE_ENGINE.user}_${new Date().toISOString().slice(0,10)}`;
-            const data = JSON.parse(localStorage.getItem(key)) || {};
-            let score = 0;
-
-            prayers.forEach(p => {
-                const jamatBtn = document.getElementById(`btn-${p}-jamat`);
-                const akeleBtn = document.getElementById(`btn-${p}-akele`);
-                const qazaBtn = document.getElementById(`btn-${p}-qaza`);
-                if(!jamatBtn) return;
-                
-                jamatBtn.className = "tri-btn"; akeleBtn.className = "tri-btn"; qazaBtn.className = "tri-btn";
-                const label = document.getElementById(`status-label-${p}`);
-
-                if(data[p] === 'jamat') { jamatBtn.classList.add("active-jamat"); label.innerText = "With Jamat"; label.style.color = "var(--neon-green)"; score += 20; } 
-                else if(data[p] === 'akele') { akeleBtn.classList.add("active-akele"); label.innerText = "Prayed Akele"; label.style.color = "var(--neon-blue)"; score += 15; } 
-                else if(data[p] === 'qaza') { qazaBtn.classList.add("active-qaza"); label.innerText = "Missed / Qaza"; label.style.color = "var(--neon-red)"; } 
-                else { label.innerText = "Unmarked"; label.style.color = "var(--text-muted)"; }
-            });
-            document.getElementById("progress-percent").innerText = `${score}%`;
-            document.getElementById("progress-fill").style.width = `${score}%`;
-        }
-
-        // GENERATE HEATMAP
-        function generateHeatmap() {
-            const container = document.getElementById("heatmap-container");
-            container.innerHTML = "";
-            for(let i=0; i<30; i++) {
-                let cell = document.createElement("div");
-                let rand = Math.random();
-                let lvl = rand > 0.8 ? 'lvl-3' : rand > 0.5 ? 'lvl-2' : rand > 0.2 ? 'lvl-1' : '';
-                cell.className = `heatmap-cell ${lvl}`;
-                container.appendChild(cell);
-            }
-        }
-
-        // MANUAL TIMINGS LOGIC
-        function loadManualTimings() {
-            const saved = JSON.parse(localStorage.getItem("pro_manual_times"));
-            if(saved) CORE_ENGINE.manualTimes = saved;
-            ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => {
-                document.getElementById(`manual-${p}`).value = CORE_ENGINE.manualTimes[p];
-            });
-        }
-
-        function saveManualTimings() {
-            ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => {
-                CORE_ENGINE.manualTimes[p] = document.getElementById(`manual-${p}`).value || "00:00";
-            });
-            localStorage.setItem("pro_manual_times", JSON.stringify(CORE_ENGINE.manualTimes));
-        }
-
-        function runCountdownClock() {
-            const now = new Date(); let nextN = "Fajr"; let minDiff = Infinity;
-            ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => {
-                const [h,m] = CORE_ENGINE.manualTimes[p].split(':'); 
-                const d = new Date(); d.setHours(h,m,0,0);
-                if(d > now && (d - now) < minDiff) { minDiff = d - now; nextN = p; }
-            });
-            const diffSecs = Math.floor(minDiff === Infinity ? 0 : minDiff / 1000);
-            if(minDiff !== Infinity) {
-                document.getElementById("countdown-timer").innerText = `${nextN} in ${Math.floor(diffSecs/3600)}h ${Math.floor((diffSecs%3600)/60)}m`;
-            } else {
-                document.getElementById("countdown-timer").innerText = "All prayers done";
-            }
-        }
-
-        // ALPHA TAB LOGIC
-        function loadBeardDays() {
-            let days = localStorage.getItem("pro_beard_days") || "1";
-            document.getElementById("beard-days").innerText = `Day ${days}`;
-        }
-        function addBeardDay() {
-            let days = parseInt(localStorage.getItem("pro_beard_days") || "1");
-            days++; localStorage.setItem("pro_beard_days", days); loadBeardDays();
-        }
-        function logWorkout(e) { triggerTargetBurst(e, '#EF4444'); alert("Workout & Muscle data logged for today's session!"); }
-
-        function initializeSystemCore() {
-            const u = localStorage.getItem("pro_user_name") || "Shoeb Nadaf"; 
-            const c = localStorage.getItem("pro_user_city") || "Islampur";
-            CORE_ENGINE.user = u; CORE_ENGINE.city = c;
-            document.getElementById("nav-user-name").innerText = u;
-            document.getElementById("user-location").innerText = c;
-            document.getElementById("page-auth").style.display = "none";
-            document.getElementById("main-app-content").style.display = "block";
-            
-            changeSystemLanguage('en');
-            loadManualTimings();
-            generateHeatmap();
-            loadBeardDays();
-            setInterval(runCountdownClock, 1000);
-            
-            document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-        }
-
-        function handleUniversalLogin() {
-            const u = document.getElementById("auth-username").value.trim();
-            const c = document.getElementById("auth-city").value.trim();
-            if(!u || !c) return alert("Credentials mandatory!");
-            localStorage.setItem("pro_user_name", u); localStorage.setItem("pro_user_city", c);
-            initializeSystemCore(); triggerTabSwitch("home");
-        }
-
-        function triggerTabSwitch(tab) {
-            document.querySelectorAll(".app-page-view").forEach(p => { p.style.display="none"; p.classList.remove("active"); });
-            const page = document.getElementById(`page-${tab}`); if(page){ page.style.display="block"; setTimeout(()=>page.classList.add("active"),10); }
-            document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active"));
-            const nav = document.getElementById(`nav-${tab}`); if(nav) nav.classList.add("active");
-        }
-
-        function triggerTasbeehCount(e) { CORE_ENGINE.tasbeeh++; triggerTargetBurst(e, '#E2B747'); if(CORE_ENGINE.tasbeeh%33===0) CORE_ENGINE.cycles++; updateTasbeehUI(); }
-        function resetTasbeeh() { CORE_ENGINE.tasbeeh=0; CORE_ENGINE.cycles=0; updateTasbeehUI(); }
-        function updateTasbeehUI() { document.getElementById("tasbeeh-display").innerText = CORE_ENGINE.tasbeeh; document.getElementById("tasbeeh-cycle").innerText = `Cycle: ${CORE_ENGINE.cycles}`; }
-        function handleSessionLogout() { localStorage.clear(); window.location.reload(); }
     </script>
 </body>
 </html>
