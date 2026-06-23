@@ -20,7 +20,7 @@
                 <p>Designed & Engineered by Shoeb Nadaf</p>
             </div>
             <div class="card premium-glow">
-                <h3 id="lbl-auth-title">Initialize Terminal Session</h3>
+                <h3>Initialize Terminal Session</h3>
                 <div class="secure-input">
                     <i class="fa-solid fa-user-shield"></i>
                     <input type="text" id="auth-username" value="Shoeb Nadaf" placeholder="Enter Operator Name">
@@ -38,13 +38,12 @@
         
         <header class="app-header">
             <div class="header-user">
-                <span id="lbl-welcome">Welcome,</span>
+                <span>Welcome,</span>
                 <h2 id="nav-user-name" class="gold-text">Shoeb Nadaf</h2>
             </div>
             <div class="header-meta">
                 <div class="geo-block">
                     <span id="user-location"><i class="fa-solid fa-location-dot"></i> Islampur</span>
-                    <span id="countdown-timer" class="neon-green">Next: Fajr --:--</span>
                 </div>
                 <button class="icon-btn" onclick="toggleSidebarMenu(true)"><i class="fa-solid fa-sliders"></i></button>
             </div>
@@ -56,29 +55,17 @@
                 <h3 class="gold-text">MATRIX CORE</h3>
                 <p>Ecosystem Configurations</p>
             </div>
-            
             <div class="sidebar-section">
                 <h4><i class="fa-solid fa-language"></i> Language Selection</h4>
                 <div class="lang-grid">
                     <button class="lang-btn active" id="lang-en" onclick="shiftSystemLanguage('en')">EN</button>
                     <button class="lang-btn" id="lang-hi" onclick="shiftSystemLanguage('hi')">हिंदी</button>
                     <button class="lang-btn" id="lang-ur" onclick="shiftSystemLanguage('ur')">اردو</button>
-                    <button class="lang-btn" id="lang-ar" onclick="shiftSystemLanguage('ar')">عربي</button>
                 </div>
             </div>
-
             <div class="sidebar-section">
                 <h4><i class="fa-solid fa-circle-half-stroke"></i> Display Interface</h4>
                 <button class="btn-secondary" onclick="toggleVisualTheme()"><i class="fa-solid fa-moon"></i> Toggle Dark/Light</button>
-            </div>
-
-            <div class="sidebar-section">
-                <h4><i class="fa-solid fa-dna"></i> Developer Signature</h4>
-                <div class="dev-card">
-                    <strong>Shoeb Nadaf</strong>
-                    <p>Lead Infrastructure Developer</p>
-                    <span>Islampur, MH, India</span>
-                </div>
             </div>
         </div>
 
@@ -87,29 +74,36 @@
             <div id="view-home" class="app-page-view">
                 <div class="card premium-glow calligraphy-hero">
                     <div class="calligraphy-vector">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
-                    <p id="daily-hadith" class="hadith-text">"The best among you are those who have the best manners and character." (Sahih Al-Bukhari)</p>
+                    <div class="hadith-box">
+                        <span class="badge">REAL HADITH REPOSITORY</span>
+                        <p id="daily-hadith" class="hadith-text">Loading verified Prophet Muhammad (ﷺ) Hadith data streams...</p>
+                    </div>
                 </div>
 
                 <div class="info-strip">
-                    <div class="card info-box"><span>CALENDAR</span><strong id="date-gregorian">June 23, 2026</strong></div>
+                    <div class="card info-box"><span>CALENDAR</span><strong id="date-gregorian">--:--</strong></div>
                     <div class="card info-box"><span>HIJRI NODE</span><strong class="gold-text">1447 H</strong></div>
                 </div>
 
                 <div class="card">
-                    <h3 id="lbl-verify-title"><i class="fa-solid fa-list-check gold-text"></i> Verification Registry</h3>
+                    <h3><i class="fa-solid fa-list-check gold-text"></i> Verification Registry</h3>
                     <div id="tri-state-injection-zone"></div>
                 </div>
             </div>
 
             <div id="view-quran" class="app-page-view">
                 <div class="card">
-                    <input type="text" id="quran-search" class="search-bar" placeholder="Search Surah Index or Name..." oninput="filterQuranSurahList()">
-                    <div id="quran-catalog" class="catalog-scroll"></div>
+                    <input type="text" id="quran-search" class="search-bar" placeholder="Type Surah Name (e.g. Fatiha, Ikhlas)..." oninput="filterQuranSurahList()">
+                    <div id="quran-catalog" class="catalog-scroll">Loading Surahs from global server...</div>
                 </div>
                 
                 <div id="quran-reader-overlay" class="card premium-glow reader-overlay" style="display: none;">
                     <div class="reader-header">
-                        <h3 id="reader-surah-title" class="gold-text">Surah Title</h3>
+                        <h3 id="reader-surah-title" class="gold-text">Surah</h3>
+                        <div class="audio-player-container">
+                            <button id="audio-play-btn" class="audio-btn" onclick="toggleSurahAudio()"><i class="fa-solid fa-play"></i> Play Recitation</button>
+                            <audio id="quran-audio-player"></audio>
+                        </div>
                         <button class="close-overlay" onclick="closeQuranReaderOverlay()"><i class="fa-solid fa-circle-xmark"></i></button>
                     </div>
                     <div id="reader-stream-flow" class="verses-flow"></div>
