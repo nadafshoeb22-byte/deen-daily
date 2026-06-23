@@ -3,51 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deen Daily Pro | By Shoeb</title>
-    <!-- Google Fonts & FontAwesome Icons for Premium Look -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Deen Daily Ultra Pro Max | By Shoeb Nadaf</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- 1. PREMIUM HEADER WITH SHOEB BRANDING -->
+    <!-- TWINKLING STARS BACKGROUND EFFECT -->
+    <div class="stars-container">
+        <div class="stars"></div>
+        <div class="stars2"></div>
+    </div>
+
+    <!-- 1. ULTRA PREMIUM HEADER WITH INTERACTIVE BRANDING -->
     <header class="app-header">
         <div class="logo">
-            <i class="fa-solid fa-moon-star gold-text"></i>
+            <i class="fa-solid fa-mosque gold-text pulse-icon"></i>
             <span>Deen <span class="gold-text">Daily</span></span>
         </div>
-        <div class="creator-badge">
-            <span>By Shoeb</span>
+        <!-- Shoeb Nadaf Highlighted Badge -->
+        <div class="creator-badge-pro" id="dev-badge">
+            <i class="fa-solid fa-user-shield check-icon"></i>
+            <span>Shoeb Nadaf</span>
         </div>
     </header>
 
     <main class="app-container">
         
-        <!-- 2. DAILY ISLAMIC QUOTE SECTION -->
-        <section class="card quote-card animate-fade-in">
-            <i class="fa-solid fa-quote-left quote-icon"></i>
-            <p id="daily-quote">"Verily, with hardship, there is relief."</p>
-            <span id="quote-source">— Surah Al-Inshirah [94:6]</span>
-        </section>
-
-        <!-- 3. LIVE PRAYER TIMES CARD -->
-        <section class="card prayer-card animate-fade-in">
-            <h2 class="section-title"><i class="fa-solid fa-clock gold-text"></i> Today's Prayer Times</h2>
-            <div class="prayer-grid">
-                <div class="prayer-item" id="fajr-box"><span>Fajr</span> <strong id="fajr-time">04:30 AM</strong></div>
-                <div class="prayer-item" id="dhuhr-box"><span>Dhuhr</span> <strong id="dhuhr-time">12:30 PM</strong></div>
-                <div class="prayer-item" id="asr-box"><span>Asr</span> <strong id="asr-time">04:15 PM</strong></div>
-                <div class="prayer-item" id="maghrib-box"><span>Maghrib</span> <strong id="maghrib-time">07:05 PM</strong></div>
-                <div class="prayer-item" id="isha-box"><span>Isha</span> <strong id="isha-time">08:45 PM</strong></div>
+        <!-- 2. LIVE HIJRI DATE & TIME CARD -->
+        <section class="card info-card animate-fade-in">
+            <div class="info-grid">
+                <div class="info-item">
+                    <p class="info-label">ISLAMIC DATE</p>
+                    <h3 id="hijri-date" class="gold-text">Loading...</h3>
+                </div>
+                <div class="info-item">
+                    <p class="info-label">YOUR LOCATION</p>
+                    <h3 id="user-location">Detecting...</h3>
+                </div>
             </div>
         </section>
 
-        <!-- 4. ADVANCED TASBEEH COUNTER CARD -->
+        <!-- 3. DAILY ISLAMIC QUOTE CARD -->
+        <section class="card quote-card animate-fade-in">
+            <i class="fa-solid fa-quote-left quote-icon"></i>
+            <p id="daily-quote">"Loading inspiration for today..."</p>
+            <span id="quote-source">— Loading</span>
+        </section>
+
+        <!-- 4. LIVE API PRAYER TIMES CARD (WITH GLOWING EFFECT) -->
+        <section class="card prayer-card animate-fade-in">
+            <h2 class="section-title"><i class="fa-solid fa-circle-dot gold-text live-dot"></i> Live Accurate Prayer Times</h2>
+            <p class="subtitle">Automatically synced with your current city</p>
+            
+            <div class="prayer-grid">
+                <div class="prayer-item skeleton" id="Fajr">
+                    <div class="p-left"><i class="fa-solid fa-cloud-sun icon-prayer"></i> <span>Fajr</span></div>
+                    <strong id="time-Fajr">--:--</strong>
+                </div>
+                <div class="prayer-item skeleton" id="Dhuhr">
+                    <div class="p-left"><i class="fa-solid fa-sun icon-prayer"></i> <span>Dhuhr</span></div>
+                    <strong id="time-Dhuhr">--:--</strong>
+                </div>
+                <div class="prayer-item skeleton" id="Asr">
+                    <div class="p-left"><i class="fa-solid fa-cloud-sun-rain icon-prayer"></i> <span>Asr</span></div>
+                    <strong id="time-Asr">--:--</strong>
+                </div>
+                <div class="prayer-item skeleton" id="Maghrib">
+                    <div class="p-left"><i class="fa-solid fa-moon icon-prayer"></i> <span>Maghrib</span></div>
+                    <strong id="time-Maghrib">--:--</strong>
+                </div>
+                <div class="prayer-item skeleton" id="Isha">
+                    <div class="p-left"><i class="fa-solid fa-star-and-crecent icon-prayer"></i> <span>Isha</span></div>
+                    <strong id="time-Isha">--:--</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. ADVANCED TASBEEH COUNTER CARD -->
         <section class="card tasbeeh-card animate-fade-in">
             <h2 class="section-title"><i class="fa-solid fa-dhikr gold-text"></i> Digital Tasbeeh</h2>
             
-            <!-- Dhikr Selector -->
             <div class="selector-container">
                 <select id="dhikr-select">
                     <option value="Subhanallah">Subhanallah (सुभान अल्लाह)</option>
@@ -57,25 +95,37 @@
                 </select>
             </div>
 
-            <!-- Counter Display -->
             <div class="counter-display-wrapper">
                 <div id="counter-number">0</div>
                 <p id="target-text">Target: 33</p>
             </div>
 
-            <!-- Control Buttons -->
             <div class="tasbeeh-buttons">
-                <button id="btn-count" class="btn-primary"><i class="fa-solid fa-fingerprint"></i> COUNT</button>
+                <button id="btn-count" class="btn-primary"><i class="fa-solid fa-fingerprint"></i> TAP TO COUNT</button>
                 <button id="btn-reset" class="btn-secondary"><i class="fa-solid fa-rotate-left"></i> Reset</button>
             </div>
         </section>
 
     </main>
 
-    <!-- 5. FOOTER WITH BRANDING -->
+    <!-- DEVELOPER POPUP MODAL (ON CLICKING BADGE) -->
+    <div class="modal-overlay" id="dev-modal">
+        <div class="modal-card">
+            <div class="modal-glow"></div>
+            <i class="fa-solid fa-crown gold-text crown-icon"></i>
+            <h2>Verified Developer</h2>
+            <h1 class="dev-name-glow">Shoeb Nadaf</h1>
+            <p>This ultra pro max dashboard is fully engineered, styled, and maintained by Shoeb Nadaf.</p>
+            <button id="close-modal" class="btn-secondary">Close Portal</button>
+        </div>
+    </div>
+
+    <!-- 6. BRANDED FOOTER -->
     <footer class="app-footer">
-        <p>Designed & Developed with <i class="fa-solid fa-heart heart-icon"></i> by <span class="gold-text bold">Shoeb</span></p>
-        <p class="copyright">© 2026 Deen Daily Pro. All Rights Reserved.</p>
+        <div class="footer-brand-box">
+            <p>Engineered & Maintained with <i class="fa-solid fa-bolt gold-text"></i> by <span class="gold-text bold text-glow">Shoeb Nadaf</span></p>
+        </div>
+        <p class="copyright">© 2026 Deen Daily Ultra Pro Max. Next-Gen Edition.</p>
     </footer>
 
     <script src="script.js"></script>
