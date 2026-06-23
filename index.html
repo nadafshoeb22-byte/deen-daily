@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deen Daily - Islamic Reminders</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-mosque"></i> <span>Deen Daily</span>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <section class="reminder-card">
+            <div class="card-tag">Daily Reminder</div>
+            <p id="reminder-text" class="arabic-text">✨ Loading beautiful reminder...</p>
+            <p id="reminder-translation">Please wait a moment.</p>
+            <button id="next-btn" class="btn-secondary"><i class="fa-solid fa-shuffle"></i> Next Reminder</button>
+        </section>
+
+        <section class="features-grid">
+            <div class="feature-box tasbeeh-box">
+                <h3><i class="fa-solid fa-calculator"></i> Digital Tasbeeh</h3>
+                <div class="counter-display" id="counter-val">0</div>
+                <div class="counter-buttons">
+                    <button id="count-btn" class="btn-primary">Count</button>
+                    <button id="reset-btn" class="btn-danger">Reset</button>
+                </div>
+            </div>
+
+            <div class="feature-box links-box">
+                <h3><i class="fa-solid fa-link"></i> Beneficial Links</h3>
+                <ul>
+                    <li><a href="https://quran.com" target="_blank"><i class="fa-solid fa-book-quran"></i> Read Quran Online</a></li>
+                    <li><a href="https://sunnah.com" target="_blank"><i class="fa-solid fa-book"></i> Read Hadith (Sunnah.com)</a></li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>May Allah bless us with knowledge. Developed with ❤️</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
