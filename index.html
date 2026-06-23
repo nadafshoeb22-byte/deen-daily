@@ -10,59 +10,96 @@
     
     <style>
         :root {
-            --bg-dark: #040814;
-            --bg-card: #0b1329;
-            --gold-primary: #D4AF37;
-            --gold-glow: #ffdf79;
+            --bg-dark: #05070f;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-active: rgba(255, 255, 255, 0.07);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --gold-primary: #E2B747;
+            --gold-glow: rgba(226, 183, 71, 0.4);
             --text-main: #F8FAFC;
-            --text-muted: #94A3B8;
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --neon-green: #4ADE80;
+            --text-muted: #64748B;
+            --neon-green: #10B981;
             --neon-red: #EF4444;
+            --fluid-curve: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
-            background-color: var(--bg-dark) !important; 
+            background: radial-gradient(circle at top right, #0d1224, #04060c) !important; 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             color: var(--text-main); 
             min-height: 100vh; 
-            padding-bottom: 90px; 
+            padding-bottom: 95px; 
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Particle Canvas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
         }
         
-        .gold-text { color: var(--gold-primary); text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+        .gold-text { 
+            background: linear-gradient(135deg, #FFF 30%, var(--gold-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
         
         .card { 
-            background: var(--bg-card); 
+            background: var(--glass); 
+            backdrop-filter: blur(24px) saturate(120%);
+            -webkit-backdrop-filter: blur(24px) saturate(120%);
             border: 1px solid var(--glass-border); 
-            border-radius: 16px; 
-            padding: 20px; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
+            border-radius: 24px; 
+            padding: 24px; 
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4); 
             margin-bottom: 20px; 
+            position: relative;
+            z-index: 1;
+            transition: transform 0.4s var(--fluid-curve), border-color 0.4s var(--fluid-curve), box-shadow 0.4s var(--fluid-curve);
+        }
+
+        .card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
         }
         
         .btn-primary { 
-            background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%); 
+            background: linear-gradient(135deg, #E2B747 0%, #A37A1A 100%); 
             border: none; 
-            color: #000; 
-            padding: 12px 20px; 
+            color: #05070f; 
+            padding: 16px 24px; 
             font-weight: 700; 
-            border-radius: 12px; 
+            border-radius: 16px; 
             cursor: pointer; 
             font-family: 'Orbitron', sans-serif; 
-            transition: all 0.3s ease; 
+            letter-spacing: 1px;
+            transition: all 0.4s var(--fluid-curve); 
             width: 100%; 
+            box-shadow: 0 8px 24px rgba(226, 183, 71, 0.2);
         }
         
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); }
+        .btn-primary:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 12px 28px rgba(226, 183, 71, 0.4); 
+        }
+        .btn-primary:active { transform: translateY(-1px) scale(0.99); }
         
         /* HEADER & NAVIGATION */
         .app-header { 
-            background: linear-gradient(180deg, rgba(11, 19, 41, 0.95) 0%, rgba(4, 8, 20, 0.8) 100%); 
-            backdrop-filter: blur(12px); 
+            background: rgba(5, 7, 15, 0.6); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border); 
-            padding: 15px 20px; 
+            padding: 20px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -71,80 +108,189 @@
             z-index: 100; 
         }
         
-        .app-container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .app-container { max-width: 600px; margin: 0 auto; padding: 20px; position: relative; z-index: 2; }
         
         .bottom-nav { 
             position: fixed; 
-            bottom: 0; 
+            bottom: 16px; 
             left: 50%; 
             transform: translateX(-50%); 
-            width: 100%; 
-            max-width: 600px; 
-            background: rgba(11, 19, 41, 0.95); 
-            backdrop-filter: blur(20px); 
-            border-top: 1px solid var(--glass-border); 
+            width: calc(100% - 32px); 
+            max-width: 568px; 
+            background: rgba(11, 15, 30, 0.7); 
+            backdrop-filter: blur(30px); 
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border); 
             display: flex; 
             justify-content: space-around; 
-            padding: 12px 0; 
+            padding: 14px 0; 
             z-index: 1000; 
-            border-radius: 20px 20px 0 0; 
+            border-radius: 24px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
         
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; font-size: 0.7rem; font-weight: 600; width: 60px; transition: all 0.2s; }
-        .nav-item i { font-size: 1.1rem; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-muted); cursor: pointer; font-size: 0.75rem; font-weight: 600; width: 65px; transition: all 0.3s var(--fluid-curve); }
+        .nav-item i { font-size: 1.2rem; transition: transform 0.3s var(--fluid-curve); }
+        .nav-item:active i { transform: scale(0.85); }
         .nav-item.active { color: var(--text-main); }
-        .nav-item.active i { color: var(--gold-primary); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+        .nav-item.active i { color: var(--gold-primary); filter: drop-shadow(0 0 8px var(--gold-glow)); }
 
         /* PRAYER TIMINGS ROW */
-        .prayer-grid { display: flex; flex-direction: column; gap: 10px; }
-        .prayer-item { background: rgba(11, 19, 41, 0.6); border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; }
-        .prayer-item .p-left { display: flex; align-items: center; gap: 12px; font-weight: 600; }
-        .icon-prayer { color: var(--gold-primary); font-size: 1.1rem; }
+        .prayer-grid { display: flex; flex-direction: column; gap: 12px; }
+        .prayer-item { 
+            background: var(--glass); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 16px; 
+            padding: 16px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            transition: all 0.3s var(--fluid-curve);
+        }
+        .prayer-item:hover { background: var(--glass-active); border-color: rgba(255,255,255,0.15); }
+        .prayer-item .p-left { display: flex; align-items: center; gap: 14px; font-weight: 600; font-size: 0.95rem; }
+        .icon-prayer { color: var(--gold-primary); font-size: 1.2rem; }
 
         /* REGISTER TRACKER ROWS */
-        .tracker-row { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 10px; transition: 0.2s; }
-        .tracker-row.checked { background: rgba(74, 222, 128, 0.1); border-color: var(--neon-green); }
-        .btn-check { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--text-muted); background: transparent; display: flex; align-items: center; justify-content: center; color: transparent; }
-        .tracker-row.checked .btn-check { background: var(--neon-green); border-color: var(--neon-green); color: #000; }
+        .tracker-row { 
+            background: var(--glass); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 16px; 
+            padding: 16px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            cursor: pointer; 
+            margin-bottom: 12px; 
+            transition: all 0.4s var(--fluid-curve); 
+        }
+        .tracker-row:active { transform: scale(0.98); }
+        .tracker-row.checked { 
+            background: rgba(16, 185, 129, 0.08); 
+            border-color: var(--neon-green); 
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);
+        }
+        .btn-check { 
+            width: 28px; 
+            height: 28px; 
+            border-radius: 50%; 
+            border: 2px solid var(--text-muted); 
+            background: transparent; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: transparent; 
+            transition: all 0.3s var(--fluid-curve);
+        }
+        .tracker-row.checked .btn-check { 
+            background: var(--neon-green); 
+            border-color: var(--neon-green); 
+            color: #fff; 
+            transform: scale(1.05);
+        }
 
         /* HISTORY DOTS */
-        .history-days { display: flex; justify-content: space-between; margin-top: 15px; }
-        .day-dot { display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; color: var(--text-muted); }
-        .dot { width: 14px; height: 14px; border-radius: 50%; background: #334155; margin-top: 5px; }
-        .dot.full { background: var(--neon-green); box-shadow: 0 0 8px var(--neon-green); }
-        .dot.partial { background: var(--gold-primary); box-shadow: 0 0 8px var(--gold-primary); }
-        .dot.empty { background: var(--neon-red); }
+        .history-days { display: flex; justify-content: space-between; margin-top: 20px; }
+        .day-dot { display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; color: var(--text-muted); gap: 6px; }
+        .dot { width: 14px; height: 14px; border-radius: 50%; background: #1e293b; transition: all 0.4s var(--fluid-curve); }
+        .dot.full { background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
+        .dot.partial { background: var(--gold-primary); box-shadow: 0 0 10px var(--gold-primary); }
+        .dot.empty { background: var(--neon-red); box-shadow: 0 0 10px var(--neon-red); }
 
         /* TASBEEH ENGINE UI */
-        .tasbeeh-circle { width: 170px; height: 170px; border-radius: 50%; border: 4px dashed var(--gold-primary); margin: 25px auto; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(212,175,55,0.03); transition: 0.1s; box-shadow: 0 0 20px rgba(0,0,0,0.6); }
-        .tasbeeh-circle:active { transform: scale(0.95); background: rgba(212,175,55,0.1); }
+        .tasbeeh-circle { 
+            width: 190px; 
+            height: 190px; 
+            border-radius: 50%; 
+            border: 2px dashed var(--gold-primary); 
+            margin: 30px auto; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            background: rgba(226, 183, 71, 0.02); 
+            transition: all 0.4s var(--fluid-curve); 
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5); 
+            position: relative;
+        }
+        .tasbeeh-circle:active { 
+            transform: scale(0.94); 
+            background: rgba(226, 183, 71, 0.08); 
+            border-color: #fff;
+            box-shadow: inset 0 0 30px rgba(226, 183, 71, 0.15), 0 5px 15px rgba(0,0,0,0.4);
+        }
 
         /* QAZA MATRIX GRID */
-        .qaza-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 15px; }
-        .qaza-box { background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 10px; padding: 10px 4px; text-align: center; font-size: 0.8rem; }
-        .qaza-btn { background: rgba(255,255,255,0.08); border: none; color: #fff; width: 22px; height: 22px; border-radius: 5px; cursor: pointer; font-weight: bold; margin: 5px 1px 0 1px; }
+        .qaza-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 20px; }
+        .qaza-box { 
+            background: var(--glass); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 16px; 
+            padding: 14px 6px; 
+            text-align: center; 
+            font-size: 0.85rem; 
+        }
+        .qaza-btn { 
+            background: rgba(255,255,255,0.06); 
+            border: 1px solid rgba(255,255,255,0.05); 
+            color: #fff; 
+            width: 26px; 
+            height: 26px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            margin: 8px 2px 0 2px; 
+            transition: all 0.2s;
+        }
+        .qaza-btn:active { background: rgba(255,255,255,0.2); transform: scale(0.9); }
+
+        /* BURST SPARK ANIMATION ELEMENTS */
+        .sparkle-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
 
         /* SYSTEM PAGES VIEW CORES */
-        .app-page-view { display: none; }
-        .app-page-view.active { display: block; }
-        .skeleton strong { color: transparent; background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%); background-size: 200% 100%; animation: loading 1.5s infinite; border-radius: 4px; width: 70px; display: inline-block; }
+        .app-page-view { display: none; opacity: 0; transform: translateY(15px); transition: opacity 0.4s var(--fluid-curve), transform 0.4s var(--fluid-curve); }
+        .app-page-view.active { display: block; opacity: 1; transform: translateY(0); }
+        
+        .skeleton strong { color: transparent; background: linear-gradient(90deg, rgba(255,255,255,0.02) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.02) 75%); background-size: 200% 100%; animation: loading 1.5s infinite; border-radius: 6px; width: 70px; display: inline-block; }
         @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        
+        /* Dropdowns & Inputs Upgrade */
+        select, input {
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        select:focus, input:focus {
+            border-color: var(--gold-primary) !important;
+            box-shadow: 0 0 12px var(--gold-glow);
+        }
     </style>
 </head>
 <body>
 
+    <!-- Cinematic Background Canvas Particle Engine -->
+    <canvas id="particle-canvas"></canvas>
+
     <!-- 1. AUTH SCREEN -->
     <div id="page-auth" class="app-page-view active">
-        <div class="app-container" style="margin-top: 40px;">
-            <div style="text-align: center; margin-bottom: 30px;">
-                <i class="fa-solid fa-mosque gold-text" style="font-size: 3.5rem; margin-bottom: 10px;"></i>
-                <h1 style="font-family: 'Orbitron', sans-serif; letter-spacing: 2px;">DEEN CONNECT PRO</h1>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Ecosystem v5.5 | Connected Platform</p>
+        <div class="app-container" style="margin-top: 60px;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <i class="fa-solid fa-mosque" style="font-size: 4rem; margin-bottom: 15px; color: var(--gold-primary); filter: drop-shadow(0 0 15px var(--gold-glow));"></i>
+                <h1 style="font-family: 'Orbitron', sans-serif; letter-spacing: 3px; font-weight: 800;" class="gold-text">DEEN CONNECT PRO</h1>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 4px;">Ecosystem v5.5 | Connected Platform</p>
             </div>
             <div class="card">
-                <h3 style="margin-bottom: 15px;"><i class="fa-solid fa-user-plus gold-text"></i> Dynamic Profile Login</h3>
-                <input type="text" id="auth-username" placeholder="Enter Your Name..." style="width: 100%; padding: 12px; border-radius: 10px; background: #020617; border: 1px solid var(--glass-border); color: #fff; margin-bottom: 15px;">
-                <input type="text" id="auth-city" placeholder="Enter Your City (e.g., Islampur)..." style="width: 100%; padding: 12px; border-radius: 10px; background: #020617; border: 1px solid var(--glass-border); color: #fff; margin-bottom: 20px;">
+                <h3 style="margin-bottom: 20px; font-size: 1.1rem;"><i class="fa-solid fa-user-plus var(--gold-primary)" style="color: var(--gold-primary)"></i> Dynamic Profile Login</h3>
+                <input type="text" id="auth-username" placeholder="Enter Your Name..." style="width: 100%; padding: 14px; border-radius: 12px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; margin-bottom: 18px;">
+                <input type="text" id="auth-city" placeholder="Enter Your City (e.g., Islampur)..." style="width: 100%; padding: 14px; border-radius: 12px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; margin-bottom: 24px;">
                 <button onclick="handleUniversalLogin()" class="btn-primary">LAUNCH PLATFORM</button>
             </div>
         </div>
@@ -155,11 +301,11 @@
         <header class="app-header">
             <div>
                 <span style="font-size: 0.75rem; color: var(--text-muted);">Assalamu Alaikum,</span>
-                <h2 id="nav-user-name" class="gold-text" style="font-size: 1.2rem;">User</h2>
+                <h2 id="nav-user-name" style="font-size: 1.3rem;" class="gold-text">User</h2>
             </div>
             <div style="text-align: right;">
-                <span id="user-location" style="font-size: 0.85rem; font-weight: 600; display:block;"><i class="fa-solid fa-location-dot gold-text"></i> Detecting...</span>
-                <span id="countdown-timer" style="font-size: 0.75rem; color: var(--neon-green);">Next Namaz: --:--</span>
+                <span id="user-location" style="font-size: 0.9rem; font-weight: 600; display:block;"><i class="fa-solid fa-location-dot" style="color: var(--gold-primary)"></i> Detecting...</span>
+                <span id="countdown-timer" style="font-size: 0.75rem; color: var(--neon-green); font-weight: 600;">Next Namaz: --:--</span>
             </div>
         </header>
 
@@ -168,14 +314,14 @@
             <!-- 2. HOME PAGE -->
             <div id="page-home" class="app-page-view">
                 <!-- Hadith Quote Widget -->
-                <div class="card" style="background: linear-gradient(135deg, #0b1329 0%, #050b18 100%); border-left: 4px solid var(--gold-primary);">
-                    <span style="font-size: 0.7rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;" class="gold-text"><i class="fa-solid fa-book-quran"></i> Verse/Hadith Of The Day</span>
-                    <p id="daily-quote" style="font-size: 0.85rem; margin-top: 5px; font-style: italic; color: #E2E8F0;">"The best among you are those who have the best manners and character." (Sahih Al-Bukhari)</p>
+                <div class="card" style="background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%); border-left: 4px solid var(--gold-primary);">
+                    <span style="font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: var(--gold-primary);" ><i class="fa-solid fa-book-quran"></i> Verse/Hadith Of The Day</span>
+                    <p id="daily-quote" style="font-size: 0.9rem; margin-top: 8px; font-style: italic; color: #E2E8F0; line-height: 1.5;">"The best among you are those who have the best manners and character." (Sahih Al-Bukhari)</p>
                 </div>
 
-                <div class="card" style="text-align: center; padding: 15px;">
-                    <div id="today-date" style="font-weight: 600; font-size: 1.05rem;">Tuesday, June 23</div>
-                    <div id="hijri-date" class="gold-text" style="font-size: 0.85rem; margin-top: 3px; font-family: 'Orbitron';">Loading Hijri...</div>
+                <div class="card" style="text-align: center; padding: 18px;">
+                    <div id="today-date" style="font-weight: 700; font-size: 1.1rem; letter-spacing: -0.3px;">Tuesday, June 23</div>
+                    <div id="hijri-date" style="font-size: 0.9rem; margin-top: 4px; font-family: 'Orbitron'; color: var(--gold-primary);">Loading Hijri...</div>
                 </div>
 
                 <div class="prayer-grid">
@@ -205,12 +351,12 @@
             <!-- 3. TRACKER & HISTORY PAGE -->
             <div id="page-tracker" class="app-page-view">
                 <div class="card">
-                    <div style="display:flex; justify-content:space-between; margin-bottom: 8px; font-size: 0.9rem;">
-                        <span><i class="fa-solid fa-square-poll-vertical gold-text"></i> Today's Performance</span>
-                        <strong id="progress-percent" style="color: var(--neon-green);">0%</strong>
+                    <div style="display:flex; justify-content:space-between; margin-bottom: 12px; font-size: 0.95rem;">
+                        <span><i class="fa-solid fa-square-poll-vertical" style="color: var(--gold-primary)"></i> Today's Performance</span>
+                        <strong id="progress-percent" style="color: var(--neon-green); font-weight: 700;">0%</strong>
                     </div>
-                    <div style="width:100%; height:6px; background:rgba(255,255,255,0.05); border-radius:10px; overflow:hidden;">
-                        <div id="progress-fill" style="width: 0%; height:100%; background: var(--neon-green); transition: 0.3s;"></div>
+                    <div style="width:100%; height:8px; background:rgba(255,255,255,0.05); border-radius:10px; overflow:hidden;">
+                        <div id="progress-fill" style="width: 0%; height:100%; background: linear-gradient(90deg, var(--neon-green), #34D399); transition: width 0.6s var(--fluid-curve);"></div>
                     </div>
                     
                     <!-- 7-Day History Dots -->
@@ -226,23 +372,23 @@
                 </div>
 
                 <div class="card">
-                    <h3 style="font-size: 1rem; margin-bottom: 12px;"><i class="fa-solid fa-calendar-check gold-text"></i> Daily Prayer Register</h3>
-                    <div class="tracker-row" onclick="togglePrayerPro('Fajr')" data-p="Fajr"><span>Fajr Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
-                    <div class="tracker-row" onclick="togglePrayerPro('Dhuhr')" data-p="Dhuhr"><span>Dhuhr Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
-                    <div class="tracker-row" onclick="togglePrayerPro('Asr')" data-p="Asr"><span>Asr Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
-                    <div class="tracker-row" onclick="togglePrayerPro('Maghrib')" data-p="Maghrib"><span>Maghrib Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
-                    <div class="tracker-row" onclick="togglePrayerPro('Isha')" data-p="Isha"><span>Isha Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
+                    <h3 style="font-size: 1.05rem; margin-bottom: 16px;"><i class="fa-solid fa-calendar-check" style="color: var(--gold-primary)"></i> Daily Prayer Register</h3>
+                    <div class="tracker-row" onclick="togglePrayerPro(event, 'Fajr')" data-p="Fajr"><span>Fajr Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
+                    <div class="tracker-row" onclick="togglePrayerPro(event, 'Dhuhr')" data-p="Dhuhr"><span>Dhuhr Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
+                    <div class="tracker-row" onclick="togglePrayerPro(event, 'Asr')" data-p="Asr"><span>Asr Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
+                    <div class="tracker-row" onclick="togglePrayerPro(event, 'Maghrib')" data-p="Maghrib"><span>Maghrib Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
+                    <div class="tracker-row" onclick="togglePrayerPro(event, 'Isha')" data-p="Isha"><span>Isha Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
                 </div>
 
                 <!-- Qaza Counter Widget -->
                 <div class="card">
-                    <h3 style="font-size: 1rem;"><i class="fa-solid fa-clock-rotate-left gold-text"></i> Total Qaza Counter Lock</h3>
+                    <h3 style="font-size: 1.05rem;"><i class="fa-solid fa-clock-rotate-left" style="color: var(--gold-primary)"></i> Total Qaza Counter Lock</h3>
                     <div class="qaza-grid">
-                        <div class="qaza-box"><div>Fajr</div><strong id="q-Fajr">0</strong><div><button class="qaza-btn" onclick="alterQaza('Fajr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Fajr',-1)">-</button></div></div>
-                        <div class="qaza-box"><div>Dhuhr</div><strong id="q-Dhuhr">0</strong><div><button class="qaza-btn" onclick="alterQaza('Dhuhr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Dhuhr',-1)">-</button></div></div>
-                        <div class="qaza-box"><div>Asr</div><strong id="q-Asr">0</strong><div><button class="qaza-btn" onclick="alterQaza('Asr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Asr',-1)">-</button></div></div>
-                        <div class="qaza-box"><div>Maghrib</div><strong id="q-Maghrib">0</strong><div><button class="qaza-btn" onclick="alterQaza('Maghrib',1)">+</button><button class="qaza-btn" onclick="alterQaza('Maghrib',-1)">-</button></div></div>
-                        <div class="qaza-box"><div>Isha</div><strong id="q-Isha">0</strong><div><button class="qaza-btn" onclick="alterQaza('Isha',1)">+</button><button class="qaza-btn" onclick="alterQaza('Isha',-1)">-</button></div></div>
+                        <div class="qaza-box"><div>Fajr</div><strong id="q-Fajr" style="font-size: 1.1rem;">0</strong><div><button class="qaza-btn" onclick="alterQaza('Fajr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Fajr',-1)">-</button></div></div>
+                        <div class="qaza-box"><div>Dhuhr</div><strong id="q-Dhuhr" style="font-size: 1.1rem;">0</strong><div><button class="qaza-btn" onclick="alterQaza('Dhuhr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Dhuhr',-1)">-</button></div></div>
+                        <div class="qaza-box"><div>Asr</div><strong id="q-Asr" style="font-size: 1.1rem;">0</strong><div><button class="qaza-btn" onclick="alterQaza('Asr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Asr',-1)">-</button></div></div>
+                        <div class="qaza-box"><div>Maghrib</div><strong id="q-Maghrib" style="font-size: 1.1rem;">0</strong><div><button class="qaza-btn" onclick="alterQaza('Maghrib',1)">+</button><button class="qaza-btn" onclick="alterQaza('Maghrib',-1)">-</button></div></div>
+                        <div class="qaza-box"><div>Isha</div><strong id="q-Isha" style="font-size: 1.1rem;">0</strong><div><button class="qaza-btn" onclick="alterQaza('Isha',1)">+</button><button class="qaza-btn" onclick="alterQaza('Isha',-1)">-</button></div></div>
                     </div>
                 </div>
             </div>
@@ -250,16 +396,16 @@
             <!-- 4. TASBEEH COUNTER PAGE -->
             <div id="page-tasbeeh" class="app-page-view">
                 <div class="card" style="text-align: center;">
-                    <h3><i class="fa-solid fa-bead-necklace gold-text"></i> Cyber Tasbeeh Engine</h3>
-                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px;">Tap circle to count. Cycles reset at 33 / 100.</p>
+                    <h3 style="font-size: 1.1rem;"><i class="fa-solid fa-bead-necklace" style="color: var(--gold-primary)"></i> Cyber Tasbeeh Engine</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 6px;">Tap circle to count. Cycles reset at 33 / 100.</p>
                     
-                    <div class="tasbeeh-circle" onclick="triggerTasbeehCount()">
+                    <div class="tasbeeh-circle" onclick="triggerTasbeehCount(event)">
                         <span style="font-size: 0.8rem; color: var(--text-muted); letter-spacing: 2px;">COUNT</span>
-                        <h1 id="tasbeeh-display" style="font-family: 'Orbitron'; font-size: 3rem; margin: 5px 0;" class="gold-text">0</h1>
-                        <span id="tasbeeh-cycle" style="font-size: 0.75rem; color: var(--neon-green);">Cycle: 0</span>
+                        <h1 id="tasbeeh-display" style="font-family: 'Orbitron'; font-size: 3.5rem; margin: 6px 0; font-weight: 800;" class="gold-text">0</h1>
+                        <span id="tasbeeh-cycle" style="font-size: 0.8rem; color: var(--neon-green); font-weight: 600;">Cycle: 0</span>
                     </div>
 
-                    <button onclick="resetTasbeeh()" style="background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 0.8rem;">
+                    <button onclick="resetTasbeeh()" style="background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); padding: 10px 24px; border-radius: 12px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.2s;">
                         <i class="fa-solid fa-rotate-right"></i> Reset Counter
                     </button>
                 </div>
@@ -268,10 +414,10 @@
             <!-- 5. SETTINGS PAGE -->
             <div id="page-settings" class="app-page-view">
                 <div class="card">
-                    <h3><i class="fa-solid fa-sliders gold-text"></i> Dynamic Core Settings</h3>
-                    <div style="margin-top: 15px;">
-                        <label style="font-size: 0.85rem; color: var(--text-muted); display:block; margin-bottom: 5px;">Calculation Method</label>
-                        <select id="calc-method" onchange="saveSettings()" style="width:100%; padding: 10px; background: #020617; border: 1px solid var(--glass-border); color: #fff; border-radius: 8px;">
+                    <h3 style="font-size: 1.05rem;"><i class="fa-solid fa-sliders" style="color: var(--gold-primary)"></i> Dynamic Core Settings</h3>
+                    <div style="margin-top: 18px;">
+                        <label style="font-size: 0.85rem; color: var(--text-muted); display:block; margin-bottom: 8px;">Calculation Method</label>
+                        <select id="calc-method" onchange="saveSettings()" style="width:100%; padding: 12px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; border-radius: 12px;">
                             <option value="2">ISNA (Islamic Society of North America)</option>
                             <option value="4">Umm Al-Qura University, Makkah</option>
                             <option value="1">University of Islamic Sciences, Karachi</option>
@@ -279,42 +425,42 @@
                             <option value="5">Egyptian General Authority of Survey</option>
                         </select>
                     </div>
-                    <div style="margin-top: 20px;">
-                        <button onclick="handleSessionLogout()" style="width: 100%; background: rgba(239,68,68,0.1); border: 1px solid var(--neon-red); color: var(--neon-red); padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer;">
+                    <div style="margin-top: 24px;">
+                        <button onclick="handleSessionLogout()" style="width: 100%; background: rgba(239,68,68,0.08); border: 1px solid var(--neon-red); color: var(--neon-red); padding: 14px; border-radius: 14px; font-weight: bold; cursor: pointer; transition: all 0.3s;">
                             <i class="fa-solid fa-power-off"></i> Clear Profile Session
                         </button>
                     </div>
                 </div>
 
                 <!-- SECRET ADMIN LINK -->
-                <div style="text-align: center; margin-top: 30px;">
-                    <span onclick="promptAdminAccess()" style="font-size: 0.75rem; color: rgba(255,255,255,0.05); cursor: pointer; user-select: none;">[ System Terminal Access ]</span>
+                <div style="text-align: center; margin-top: 40px;">
+                    <span onclick="promptAdminAccess()" style="font-size: 0.8rem; color: rgba(255,255,255,0.03); cursor: pointer; user-select: none; letter-spacing: 1px;">[ System Terminal Access ]</span>
                 </div>
             </div>
 
             <!-- 6. FOUNDER HUB (SHOEB SPECIAL) -->
             <div id="page-founder" class="app-page-view">
-                <div class="card" style="text-align: center; border: 2px solid var(--gold-primary); background: linear-gradient(180deg, #0b1329 0%, #040814 100%); padding: 35px 20px;">
-                    <i class="fa-solid fa-crown gold-text" style="font-size: 2.8rem; margin-bottom: 10px;"></i>
-                    <h3 style="font-family: 'Orbitron'; font-size: 0.75rem; color: var(--text-muted); letter-spacing: 3px;">CHIEF ECOSYSTEM ARCHITECT</h3>
-                    <h1 style="font-family: 'Orbitron'; font-size: 2rem; color: #fff; margin: 10px 0; text-shadow: 0 0 15px rgba(212,175,55,0.4);">SHOEB NADAF</h1>
-                    <div style="display: inline-block; background: rgba(212,175,55,0.1); border: 1px solid var(--gold-primary); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; color: #FFF3B0; margin-bottom: 15px;">
+                <div class="card" style="text-align: center; border: 1px solid var(--gold-primary); background: linear-gradient(180deg, rgba(226,183,71,0.05) 0%, rgba(5,7,15,0.1) 100%); padding: 40px 24px; box-shadow: 0 20px 50px rgba(226,183,71,0.15);">
+                    <i class="fa-solid fa-crown" style="font-size: 3.2rem; margin-bottom: 12px; color: var(--gold-primary); filter: drop-shadow(0 0 15px var(--gold-glow));"></i>
+                    <h3 style="font-family: 'Orbitron'; font-size: 0.8rem; color: var(--text-muted); letter-spacing: 4px; font-weight: 600;">CHIEF ECOSYSTEM ARCHITECT</h3>
+                    <h1 style="font-family: 'Orbitron'; font-size: 2.3rem; color: #fff; margin: 12px 0; font-weight: 800; text-shadow: 0 0 20px rgba(226,183,71,0.4);" class="gold-text">SHOEB NADAF</h1>
+                    <div style="display: inline-block; background: rgba(226,183,71,0.1); border: 1px solid var(--gold-primary); padding: 6px 16px; border-radius: 30px; font-size: 0.85rem; color: #FFF3B0; margin-bottom: 18px; font-weight: 600;">
                         <i class="fa-solid fa-location-dot"></i> Islampur, Maharashtra, India
                     </div>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; line-height: 1.5;">
+                    <p style="font-size: 0.9rem; color: var(--text-muted); font-style: italic; line-height: 1.6; max-width: 450px; margin: 0 auto;">
                         "Developing cloud-integrated automated networks to establish systemic precision in day-to-day spiritual progression."
                     </p>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--glass-border); padding-top: 15px; margin-top: 20px; font-size: 0.8rem;">
-                        <div><strong class="gold-text">v5.5-Pro</strong><br><span style="font-size:0.7rem;color:var(--text-muted)">Build</span></div>
-                        <div><strong style="color:var(--neon-green)">Optimal</strong><br><span style="font-size:0.7rem;color:var(--text-muted)">Network Engine</span></div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--glass-border); padding-top: 20px; margin-top: 25px; font-size: 0.85rem;">
+                        <div><strong style="color: var(--gold-primary)">v5.5-Pro</strong><br><span style="font-size:0.75rem;color:var(--text-muted)">Build</span></div>
+                        <div><strong style="color:var(--neon-green)">Optimal</strong><br><span style="font-size:0.75rem;color:var(--text-muted)">Network Engine</span></div>
                     </div>
                 </div>
 
                 <!-- Hidden Admin Panel Area -->
                 <div id="admin-panel-area" style="display: none;" class="card">
-                    <h3 class="gold-text" style="font-family:'Orbitron'; font-size:1rem; margin-bottom:10px;"><i class="fa-solid fa-terminal"></i> Shoeb's Core System Terminal</h3>
-                    <p style="font-size:0.8rem; margin-bottom:10px; color:var(--text-muted);">Simulated system metrics from local user database nodes:</p>
-                    <div style="background:#020617; padding:10px; border-radius:8px; font-family:monospace; font-size:0.75rem; color:var(--neon-green);">
+                    <h3 class="gold-text" style="font-family:'Orbitron'; font-size:1.1rem; margin-bottom:14px;"><i class="fa-solid fa-terminal"></i> Shoeb's Core System Terminal</h3>
+                    <p style="font-size:0.85rem; margin-bottom:12px; color:var(--text-muted);">Simulated system metrics from local user database nodes:</p>
+                    <div style="background:rgba(5,7,15,0.8); padding:14px; border-radius:12px; font-family:monospace; font-size:0.8rem; color:var(--neon-green); line-height: 1.6; border: 1px solid rgba(16,185,129,0.2);">
                         &gt; SYSTEM STATE: SECURE<br>
                         &gt; MAIN CLOUD SYNC: ACTIVE<br>
                         &gt; INSTANTIATED LOCAL USERS: <span id="admin-user-count">1</span> Active Session(s)<br>
@@ -331,13 +477,13 @@
             <div class="nav-item" id="nav-tracker" onclick="triggerTabSwitch('tracker')"><i class="fa-solid fa-calendar-check"></i><span>Tracker</span></div>
             <div class="nav-item" id="nav-tasbeeh" onclick="triggerTabSwitch('tasbeeh')"><i class="fa-solid fa-bead-necklace"></i><span>Tasbeeh</span></div>
             <div class="nav-item" id="nav-settings" onclick="triggerTabSwitch('settings')"><i class="fa-solid fa-sliders"></i><span>Settings</span></div>
-            <div class="nav-item" id="nav-founder" onclick="triggerTabSwitch('founder')" style="color: var(--gold-primary) !important;"><i class="fa-solid fa-crown"></i><span>Founder</span></div>
+            <div class="nav-item" id="nav-founder" onclick="triggerTabSwitch('founder')"><i class="fa-solid fa-crown" style="color: var(--gold-primary)"></i><span style="color: var(--gold-primary)">Founder</span></div>
         </nav>
     </div>
 
     <!-- BRAND FOOTER -->
-    <footer style="text-align: center; padding: 20px; font-size: 0.75rem; color: #334155; margin-top: 20px;">
-        <p>© 2026 Deen Connect. Maintained & Designed by <span class="gold-text" style="font-weight:700;">Shoeb Nadaf</span>.</p>
+    <footer style="text-align: center; padding: 24px; font-size: 0.8rem; color: #475569; margin-top: 30px; relative; z-index: 2;">
+        <p>© 2026 Deen Connect. Maintained & Designed by <span style="font-weight:700; color: var(--gold-primary);">Shoeb Nadaf</span>.</p>
     </footer>
 
     <!-- LOGIC SYSTEM ENGINE -->
@@ -353,6 +499,107 @@
             ]
         };
 
+        // --- 1. KINETIC CINEMATIC PARTICLE ENGINE ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class BackgroundParticle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedX = Math.random() * 0.2 - 0.1;
+                this.speedY = Math.random() * -0.3 - 0.1; // Slow upward float
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.y < 0) {
+                    this.y = canvas.height;
+                    this.x = Math.random() * canvas.width;
+                }
+                if (this.x < 0 || this.x > canvas.width) {
+                    this.speedX = -this.speedX;
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(226, 183, 71, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initBackgroundParticles() {
+            particlesArray = [];
+            for (let i = 0; i < 40; i++) {
+                particlesArray.push(new BackgroundParticle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArray.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        
+        initBackgroundParticles();
+        animateParticles();
+
+
+        // --- 2. MICRO-INTERACTION MECHANICAL EXPLOSION ENGINE ---
+        function triggerTargetBurst(e, color = '#E2B747') {
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            if(!clientX || !clientY) return;
+
+            for (let i = 0; i < 12; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'sparkle-dot';
+                spark.style.background = color;
+                spark.style.boxShadow = `0 0 8px ${color}`;
+                document.body.appendChild(spark);
+
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 4 + 2;
+                let currentX = clientX;
+                let currentY = clientY;
+                let opacity = 1;
+
+                spark.style.left = `${currentX}px`;
+                spark.style.top = `${currentY}px`;
+
+                const moveSpark = setInterval(() => {
+                    currentX += Math.cos(angle) * velocity;
+                    currentY += Math.sin(angle) * velocity + 0.5; // Adding small gravity weight
+                    opacity -= 0.04;
+
+                    spark.style.left = `${currentX}px`;
+                    spark.style.top = `${currentY}px`;
+                    spark.style.opacity = opacity;
+
+                    if (opacity <= 0) {
+                        clearInterval(moveSpark);
+                        spark.remove();
+                    }
+                }, 16);
+            }
+        }
+
+
+        // --- CORE APPLICATION CODES ---
         document.addEventListener("DOMContentLoaded", () => {
             initializeSystemCore();
             setupRandomQuote();
@@ -378,9 +625,10 @@
                 CORE_ENGINE.city = savedCity;
 
                 document.getElementById("nav-user-name").innerText = savedUser;
-                document.getElementById("user-location").innerHTML = `<i class="fa-solid fa-location-dot gold-text"></i> ${savedCity}`;
+                document.getElementById("user-location").innerHTML = `<i class="fa-solid fa-location-dot" style="color: var(--gold-primary)"></i> ${savedCity}`;
                 
                 document.getElementById("page-auth").style.display = "none";
+                document.getElementById("page-auth").classList.remove("active");
                 document.getElementById("main-app-content").style.display = "block";
 
                 syncTrackerDashboard();
@@ -393,6 +641,7 @@
             } else {
                 document.getElementById("main-app-content").style.display = "none";
                 document.getElementById("page-auth").style.display = "block";
+                setTimeout(() => document.getElementById("page-auth").classList.add("active"), 50);
             }
             updateDateString();
         }
@@ -426,9 +675,20 @@
         }
 
         function triggerTabSwitch(tab) {
-            document.querySelectorAll(".app-page-view").forEach(p => p.classList.remove("active"));
+            const currentActive = document.querySelector(".app-page-view.active");
+            if (currentActive) {
+                currentActive.classList.remove("active");
+                currentActive.style.display = "none";
+            }
+            
             const targetPage = document.getElementById(`page-${tab}`);
-            if(targetPage) targetPage.classList.add("active");
+            if(targetPage) {
+                targetPage.style.display = "block";
+                // Adding minor timeout layer to enable beautiful fluid hardware transition pipeline
+                setTimeout(() => {
+                    targetPage.classList.add("active");
+                }, 20);
+            }
 
             document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active"));
             const targetNav = document.getElementById(`nav-${tab}`);
@@ -496,7 +756,10 @@
             document.getElementById("countdown-timer").innerText = `${nextNamazName} in ${hours}h ${mins}m ${secs}s`;
         }
 
-        function togglePrayerPro(p) {
+        function togglePrayerPro(e, p) {
+            // Trigger high-end click burst particle loop
+            triggerTargetBurst(e, '#10B981');
+
             const key = `track_${CORE_ENGINE.user}_${new Date().toISOString().slice(0,10)}`;
             let currentData = JSON.parse(localStorage.getItem(key)) || {Fajr:false,Dhuhr:false,Asr:false,Maghrib:false,Isha:false};
             currentData[p] = !currentData[p];
@@ -556,8 +819,12 @@
             updateTasbeehUI();
         }
 
-        function triggerTasbeehCount() {
+        function triggerTasbeehCount(e) {
             CORE_ENGINE.tasbeeh++;
+            
+            // Trigger beautiful particle explosion mechanics
+            triggerTargetBurst(e, '#E2B747');
+
             if(window.AudioContext || window.webkitAudioContext) {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
                 const osc = ctx.createOscillator();
