@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deen Daily Ultra Pro Max | By Shoeb Nadaf</title>
+    <title>Deen Daily Ultra Pro Max V5.0 | Shoeb Nadaf</title>
     <!-- Google Fonts & FontAwesome Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -17,115 +17,179 @@
         <div class="stars2"></div>
     </div>
 
-    <!-- 1. ULTRA PREMIUM HEADER WITH INTERACTIVE BRANDING -->
+    <!-- MAIN APP HEADER -->
     <header class="app-header">
         <div class="logo">
             <i class="fa-solid fa-mosque gold-text pulse-icon"></i>
             <span>Deen <span class="gold-text">Daily</span></span>
         </div>
-        <!-- Shoeb Nadaf Highlighted Badge -->
-        <div class="creator-badge-pro" id="dev-badge">
-            <i class="fa-solid fa-user-shield check-icon"></i>
-            <span>Shoeb Nadaf</span>
+        <div class="status-badge" id="user-status-badge">
+            <i class="fa-solid fa-circle-user"></i> <span id="nav-user-name">Guest Mode</span>
         </div>
     </header>
 
+    <!-- MAIN CONTENT CONTAINER WITH PAGES -->
     <main class="app-container">
-        
-        <!-- 2. LIVE HIJRI DATE & TIME CARD -->
-        <section class="card info-card animate-fade-in">
-            <div class="info-grid">
-                <div class="info-item">
-                    <p class="info-label">ISLAMIC DATE</p>
-                    <h3 id="hijri-date" class="gold-text">Loading...</h3>
-                </div>
-                <div class="info-item">
-                    <p class="info-label">YOUR LOCATION</p>
-                    <h3 id="user-location">Detecting...</h3>
-                </div>
-            </div>
-        </section>
 
-        <!-- 3. DAILY ISLAMIC QUOTE CARD -->
-        <section class="card quote-card animate-fade-in">
-            <i class="fa-solid fa-quote-left quote-icon"></i>
-            <p id="daily-quote">"Loading inspiration for today..."</p>
-            <span id="quote-source">— Loading</span>
-        </section>
+        <!-- ================= PAGE 1: AUTH / LOGIN SCREEN ================= -->
+        <div id="page-auth" class="app-page active">
+            <section class="card auth-card">
+                <div class="auth-header">
+                    <i class="fa-solid fa-lock-open gold-text auth-icon"></i>
+                    <h2>Join the Community</h2>
+                    <p>Create your profile to track prayers and sync data</p>
+                </div>
+                <div class="auth-form">
+                    <div class="input-group">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="auth-username" placeholder="Enter Your Name..." required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <input type="text" id="auth-city" placeholder="Your City (e.g., Islampur)..." required>
+                    </div>
+                    <button id="btn-login" class="btn-primary"><i class="fa-solid fa-bolt"></i> ENTER DASHBOARD</button>
+                </div>
+            </section>
+        </div>
 
-        <!-- 4. LIVE API PRAYER TIMES CARD (WITH GLOWING EFFECT) -->
-        <section class="card prayer-card animate-fade-in">
-            <h2 class="section-title"><i class="fa-solid fa-circle-dot gold-text live-dot"></i> Live Accurate Prayer Times</h2>
-            <p class="subtitle">Automatically synced with your current city</p>
-            
-            <div class="prayer-grid">
-                <div class="prayer-item skeleton" id="Fajr">
-                    <div class="p-left"><i class="fa-solid fa-cloud-sun icon-prayer"></i> <span>Fajr</span></div>
-                    <strong id="time-Fajr">--:--</strong>
+        <!-- ================= PAGE 2: HOME DASHBOARD ================= -->
+        <div id="page-home" class="app-page">
+            <!-- LIVE DATE & TIME CARD -->
+            <section class="card info-card">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <p class="info-label">ISLAMIC DATE</p>
+                        <h3 id="hijri-date" class="gold-text">Loading...</h3>
+                    </div>
+                    <div class="info-item">
+                        <p class="info-label">CONNECTED CITY</p>
+                        <h3 id="user-location">Detecting...</h3>
+                    </div>
                 </div>
-                <div class="prayer-item skeleton" id="Dhuhr">
-                    <div class="p-left"><i class="fa-solid fa-sun icon-prayer"></i> <span>Dhuhr</span></div>
-                    <strong id="time-Dhuhr">--:--</strong>
-                </div>
-                <div class="prayer-item skeleton" id="Asr">
-                    <div class="p-left"><i class="fa-solid fa-cloud-sun-rain icon-prayer"></i> <span>Asr</span></div>
-                    <strong id="time-Asr">--:--</strong>
-                </div>
-                <div class="prayer-item skeleton" id="Maghrib">
-                    <div class="p-left"><i class="fa-solid fa-moon icon-prayer"></i> <span>Maghrib</span></div>
-                    <strong id="time-Maghrib">--:--</strong>
-                </div>
-                <div class="prayer-item skeleton" id="Isha">
-                    <div class="p-left"><i class="fa-solid fa-star-and-crecent icon-prayer"></i> <span>Isha</span></div>
-                    <strong id="time-Isha">--:--</strong>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- 5. ADVANCED TASBEEH COUNTER CARD -->
-        <section class="card tasbeeh-card animate-fade-in">
-            <h2 class="section-title"><i class="fa-solid fa-dhikr gold-text"></i> Digital Tasbeeh</h2>
-            
-            <div class="selector-container">
-                <select id="dhikr-select">
-                    <option value="Subhanallah">Subhanallah (सुभान अल्लाह)</option>
-                    <option value="Alhamdulillah">Alhamdulillah (अल्हम्दुलिल्लाह)</option>
-                    <option value="Allahu Akbar">Allahu Akbar (अल्लाहू अकबर)</option>
-                    <option value="Astaghfirullah">Astaghfirullah (अस्तग़फ़िरुल्लाह)</option>
-                </select>
-            </div>
+            <!-- TODAY'S PROGRESS BAR -->
+            <section class="card progress-card">
+                <div class="progress-header">
+                    <span><i class="fa-solid fa-chart-line gold-text"></i> Today's Score</span>
+                    <strong id="progress-percent" class="gold-text">0%</strong>
+                </div>
+                <div class="progress-bar-wrapper">
+                    <div id="progress-fill" style="width: 0%"></div>
+                </div>
+                <p id="progress-status-text" class="subtitle">You haven't logged any prayers today.</p>
+            </section>
 
-            <div class="counter-display-wrapper">
-                <div id="counter-number">0</div>
-                <p id="target-text">Target: 33</p>
-            </div>
+            <!-- PRAYER TIMES CARD -->
+            <section class="card prayer-card">
+                <h2 class="section-title"><i class="fa-solid fa-circle-dot live-dot"></i> Accurate Timings</h2>
+                <div class="prayer-grid">
+                    <div class="prayer-item skeleton" id="Fajr">
+                        <div class="p-left"><i class="fa-solid fa-cloud-sun icon-prayer"></i> <span>Fajr</span></div>
+                        <strong id="time-Fajr">--:--</strong>
+                    </div>
+                    <div class="prayer-item skeleton" id="Dhuhr">
+                        <div class="p-left"><i class="fa-solid fa-sun icon-prayer"></i> <span>Dhuhr</span></div>
+                        <strong id="time-Dhuhr">--:--</strong>
+                    </div>
+                    <div class="prayer-item skeleton" id="Asr">
+                        <div class="p-left"><i class="fa-solid fa-cloud-sun-rain icon-prayer"></i> <span>Asr</span></div>
+                        <strong id="time-Asr">--:--</strong>
+                    </div>
+                    <div class="prayer-item skeleton" id="Maghrib">
+                        <div class="p-left"><i class="fa-solid fa-moon icon-prayer"></i> <span>Maghrib</span></div>
+                        <strong id="time-Maghrib">--:--</strong>
+                    </div>
+                    <div class="prayer-item skeleton" id="Isha">
+                        <div class="p-left"><i class="fa-solid fa-star-and-crecent icon-prayer"></i> <span>Isha</span></div>
+                        <strong id="time-Isha">--:--</strong>
+                    </div>
+                </div>
+            </section>
+        </div>
 
-            <div class="tasbeeh-buttons">
-                <button id="btn-count" class="btn-primary"><i class="fa-solid fa-fingerprint"></i> TAP TO COUNT</button>
-                <button id="btn-reset" class="btn-secondary"><i class="fa-solid fa-rotate-left"></i> Reset</button>
-            </div>
-        </section>
+        <!-- ================= PAGE 3: PRAYER TRACKER ================= -->
+        <div id="page-tracker" class="app-page">
+            <section class="card tracker-card">
+                <h2 class="section-title"><i class="fa-solid fa-calendar-check gold-text"></i> Spiritual Log</h2>
+                <p class="subtitle">Tick mark the prayers you performed today</p>
+                
+                <div class="tracker-list">
+                    <div class="tracker-row" data-prayer="Fajr">
+                        <span class="p-name">Fajr Prayer</span>
+                        <button class="btn-check" onclick="togglePrayer('Fajr')"><i class="fa-solid fa-check"></i></button>
+                    </div>
+                    <div class="tracker-row" data-prayer="Dhuhr">
+                        <span class="p-name">Dhuhr Prayer</span>
+                        <button class="btn-check" onclick="togglePrayer('Dhuhr')"><i class="fa-solid fa-check"></i></button>
+                    </div>
+                    <div class="tracker-row" data-prayer="Asr">
+                        <span class="p-name">Asr Prayer</span>
+                        <button class="btn-check" onclick="togglePrayer('Asr')"><i class="fa-solid fa-check"></i></button>
+                    </div>
+                    <div class="tracker-row" data-prayer="Maghrib">
+                        <span class="p-name">Maghrib Prayer</span>
+                        <button class="btn-check" onclick="togglePrayer('Maghrib')"><i class="fa-solid fa-check"></i></button>
+                    </div>
+                    <div class="tracker-row" data-prayer="Isha">
+                        <span class="p-name">Isha Prayer</span>
+                        <button class="btn-check" onclick="togglePrayer('Isha')"><i class="fa-solid fa-check"></i></button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE 4: THE FOUNDER (SHOEB NADAF SPECIAL) ================= -->
+        <div id="page-founder" class="app-page">
+            <section class="card founder-card animate-fade-in">
+                <div class="founder-glow-ring"></div>
+                <i class="fa-solid fa-crown gold-text founder-crown"></i>
+                <h3 class="founder-title">CHIEF ARCHITECT</h3>
+                <h1 class="founder-name text-glow">SHOEB NADAF</h1>
+                
+                <div class="location-badge">
+                    <i class="fa-solid fa-location-dot"></i> Islampur, Maharashtra, India
+                </div>
+
+                <blockquote class="founder-bio">
+                    "Engineering next-generation digital ecosystems to empower spiritual productivity and modern asset management."
+                </blockquote>
+
+                <div class="founder-stats">
+                    <div class="f-stat-box">
+                        <strong class="gold-text">V5.0</strong>
+                        <span>App Version</span>
+                    </div>
+                    <div class="f-stat-box">
+                        <strong class="gold-text">Active</strong>
+                        <span>Server Status</span>
+                    </div>
+                </div>
+            </section>
+        </div>
 
     </main>
 
-    <!-- DEVELOPER POPUP MODAL (ON CLICKING BADGE) -->
-    <div class="modal-overlay" id="dev-modal">
-        <div class="modal-card">
-            <div class="modal-glow"></div>
-            <i class="fa-solid fa-crown gold-text crown-icon"></i>
-            <h2>Verified Developer</h2>
-            <h1 class="dev-name-glow">Shoeb Nadaf</h1>
-            <p>This ultra pro max dashboard is fully engineered, styled, and maintained by Shoeb Nadaf.</p>
-            <button id="close-modal" class="btn-secondary">Close Portal</button>
-        </div>
-    </div>
+    <!-- FLOATING APP NAVIGATION BAR -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchTab('home')" id="nav-home">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('tracker')" id="nav-tracker">
+            <i class="fa-solid fa-square-check"></i>
+            <span>Tracker</span>
+        </button>
+        <button class="nav-item premium-nav-item" onclick="switchTab('founder')" id="nav-founder">
+            <i class="fa-solid fa-crown"></i>
+            <span>Founder</span>
+        </button>
+    </nav>
 
-    <!-- 6. BRANDED FOOTER -->
+    <!-- INTERACTIVE BOTTOM FOOTER -->
     <footer class="app-footer">
-        <div class="footer-brand-box">
-            <p>Engineered & Maintained with <i class="fa-solid fa-bolt gold-text"></i> by <span class="gold-text bold text-glow">Shoeb Nadaf</span></p>
-        </div>
-        <p class="copyright">© 2026 Deen Daily Ultra Pro Max. Next-Gen Edition.</p>
+        <p>© 2026 Deen Daily Ecosystem. Managed by <span class="gold-text bold">Shoeb Nadaf</span>.</p>
     </footer>
 
     <script src="script.js"></script>
