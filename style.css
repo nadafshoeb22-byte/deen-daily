@@ -1,40 +1,165 @@
-/* Premium Dark-Glass Reset */
+/* ==========================================================================
+   DEENHUB ARCHITECTURE STYLESHEET CORE ENGINE
+   ========================================================================== */
+
 :root {
-  --glass: rgba(255, 255, 255, 0.05);
-  --border: rgba(255, 255, 255, 0.1);
-  --primary-glow: #00d4ff;
+    --bg-dark: #04050c;
+    --glass: rgba(255, 255, 255, 0.02);
+    --glass-active: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.06);
+    --gold-primary: #E2B747;
+    --gold-glow: rgba(226, 183, 71, 0.25);
+    --text-main: #F8FAFC;
+    --text-muted: #64748B;
+    --neon-green: #10B981;
+    --neon-blue: #3B82F6;
+    --neon-red: #EF4444;
+    --fluid-curve: cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+body.light-theme {
+    --bg-dark: #F1F5F9;
+    --glass: rgba(15, 23, 42, 0.02);
+    --glass-active: rgba(15, 23, 42, 0.06);
+    --glass-border: rgba(15, 23, 42, 0.08);
+    --text-main: #0F172A;
+    --text-muted: #475569;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  background: radial-gradient(circle at top right, #1a1a2e, #0f0f1a);
-  color: white;
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-  margin: 0;
-  padding: 20px;
+    background-color: var(--bg-dark) !important;
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Glassmorphism Card Style */
+#particle-canvas {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: 1; pointer-events: none;
+}
+
+/* TYPOGRAPHIC LEXICON OVERLAYS */
+.urdu-text { font-family: 'Noto Nastaliq Urdu', serif; line-height: 2.5; text-align: right; direction: rtl; }
+.arabic-text { font-family: 'Amiri', serif; font-size: 1.9rem; line-height: 1.8; text-align: right; direction: rtl; color: var(--gold-primary); }
+
+/* LUXURY GLASSMORPHISM LAYOUT GRAPHICS */
 .card {
-  background: var(--glass);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: var(--glass);
+    backdrop-filter: blur(30px) saturate(140%);
+    -webkit-backdrop-filter: blur(30px) saturate(140%);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
 }
 
-.card:active {
-  transform: scale(0.97); /* Ye wo premium bounce effect hai */
+.premium-glow {
+    border-color: rgba(226, 183, 71, 0.25) !important;
+    box-shadow: 0 0 35px rgba(226, 183, 71, 0.08) !important;
 }
 
-/* Typography */
-h1 {
-  font-weight: 800;
-  letter-spacing: -1px;
-  background: linear-gradient(to right, #fff, #888);
-  -webkit-background-clip: text;
-  color: transparent;
-}
+/* AUTHENTICATION MATRIX CONTROL DESIGN */
+.auth-container { max-width: 450px; margin: 80px auto padding: 20px; text-align: center; }
+.auth-logo i { font-size: 4rem; color: var(--gold-primary); margin-bottom: 12px; }
+.auth-logo h1 { font-family: 'Orbitron'; letter-spacing: 3px; font-weight: 800; margin-bottom: 5px; }
+.auth-logo p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 35px; }
 
+.secure-input { position: relative; margin-bottom: 14px; }
+.secure-input i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+.secure-input input { width: 100%; padding: 16px 16px 16px 48px; border-radius: 14px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; font-size: 0.95rem; }
+.secure-input input:focus { border-color: var(--gold-primary); outline: none; }
+
+/* REUSABLE PREMIUM CONTROL INTERFACES */
+.btn-primary {
+    background: linear-gradient(135deg, #E2B747 0%, #A37A1A 100%); border: none; color: #05070f;
+    padding: 16px 24px; font-weight: 700; border-radius: 16px; cursor: pointer; font-family: 'Orbitron', sans-serif; letter-spacing: 1.5px; width: 100%;
+}
+.btn-secondary { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); color: var(--text-main); padding: 12px 20px; border-radius: 14px; cursor: pointer; font-weight: 600; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; }
+
+/* RESPONSIVE LAYOUT MATRIX CONSOLE */
+.app-header { background: rgba(5,7,15,0.2); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); padding: 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+.app-container { max-width: 620px; margin: 0 auto; padding: 20px; position: relative; z-index: 5; }
+
+/* NAVIGATION SYSTEM LAYER */
+.bottom-nav-bar, .bottom-navigation-bar {
+    position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+    width: calc(100% - 32px); max-width: 580px; background: rgba(8, 11, 22, 0.85);
+    backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid var(--glass-border);
+    display: flex; justify-content: space-around; padding: 14px 0; z-index: 1000; border-radius: 24px;
+}
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-muted); cursor: pointer; font-size: 0.7rem; font-weight: 600; width: 55px; text-align: center; }
+.nav-item i { font-size: 1.15rem; }
+.nav-item.active { color: var(--text-main); }
+.nav-item.active i { color: var(--gold-primary); filter: drop-shadow(0 0 8px var(--gold-glow)); }
+
+/* DYNAMIC TRACKER TRI-STATE UNITS */
+.tracker-row { display: flex; flex-direction: column; background: rgba(255,255,255,0.01); border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px; margin-bottom: 12px; }
+.tri-btn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.tri-btn { border: 1px solid var(--glass-border); background: rgba(255,255,255,0.02); color: var(--text-muted); padding: 10px 2px; border-radius: 10px; cursor: pointer; font-size: 0.75rem; font-weight: 700; text-align: center; }
+.tri-btn.active-jamat { background: rgba(16, 185, 129, 0.15) !important; border-color: var(--neon-green) !important; color: var(--neon-green) !important; }
+.tri-btn.active-akele { background: rgba(59, 130, 246, 0.15) !important; border-color: var(--neon-blue) !important; color: var(--neon-blue) !important; }
+.tri-btn.active-qaza { background: rgba(239, 68, 68, 0.15) !important; border-color: var(--neon-red) !important; color: var(--neon-red) !important; }
+
+/* QUANTUM TASBEEH CORE DESIGN */
+.tasbeeh-halo-ring { width: 170px; height: 170px; border-radius: 50%; border: 2px dashed var(--gold-primary); margin: 25px auto; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(226,183,71,0.02); box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
+.tasbeeh-halo-ring:active { transform: scale(0.95); }
+
+/* SIDEBAR SLIDER PANEL CONFIGURATION */
+.sidebar-panel { position: fixed; top: 0; right: -340px; width: 340px; height: 100%; background: rgba(5,8,18,0.98); backdrop-filter: blur(50px); border-left: 1px solid rgba(255,255,255,0.05); z-index: 2000; padding: 40px 26px; transition: right 0.5s var(--fluid-curve); }
+.sidebar-panel.open { right: 0; }
+.sidebar-close { position: absolute; top: 20px; left: 20px; background: transparent; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; }
+.sidebar-section { margin-top: 25px; }
+.sidebar-section h4 { font-family: 'Orbitron'; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; }
+.lang-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.lang-btn { background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); padding: 12px 2px; border-radius: 10px; cursor: pointer; font-size: 0.8rem; font-weight: 700; }
+.lang-btn.active { background: rgba(226,183,71,0.15); border-color: var(--gold-primary); color: #fff; }
+
+/* EXTENDED CATALOG DRAWER STRUCTURE */
+.search-bar { width: 100%; padding: 14px 16px; border-radius: 14px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; font-size: 0.95rem; margin-bottom: 16px; }
+.catalog-scroll { max-height: 380px; overflow-y: auto; padding-right: 4px; }
+.quran-item-card, .dua-item-card { background: rgba(255,255,255,0.01); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px; margin-bottom: 12px; cursor: pointer; transition: background 0.3s; }
+.quran-item-card:hover, .dua-item-card:hover { background: var(--glass-active); }
+
+/* CORE CHAT GRAPHICS */
+.chat-display-box { height: 260px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 16px; padding: 14px; border: 1px solid var(--glass-border); margin-bottom: 14px; }
+.msg { padding: 10px 14px; border-radius: 12px; margin-bottom: 10px; max-width: 85%; font-size: 0.9rem; line-height: 1.4; }
+.msg.user-msg { background: rgba(59,130,246,0.12); border: 1px solid var(--neon-blue); margin-left: auto; color: #fff; }
+.msg.ai-msg { background: rgba(226,183,71,0.1); border: 1px solid var(--gold-primary); color: #fff; }
+.chat-input-row { display: flex; gap: 8px; }
+.chat-input-row .search-bar { margin-bottom: 0; }
+.send-btn { background: var(--gold-primary); border: none; width: 50px; border-radius: 14px; color: #000; cursor: pointer; }
+
+/* CORPORATE FOUNDER HUB METRICS */
+.founder-card { padding: 45px 24px; border-radius: 28px; background: linear-gradient(180deg, rgba(226,183,71,0.06) 0%, rgba(5,7,15,0.2) 100%) !important; }
+.architecture-crown { font-size: 3.5rem; filter: drop-shadow(0 0 15px var(--gold-glow)); margin-bottom: 14px; }
+.label-badge { font-family: 'Orbitron'; font-size: 0.8rem; color: var(--text-muted); letter-spacing: 5px; font-weight: 800; display: block; margin-bottom: 8px; }
+.Enterprise-Name { font-family: 'Orbitron'; font-size: 2.4rem; font-weight: 800; margin-bottom: 8px; }
+.location-badge { font-size: 0.9rem; color: #FFF3B0; font-weight: 600; display: block; margin-bottom: 25px; }
+.achievements-matrix { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.badge-box { background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px 4px; text-align: center; font-size: 0.75rem; }
+.badge-box i { font-size: 1.3rem; color: var(--gold-primary); display: block; margin-bottom: 6px; }
+
+.info-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.info-box { text-align: center; padding: 14px; margin-bottom: 14px; }
+.info-box span { font-size: 0.7rem; color: var(--text-muted); display: block; margin-bottom: 4px; font-weight: bold; }
+.info-box strong { font-size: 0.9rem; }
+
+.reader-overlay { margin-top: 15px; border-color: var(--gold-primary) !important; }
+.reader-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.close-overlay { background: transparent; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; }
+.verses-flow { max-height: 280px; overflow-y: auto; }
+
+.app-page-view { display: none; opacity: 0; transform: translateY(12px); transition: opacity 0.4s var(--fluid-curve), transform 0.4s var(--fluid-curve); }
+.app-page-view.active { display: block; opacity: 1; transform: translateY(0); }
+.sparkle-dot { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+.pulse-icon { animation: pulse 2.5s infinite ease-in-out; }
