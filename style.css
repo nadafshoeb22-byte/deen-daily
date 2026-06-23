@@ -1,4 +1,4 @@
-/* --- 1. FONTS & THEME SYSTEM --- */
+/* --- 1. GLOBAL RESET & BASE THEME --- */
 * {
     margin: 0;
     padding: 0;
@@ -8,21 +8,22 @@
 }
 
 body {
-    background: #060a13; /* Ultra Dark Space Blue */
+    background: #040814; /* Deep Tech Blue Black */
     color: #F1F5F9;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
+    padding-bottom: 70px; /* Space for bottom nav */
 }
 
-/* Futuristic Brand Font Global Override */
-.dev-name-glow, .creator-badge-pro span {
+/* Orbitron Font for Premium Branding */
+.founder-name, .founder-title, .app-header span, #progress-percent {
     font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
 }
 
-/* Premium Gold Gradients */
 .gold-text {
     background: linear-gradient(135deg, #FFF3B0 0%, #D4AF37 50%, #856404 100%);
     -webkit-background-clip: text;
@@ -30,10 +31,10 @@ body {
 }
 
 .text-glow {
-    text-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
 }
 
-/* --- 2. TWINKLING STARS ANIMATION --- */
+/* --- 2. TWINKLING BACKGROUND STARS --- */
 .stars-container {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -41,36 +42,32 @@ body {
     pointer-events: none;
     overflow: hidden;
 }
-
 .stars, .stars2 {
     position: absolute;
     width: 100%; height: 2000px;
     background: transparent;
 }
-
 .stars {
     background-image: radial-gradient(white 1px, transparent 0);
-    background-size: 50px 50px;
+    background-size: 60px 60px;
     animation: twinkle 4s infinite linear;
 }
-
 .stars2 {
-    background-image: radial-gradient(rgba(212, 175, 55, 0.5) 1.5px, transparent 0);
-    background-size: 80px 80px;
+    background-image: radial-gradient(rgba(212, 175, 55, 0.4) 1.5px, transparent 0);
+    background-size: 90px 90px;
     animation: twinkle 6s infinite linear;
 }
-
 @keyframes twinkle {
     0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.9; }
+    50% { opacity: 0.8; }
 }
 
-/* --- 3. DYNAMIC APP HEADER & SHOEB NADAF BADGE --- */
+/* --- 3. APP HEADER --- */
 .app-header {
-    background: rgba(6, 10, 19, 0.85);
+    background: rgba(4, 8, 14, 0.85);
     backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.25);
-    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    padding: 1.1rem 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -78,276 +75,203 @@ body {
     top: 0;
     z-index: 99;
 }
-
-.app-header .logo {
-    font-size: 1.35rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.pulse-icon {
-    animation: iconPulse 2s infinite ease-in-out;
-}
-
-/* Shoeb Nadaf Main Badge Style */
-.creator-badge-pro {
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(6, 10, 19, 0.9) 100%);
-    border: 1px solid #D4AF37;
-    padding: 0.4rem 1rem;
-    border-radius: 30px;
-    font-size: 0.85rem;
-    font-weight: 700;
+.status-badge {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
     display: flex;
     align-items: center;
     gap: 6px;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.creator-badge-pro:active {
-    transform: scale(0.92);
-    box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
-}
-
-.check-icon {
-    color: #4ADE80;
-    font-size: 0.9rem;
-}
-
-/* --- 4. GLASSMORPHISM CONTAINER & CARDS --- */
+/* --- 4. APPS CONTAINER & PAGES CONTROLLER --- */
 .app-container {
-    max-width: 550px;
+    max-width: 500px;
     width: 100%;
     margin: 0 auto;
     padding: 1.5rem 1rem;
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
     z-index: 1;
 }
+.app-page {
+    display: none;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.app-page.active {
+    display: flex;
+}
 
+/* Universal Card Design */
 .card {
-    background: rgba(15, 23, 42, 0.65);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 28px;
-    padding: 1.8rem;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 1.6rem;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
 }
 
-/* Info Grid (Islamic Date & Location) */
-.info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+/* --- 5. AUTH / LOGIN COMPONENT --- */
+.auth-card {
     text-align: center;
+    padding: 2.5rem 1.8rem;
+    border: 1px solid rgba(212, 175, 55, 0.15);
 }
-
-.info-label {
-    font-size: 0.7rem;
-    color: #64748B;
-    letter-spacing: 1.5px;
-    margin-bottom: 0.3rem;
+.auth-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
 }
-
-.info-item h3 {
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-/* --- 5. LIVE DOT & TIMINGS --- */
-.live-dot {
-    font-size: 0.7rem;
-    color: #EF4444;
-    animation: liveBlink 1.2s infinite;
-}
-
-.subtitle {
-    font-size: 0.8rem;
-    color: #94A3B8;
-    margin-top: -0.8rem;
-    margin-bottom: 1.5rem;
-}
-
-.prayer-grid {
+.auth-card h2 { margin-bottom: 0.4rem; font-size: 1.4rem; }
+.auth-card p { font-size: 0.85rem; color: #94A3B8; margin-bottom: 2rem; }
+.auth-form {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 1.2rem;
+}
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.input-group i {
+    position: absolute;
+    left: 15px;
+    color: #64748B;
+    font-size: 1rem;
+}
+.input-group input {
+    width: 100%;
+    background: #080f22;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #FFF;
+    padding: 1rem 1rem 1rem 45px;
+    border-radius: 16px;
+    outline: none;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+.input-group input:focus {
+    border-color: #D4AF37;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
-.prayer-item {
-    background: rgba(6, 10, 19, 0.6);
+/* Buttons Styling */
+.btn-primary {
+    background: linear-gradient(135deg, #FFF3B0 0%, #D4AF37 50%, #9A7B1C 100%);
+    color: #040814;
+    border: none;
+    padding: 1.1rem;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    transition: all 0.2s ease;
+}
+.btn-primary:active { transform: scale(0.97); }
+
+/* --- 6. DASHBOARD & PROGRESS LOGIC --- */
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; text-align: center; }
+.info-label { font-size: 0.65rem; color: #64748B; letter-spacing: 1px; margin-bottom: 0.2rem; }
+.info-item h3 { font-size: 0.95rem; }
+
+.progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; font-size: 0.9rem; }
+.progress-bar-wrapper { width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; margin-bottom: 0.5rem; }
+#progress-fill { height: 100%; background: linear-gradient(90deg, #D4AF37, #4ADE80); width: 0%; transition: width 0.5s ease; }
+
+/* Prayer Items Timings */
+.prayer-grid { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1rem; }
+.prayer-item { background: rgba(4, 8, 14, 0.5); border: 1px solid rgba(255,255,255,0.03); padding: 1.1rem 1.3rem; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; }
+.p-left { display: flex; align-items: center; gap: 12px; }
+.icon-prayer { color: #64748B; }
+
+.prayer-item.active-namaz {
+    border-color: #D4AF37;
+    background: rgba(212, 175, 55, 0.08);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+/* Skeleton Load Wave */
+.skeleton { position: relative; overflow: hidden; }
+.skeleton::after {
+    content: ""; position: absolute; top:0; right:0; bottom:0; left:0; transform: translateX(-100%);
+    background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0) 100%);
+    animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+/* --- 7. NAMAZ TRACKER CHECKBOX LIST --- */
+.tracker-list { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem; }
+.tracker-row {
+    background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.04);
     padding: 1.1rem 1.4rem;
     border-radius: 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
+}
+.btn-check {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.2);
+    background: transparent; color: transparent;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; transition: all 0.2s ease;
+}
+.tracker-row.checked {
+    border-color: rgba(74, 222, 128, 0.4);
+    background: rgba(74, 222, 128, 0.05);
+}
+.tracker-row.checked .btn-check {
+    background: #4ADE80; border-color: #4ADE80; color: #040814;
 }
 
-.p-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.icon-prayer {
-    color: #64748B;
-    font-size: 1.1rem;
-    width: 20px;
-}
-
-/* Active Prayer Glowing Border */
-.prayer-item.active-namaz {
-    border-color: #D4AF37;
-    background: rgba(212, 175, 55, 0.08);
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
-}
-.prayer-item.active-namaz .icon-prayer, .prayer-item.active-namaz strong {
-    color: #D4AF37 !important;
-    text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
-}
-
-/* --- 6. SKELETON SHIMMER LOADING EFFECT --- */
-.skeleton {
-    overflow: hidden;
-}
-.skeleton::after {
-    content: "";
-    position: absolute;
-    top: 0; right: 0; bottom: 0; left: 0;
-    transform: translateX(-100%);
-    background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%);
-    animation: shimmer 1.5s infinite;
-}
-
-@keyframes shimmer {
-    100% { transform: translateX(100%); }
-}
-
-/* --- 7. TASBEEH & BUTTONS --- */
-.selector-container select {
-    width: 100%;
-    background: #060a13;
-    color: #F1F5F9;
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    padding: 0.9rem 1.2rem;
-    border-radius: 16px;
-    font-size: 0.95rem;
-    outline: none;
-}
-
-#counter-number {
-    font-size: 5.5rem;
-    font-weight: 700;
-    color: #FFF;
-    text-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #FFF3B0 0%, #D4AF37 50%, #9A7B1C 100%);
-    color: #060a13;
-    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.35);
-}
-
-/* --- 8. VERIFIED DEVELOPER MODAL (SHOEB NADAF POPUP) --- */
-.modal-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(4, 7, 13, 0.85);
-    backdrop-filter: blur(15px);
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.modal-overlay.open {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.modal-card {
-    background: rgba(15, 23, 42, 0.9);
+/* --- 8. THE FOUNDER ROYAL CARD (SHOEB NADAF SPECIAL) --- */
+.founder-card {
+    text-align: center;
+    padding: 3rem 1.5rem;
     border: 2px solid #D4AF37;
-    border-radius: 32px;
-    padding: 2.5rem 2rem;
-    max-width: 400px;
-    width: 85%;
-    text-align: center;
-    box-shadow: 0 0 50px rgba(212, 175, 55, 0.4);
-    transform: scale(0.7) translateY(30px);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
+    background: linear-gradient(185deg, rgba(15, 23, 42, 0.95) 0%, rgba(4, 8, 14, 0.95) 100%);
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.25);
 }
+.founder-crown { font-size: 2.5rem; margin-bottom: 0.5rem; animation: pulse 2s infinite ease-in-out; }
+.founder-title { font-size: 0.75rem; color: #64748B; letter-spacing: 3px; margin-bottom: 0.5rem; }
+.founder-name { font-size: 2rem; font-weight: 900; color: #FFF; margin-bottom: 1rem; }
+.location-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    padding: 0.4rem 1rem; border-radius: 30px;
+    font-size: 0.8rem; color: #FFF3B0; margin-bottom: 1.5rem;
+}
+.founder-bio { font-size: 0.9rem; color: #94A3B8; font-style: italic; line-height: 1.6; max-width: 340px; margin: 0 auto 2rem auto; }
+.founder-stats { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 1.5rem; }
+.f-stat-box strong { font-size: 1.3rem; display: block; }
+.f-stat-box span { font-size: 0.75rem; color: #64748B; }
 
-.modal-overlay.open .modal-card {
-    transform: scale(1) translateY(0);
+/* --- 9. BOTTOM FIXED NAVIGATION BAR --- */
+.bottom-nav {
+    position: fixed; bottom: 0; left: 0; width: 100%;
+    background: rgba(4, 8, 14, 0.9); backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    padding: 0.6rem 0; z-index: 999;
 }
+.nav-item {
+    background: transparent; border: none; color: #64748B;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    font-size: 0.75rem; cursor: pointer; transition: all 0.2s ease;
+}
+.nav-item i { font-size: 1.2rem; }
+.nav-item.active { color: #FFF; }
+.premium-nav-item.active { color: #D4AF37; }
 
-.crown-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    animation: heartbeat 2s infinite;
-}
-
-.dev-name-glow {
-    font-size: 2.2rem;
-    color: #FFF;
-    margin: 0.8rem 0;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 0 40px rgba(212, 175, 55, 0.4);
-}
-
-.modal-card p {
-    font-size: 0.9rem;
-    color: #94A3B8;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-}
-
-/* --- 9. BRANDED FOOTER --- */
-.footer-brand-box {
-    background: rgba(212, 175, 55, 0.05);
-    border: 1px dashed rgba(212, 175, 55, 0.3);
-    padding: 1rem;
-    border-radius: 16px;
-    margin-bottom: 0.8rem;
-    box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.02);
-}
-
-.app-footer {
-    background: #04070d;
-    text-align: center;
-    padding: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.03);
-    font-size: 0.85rem;
-    color: #64748B;
-    z-index: 1;
-}
-
-/* --- KEYFRAMES --- */
-@keyframes iconPulse {
-    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(212,175,55,0.2)); }
-    50% { transform: scale(1.12); filter: drop-shadow(0 0 10px rgba(212,175,55,0.6)); }
-}
-@keyframes liveBlink {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 1; }
-}
-@keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-.animate-fade-in { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+/* --- 10. FOOTER & ANIMATIONS --- */
+.app-footer { text-align: center; padding: 1.5rem; font-size: 0.75rem; color: #334155; }
+@keyframes pulse { 0%,100% {transform: scale(1);} 50% {transform: scale(1.08);} }
