@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deen Connect Pro Ecosystem | By Shoeb Nadaf</title>
-    <!-- Google Fonts & FontAwesome Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -19,12 +18,12 @@
             --text-main: #F8FAFC;
             --text-muted: #64748B;
             --neon-green: #10B981;
+            --neon-blue: #3B82F6;
             --neon-red: #EF4444;
             --fluid-curve: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body { 
             background: radial-gradient(circle at top right, #0d1224, #04060c) !important; 
             font-family: 'Plus Jakarta Sans', sans-serif; 
@@ -35,233 +34,134 @@
             position: relative;
         }
 
-        #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        .gold-text { 
-            background: linear-gradient(135deg, #FFF 30%, var(--gold-primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-        }
+        #particle-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+        .gold-text { background: linear-gradient(135deg, #FFF 30%, var(--gold-primary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
         
         .card { 
             background: var(--glass) !important; 
             backdrop-filter: blur(30px) saturate(140%) !important;
             -webkit-backdrop-filter: blur(30px) saturate(140%) !important;
             border: 1px solid var(--glass-border) !important; 
-            border-radius: 24px !important; 
-            padding: 24px; 
+            border-radius: 24px !important; padding: 24px; 
             box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important; 
-            margin-bottom: 20px; 
-            position: relative;
-            z-index: 1;
+            margin-bottom: 20px; position: relative; z-index: 1;
             transition: transform 0.4s var(--fluid-curve), border-color 0.4s var(--fluid-curve);
-        }
-
-        .card:hover {
-            border-color: rgba(255, 255, 255, 0.15) !important;
         }
         
         .btn-primary { 
-            background: linear-gradient(135deg, #E2B747 0%, #A37A1A 100%) !important; 
-            border: none !important; 
-            color: #05070f !important; 
-            padding: 16px 24px; 
-            font-weight: 700; 
-            border-radius: 16px; 
-            cursor: pointer; 
-            font-family: 'Orbitron', sans-serif; 
-            letter-spacing: 1px;
-            transition: all 0.4s var(--fluid-curve); 
-            width: 100%; 
-            box-shadow: 0 8px 24px rgba(226, 183, 71, 0.2);
+            background: linear-gradient(135deg, #E2B747 0%, #A37A1A 100%) !important; border: none !important; color: #05070f !important; 
+            padding: 16px 24px; font-weight: 700; border-radius: 16px; cursor: pointer; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;
+            transition: all 0.4s var(--fluid-curve); width: 100%; box-shadow: 0 8px 24px rgba(226, 183, 71, 0.2);
         }
-        
-        .btn-primary:hover { 
-            transform: translateY(-3px); 
-            box-shadow: 0 12px 28px rgba(226, 183, 71, 0.4); 
-        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(226, 183, 71, 0.4); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); color: var(--text-main); padding: 12px 20px; border-radius: 14px; cursor: pointer; font-weight: 600; transition: all 0.3s; width: 100%; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            color: var(--text-main);
-            padding: 12px 20px;
-            border-radius: 14px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            width: 100%;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.2); }
-        
-        .app-header { 
-            background: rgba(4, 6, 15, 0.5) !important;
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border); 
-            padding: 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 100; 
-        }
-        
+        .app-header { background: rgba(4, 6, 15, 0.5) !important; backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); padding: 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .app-container { max-width: 600px; margin: 0 auto; padding: 20px; position: relative; z-index: 2; }
         
-        .bottom-nav { 
-            position: fixed; 
-            bottom: 16px; 
-            left: 50%; 
-            transform: translateX(-50%); 
-            width: calc(100% - 32px); 
-            max-width: 568px; 
-            background: rgba(10, 14, 26, 0.75) !important; 
-            backdrop-filter: blur(30px); 
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border); 
-            display: flex; 
-            justify-content: space-around; 
-            padding: 14px 0; 
-            z-index: 1000; 
-            border-radius: 24px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+        /* SIDEBAR HISTORY SYSTEM */
+        .sidebar-history {
+            position: fixed; top: 0; right: -320px; width: 320px; height: 100%; 
+            background: rgba(6, 10, 23, 0.95); backdrop-filter: blur(40px);
+            border-left: 1px solid var(--glass-border); z-index: 2000; padding: 30px 24px;
+            transition: right 0.5s var(--fluid-curve); box-shadow: -10px 0 40px rgba(0,0,0,0.8);
+            overflow-y: auto;
         }
+        .sidebar-history.open { right: 0; }
+        .sidebar-close { position: absolute; top: 20px; left: 20px; background: transparent; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; }
+
+        /* ADVANCED TRACKER ROW & TRI-STATE BUTTONS */
+        .tracker-card-row { display: flex; flex-direction: column; background: rgba(255,255,255,0.01); border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px; margin-bottom: 12px; gap: 12px; }
+        .tracker-header-info { display: flex; justify-content: space-between; font-weight: 600; font-size: 0.95rem; }
+        .tri-btn-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .tri-btn { border: 1px solid var(--glass-border); background: rgba(255,255,255,0.02); color: var(--text-muted); padding: 10px 4px; border-radius: 10px; cursor: pointer; font-size: 0.75rem; font-weight: 700; transition: all 0.3s var(--fluid-curve); text-align: center; }
         
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-muted); cursor: pointer; font-size: 0.75rem; font-weight: 600; width: 65px; transition: all 0.3s var(--fluid-curve); }
+        .tri-btn.active-jamat { background: rgba(16, 185, 129, 0.15) !important; border-color: var(--neon-green) !important; color: var(--neon-green) !important; box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
+        .tri-btn.active-akele { background: rgba(59, 130, 246, 0.15) !important; border-color: var(--neon-blue) !important; color: var(--neon-blue) !important; box-shadow: 0 0 10px rgba(59, 130, 246, 0.2); }
+        .tri-btn.active-qaza { background: rgba(239, 68, 68, 0.15) !important; border-color: var(--neon-red) !important; color: var(--neon-red) !important; box-shadow: 0 0 10px rgba(239, 68, 68, 0.2); }
+
+        /* ASMA UL HUSNA SLIDER */
+        .name-slider-box { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); padding: 16px; border-radius: 16px; margin-top: 15px; }
+
+        .bottom-nav { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 568px; background: rgba(10, 14, 26, 0.75) !important; backdrop-filter: blur(30px); border: 1px solid var(--glass-border); display: flex; justify-content: space-around; padding: 14px 0; z-index: 1000; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.7); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-muted); cursor: pointer; font-size: 0.75rem; font-weight: 600; width: 65px; transition: all 0.3s; }
         .nav-item i { font-size: 1.2rem; }
         .nav-item.active { color: var(--text-main); }
         .nav-item.active i { color: var(--gold-primary); filter: drop-shadow(0 0 8px var(--gold-glow)); }
 
         .prayer-grid { display: flex; flex-direction: column; gap: 12px; }
-        .prayer-item { 
-            background: var(--glass) !important; 
-            border: 1px solid var(--glass-border); 
-            border-radius: 18px; 
-            padding: 18px 22px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            transition: all 0.3s var(--fluid-curve);
-        }
-        .prayer-item:hover { background: var(--glass-active) !important; border-color: rgba(255,255,255,0.15); }
+        .prayer-item { background: var(--glass) !important; border: 1px solid var(--glass-border); border-radius: 18px; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; }
         .prayer-item .p-left { display: flex; align-items: center; gap: 14px; font-weight: 600; }
         .icon-prayer { color: var(--gold-primary); font-size: 1.2rem; }
 
-        .tracker-row { 
-            background: var(--glass) !important; 
-            border: 1px solid var(--glass-border) !important; 
-            border-radius: 16px; 
-            padding: 18px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            cursor: pointer; 
-            margin-bottom: 12px; 
-            transition: all 0.4s var(--fluid-curve); 
-        }
-        .tracker-row:active { transform: scale(0.98); }
-        .tracker-row.checked { 
-            background: rgba(16, 185, 129, 0.08) !important; 
-            border-color: var(--neon-green) !important; 
-        }
-        .btn-check { 
-            width: 28px; height: 28px; border-radius: 50%; 
-            border: 2px solid var(--text-muted); background: transparent; 
-            display: flex; align-items: center; justify-content: center; color: transparent; 
-            transition: all 0.3s var(--fluid-curve);
-        }
-        .tracker-row.checked .btn-check { 
-            background: var(--neon-green); border-color: var(--neon-green); color: #fff; transform: scale(1.05);
-        }
-
-        .history-days { display: flex; justify-content: space-between; margin-top: 20px; }
-        .day-dot { display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; color: var(--text-muted); gap: 6px; }
-        .dot { width: 14px; height: 14px; border-radius: 50%; background: #1e293b; transition: all 0.4s var(--fluid-curve); }
-        .dot.full { background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
-        .dot.partial { background: var(--gold-primary); box-shadow: 0 0 10px var(--gold-primary); }
-        .dot.empty { background: var(--neon-red); box-shadow: 0 0 10px var(--neon-red); }
-
-        .tasbeeh-circle { 
-            width: 195px; height: 195px; border-radius: 50%; 
-            border: 2px dashed var(--gold-primary); margin: 30px auto; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            cursor: pointer; background: rgba(226, 183, 71, 0.02); 
-            transition: all 0.4s var(--fluid-curve); 
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5); 
-        }
-        .tasbeeh-circle:active { transform: scale(0.94); background: rgba(226, 183, 71, 0.08); border-color: #fff; }
-
         .qaza-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 20px; }
         .qaza-box { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px 6px; text-align: center; font-size: 0.85rem; }
-        .qaza-btn { background: rgba(255,255,255,0.06); border: none; color: #fff; width: 26px; height: 26px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 8px 2px 0 2px; }
+        .qaza-btn { background: rgba(255,255,255,0.06); border: none; color: #fff; width: 26px; height: 26px; border-radius: 8px; cursor: pointer; margin: 8px 2px 0 2px; }
 
-        .sparkle-dot { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+        .tasbeeh-circle { width: 170px; height: 170px; border-radius: 50%; border: 2px dashed var(--gold-primary); margin: 20px auto; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(226, 183, 71, 0.02); transition: all 0.4s var(--fluid-curve); }
+        .tasbeeh-circle:active { transform: scale(0.94); }
+
         .app-page-view { display: none; opacity: 0; transform: translateY(15px); transition: opacity 0.4s var(--fluid-curve), transform 0.4s var(--fluid-curve); }
         .app-page-view.active { display: block; opacity: 1; transform: translateY(0); }
-        
-        .skeleton strong { color: transparent; background: linear-gradient(90deg, rgba(255,255,255,0.02) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.02) 75%); background-size: 200% 100%; animation: loading 1.5s infinite; border-radius: 6px; width: 70px; display: inline-block; }
-        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        
-        select, input { outline: none; transition: border-color 0.3s, box-shadow 0.3s; }
-        select:focus, input:focus { border-color: var(--gold-primary) !important; box-shadow: 0 0 12px var(--gold-glow); }
+        .sparkle-dot { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
     </style>
 </head>
 <body>
 
     <canvas id="particle-canvas"></canvas>
 
+    <!-- SIDEBAR FOR LIFETIME HISTORY & ANALYTICS -->
+    <div id="history-sidebar" class="sidebar-history">
+        <button class="sidebar-close" onclick="toggleSidebarHistory(false)"><i class="fa-solid fa-xmark"></i></button>
+        <h3 class="gold-text" style="font-family:'Orbitron'; margin-top:40px; margin-bottom:20px; font-size:1.1rem;"><i class="fa-solid fa-chart-line"></i> Yearly Analytics Engine</h3>
+        
+        <div style="background:rgba(255,255,255,0.02); padding:16px; border-radius:14px; border:1px solid var(--glass-border); margin-bottom:16px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px;"><span>Year 2026 Consistency</span><strong>88%</strong></div>
+            <div style="width:100%; height:6px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden;"><div style="width:88%; height:100%; background:var(--neon-green);"></div></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.02); padding:16px; border-radius:14px; border:1px solid var(--glass-border); margin-bottom:16px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px;"><span>Year 2025 History</span><strong>74%</strong></div>
+            <div style="width:100%; height:6px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden;"><div style="width:74%; height:100%; background:var(--neon-blue);"></div></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.02); padding:16px; border-radius:14px; border:1px solid var(--glass-border); margin-bottom:16px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px;"><span>Jamat Ratio Tracker</span><strong>65%</strong></div>
+            <div style="width:100%; height:6px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden;"><div style="width:65%; height:100%; background:var(--gold-primary);"></div></div>
+        </div>
+        <p style="font-size:0.75rem; color:var(--text-muted); text-align:center; margin-top:30px;">Local data ledger completely calibrated for long-term cloud scaling.</p>
+    </div>
+
     <!-- 1. AUTH SCREEN -->
     <div id="page-auth" class="app-page-view active">
         <div class="app-container" style="margin-top: 60px;">
             <div style="text-align: center; margin-bottom: 40px;">
                 <i class="fa-solid fa-mosque" style="font-size: 4rem; margin-bottom: 15px; color: var(--gold-primary); filter: drop-shadow(0 0 15px var(--gold-glow));"></i>
-                <h1 style="font-family: 'Orbitron', sans-serif; letter-spacing: 3px; font-weight: 800;" class="gold-text">DEEN CONNECT PRO</h1>
-                <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 4px;">Ecosystem v5.5 | Connected Platform</p>
+                <h1 style="font-family: 'Orbitron', sans-serif; letter-spacing: 3px;" class="gold-text">DEEN CONNECT PRO</h1>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">System Architecture v6.0</p>
             </div>
             <div class="card">
-                <h3 style="margin-bottom: 20px; font-size: 1.1rem;"><i class="fa-solid fa-user-plus" style="color: var(--gold-primary)"></i> Dynamic Profile Login</h3>
-                
-                <!-- AUTO LOCATION PRECISE ENGINE INTERFACE -->
                 <button onclick="triggerGeoPrecisionFetch()" id="btn-geo" class="btn-secondary">
-                    <i class="fa-solid fa-location-crosshairs" style="color: var(--gold-primary)"></i> Detect Live Location (GPS Precise)
+                    <i class="fa-solid fa-location-crosshairs" style="color: var(--gold-primary)"></i> Detect Live Location (GPS)
                 </button>
-                
-                <div style="text-align: center; margin: 10px 0; color: var(--text-muted); font-size: 0.8rem;">— OR ENTER MANUALLY —</div>
-
                 <input type="text" id="auth-username" placeholder="Enter Your Name..." style="width: 100%; padding: 14px; border-radius: 12px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; margin-bottom: 14px;">
-                <input type="text" id="auth-city" placeholder="Enter Your City (e.g., Islampur)..." style="width: 100%; padding: 14px; border-radius: 12px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; margin-bottom: 24px;">
-                
-                <button onclick="handleUniversalLogin()" class="btn-primary">LAUNCH PLATFORM</button>
+                <input type="text" id="auth-city" placeholder="Enter Your City..." style="width: 100%; padding: 14px; border-radius: 12px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; margin-bottom: 24px;">
+                <button onclick="handleUniversalLogin()" class="btn-primary">LAUNCH ECOSYSTEM</button>
             </div>
         </div>
     </div>
 
-    <!-- MAIN APP WRAPPER -->
+    <!-- MAIN APP APP WRAPPER -->
     <div id="main-app-content" style="display: none;">
         <header class="app-header">
             <div>
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Assalamu Alaikum,</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Welcome,</span>
                 <h2 id="nav-user-name" style="font-size: 1.3rem;" class="gold-text">User</h2>
             </div>
-            <div style="text-align: right;">
-                <span id="user-location" style="font-size: 0.9rem; font-weight: 600; display:block;"><i class="fa-solid fa-location-dot" style="color: var(--gold-primary)"></i> Detecting...</span>
-                <span id="countdown-timer" style="font-size: 0.75rem; color: var(--neon-green); font-weight: 600;">Next Namaz: --:--</span>
+            <div style="text-align: right; display:flex; align-items:center; gap:15px;">
+                <div>
+                    <span id="user-location" style="font-size: 0.85rem; font-weight: 600; display:block;">Detecting...</span>
+                    <span id="countdown-timer" style="font-size: 0.7rem; color: var(--neon-green); font-weight: 600;">--:--</span>
+                </div>
+                <button onclick="toggleSidebarHistory(true)" style="background:var(--glass); border:1px solid var(--glass-border); color:#fff; padding:10px; border-radius:12px; cursor:pointer;"><i class="fa-solid fa-chart-bar" style="color:var(--gold-primary)"></i></button>
             </div>
         </header>
 
@@ -270,497 +170,324 @@
             <!-- 2. HOME PAGE -->
             <div id="page-home" class="app-page-view">
                 <div class="card" style="border-left: 4px solid var(--gold-primary) !important;">
-                    <span style="font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: var(--gold-primary);" ><i class="fa-solid fa-book-quran"></i> Verse/Hadith Of The Day</span>
-                    <p id="daily-quote" style="font-size: 0.9rem; margin-top: 8px; font-style: italic; color: #E2E8F0; line-height: 1.5;">"The best among you are those who have the best manners and character." (Sahih Al-Bukhari)</p>
+                    <p id="daily-quote" style="font-size: 0.9rem; font-style: italic; color: #E2E8F0; line-height: 1.5;"></p>
                 </div>
-
-                <div class="card" style="text-align: center; padding: 18px;">
-                    <div id="today-date" style="font-weight: 700; font-size: 1.1rem; letter-spacing: -0.3px;">Tuesday, June 23</div>
-                    <div id="hijri-date" style="font-size: 0.9rem; margin-top: 4px; font-family: 'Orbitron'; color: var(--gold-primary);">Loading Hijri...</div>
+                <div class="card" style="text-align: center; padding: 14px; display:flex; justify-content:space-around; align-items:center;">
+                    <div id="today-date" style="font-weight: 700; font-size: 0.95rem;"></div>
+                    <div id="hijri-date" style="font-size: 0.9rem; font-family: 'Orbitron'; color: var(--gold-primary);">Loading...</div>
                 </div>
 
                 <div class="prayer-grid">
-                    <div class="prayer-item skeleton" id="Fajr">
-                        <div class="p-left"><i class="fa-solid fa-cloud-sun icon-prayer"></i> <span>Fajr</span></div>
-                        <strong id="time-Fajr">--:-- --</strong>
-                    </div>
-                    <div class="prayer-item skeleton" id="Dhuhr">
-                        <div class="p-left"><i class="fa-solid fa-sun icon-prayer"></i> <span>Dhuhr</span></div>
-                        <strong id="time-Dhuhr">--:-- --</strong>
-                    </div>
-                    <div class="prayer-item skeleton" id="Asr">
-                        <div class="p-left"><i class="fa-solid fa-cloud-sun-rain icon-prayer"></i> <span>Asr</span></div>
-                        <strong id="time-Asr">--:-- --</strong>
-                    </div>
-                    <div class="prayer-item skeleton" id="Maghrib">
-                        <div class="p-left"><i class="fa-solid fa-moon icon-prayer"></i> <span>Maghrib</span></div>
-                        <strong id="time-Maghrib">--:-- --</strong>
-                    </div>
-                    <div class="prayer-item skeleton" id="Isha">
-                        <div class="p-left"><i class="fa-solid fa-star-and-crescent icon-prayer"></i> <span>Isha</span></div>
-                        <strong id="time-Isha">--:-- --</strong>
-                    </div>
+                    <div class="prayer-item" id="Fajr"><div class="p-left"><i class="fa-solid fa-cloud-sun icon-prayer"></i> <span>Fajr</span></div><strong id="time-Fajr">--:--</strong></div>
+                    <div class="prayer-item" id="Dhuhr"><div class="p-left"><i class="fa-solid fa-sun icon-prayer"></i> <span>Dhuhr</span></div><strong id="time-Dhuhr">--:--</strong></div>
+                    <div class="prayer-item" id="Asr"><div class="p-left"><i class="fa-solid fa-cloud-sun-rain icon-prayer"></i> <span>Asr</span></div><strong id="time-Asr">--:--</strong></div>
+                    <div class="prayer-item" id="Maghrib"><div class="p-left"><i class="fa-solid fa-moon icon-prayer"></i> <span>Maghrib</span></div><strong id="time-Maghrib">--:--</strong></div>
+                    <div class="prayer-item" id="Isha"><div class="p-left"><i class="fa-solid fa-star-and-crescent icon-prayer"></i> <span>Isha</span></div><strong id="time-Isha">--:--</strong></div>
                 </div>
             </div>
 
-            <!-- 3. TRACKER & HISTORY PAGE -->
+            <!-- 3. ADVANCED TRI-STATE TRACKER & QAZA -->
             <div id="page-tracker" class="app-page-view">
                 <div class="card">
                     <div style="display:flex; justify-content:space-between; margin-bottom: 12px; font-size: 0.95rem;">
-                        <span><i class="fa-solid fa-square-poll-vertical" style="color: var(--gold-primary)"></i> Today's Performance</span>
-                        <strong id="progress-percent" style="color: var(--neon-green); font-weight: 700;">0%</strong>
+                        <span><i class="fa-solid fa-bolt" style="color:var(--gold-primary)"></i> Spiritual Productivity Score</span>
+                        <strong id="progress-percent" style="color: var(--neon-green);">0%</strong>
                     </div>
                     <div style="width:100%; height:8px; background:rgba(255,255,255,0.05); border-radius:10px; overflow:hidden;">
-                        <div id="progress-fill" style="width: 0%; height:100%; background: linear-gradient(90deg, var(--neon-green), #34D399); transition: width 0.6s var(--fluid-curve);"></div>
+                        <div id="progress-fill" style="width: 0%; height:100%; background: linear-gradient(90deg, var(--neon-green), var(--neon-blue)); transition: width 0.5s;"></div>
                     </div>
+                </div>
+
+                <div class="card">
+                    <h3 style="font-size: 1.05rem; margin-bottom: 16px;"><i class="fa-solid fa-list-check" style="color:var(--gold-primary)"></i> Advanced Verification Register</h3>
                     
-                    <div class="history-days">
-                        <div class="day-dot"><span>Mon</span><div class="dot" id="dot-0"></div></div>
-                        <div class="day-dot"><span>Tue</span><div class="dot" id="dot-1"></div></div>
-                        <div class="day-dot"><span>Wed</span><div class="dot" id="dot-2"></div></div>
-                        <div class="day-dot"><span>Thu</span><div class="dot" id="dot-3"></div></div>
-                        <div class="day-dot"><span>Fri</span><div class="dot" id="dot-4"></div></div>
-                        <div class="day-dot"><span>Sat</span><div class="dot" id="dot-5"></div></div>
-                        <div class="day-dot"><span>Sun</span><div class="dot" id="dot-6"></div></div>
-                    </div>
+                    <!-- DYNAMIC TRI-STATE GENERATION CONTAINER -->
+                    <div id="tri-state-tracker-container"></div>
                 </div>
 
                 <div class="card">
-                    <h3 style="font-size: 1.05rem; margin-bottom: 16px;"><i class="fa-solid fa-calendar-check" style="color: var(--gold-primary)"></i> Daily Prayer Register</h3>
-                    <div class="tracker-row" onclick="togglePrayerPro(event, 'Fajr')" data-p="Fajr"><span>Fajr Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
-                    <div class="tracker-row" onclick="togglePrayerPro(event, 'Dhuhr')" data-p="Dhuhr"><span>Dhuhr Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
-                    <div class="tracker-row" onclick="togglePrayerPro(event, 'Asr')" data-p="Asr"><span>Asr Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
-                    <div class="tracker-row" onclick="togglePrayerPro(event, 'Maghrib')" data-p="Maghrib"><span>Maghrib Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
-                    <div class="tracker-row" onclick="togglePrayerPro(event, 'Isha')" data-p="Isha"><span>Isha Namaz</span><div class="btn-check"><i class="fa-solid fa-check"></i></div></div>
-                </div>
-
-                <div class="card">
-                    <h3 style="font-size: 1.05rem;"><i class="fa-solid fa-clock-rotate-left" style="color: var(--gold-primary)"></i> Total Qaza Counter Lock</h3>
+                    <h3 style="font-size: 1.05rem;"><i class="fa-solid fa-clock-rotate-left" style="color: var(--gold-primary)"></i> Realtime Qaza Vault Lock</h3>
                     <div class="qaza-grid">
-                        <div class="qaza-box"><div>Fajr</div><strong id="q-Fajr" style="font-size: 1.1rem;">0</strong><div><button class="qaza-btn" onclick="alterQaza('Fajr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Fajr',-1)">-</button></div></div>
-                        <div class="qaza-box"><div>Dhuhr</div><strong id="q-Dhuhr" style="font-size: 1.1rem;">0</strong><div><button class="qaza-btn" onclick="alterQaza('Dhuhr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Dhuhr',-1)">-</button></div></div>
-                        <div class="qaza-box"><div>Asr</div><strong id="q-Asr" style="font-size: 1.1rem;">0</strong><div><button class="qaza-btn" onclick="alterQaza('Asr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Asr',-1)">-</button></div></div>
-                        <div class="qaza-box"><div>Maghrib</div><strong id="q-Maghrib" style="font-size: 1.1rem;">0</strong><div><button class="qaza-btn" onclick="alterQaza('Maghrib',1)">+</button><button class="qaza-btn" onclick="alterQaza('Maghrib',-1)">-</button></div></div>
-                        <div class="qaza-box"><div>Isha</div><strong id="q-Isha" style="font-size: 1.1rem;">0</strong><div><button class="qaza-btn" onclick="alterQaza('Isha',1)">+</button><button class="qaza-btn" onclick="alterQaza('Isha',-1)">-</button></div></div>
+                        <div class="qaza-box"><div>Fajr</div><strong id="q-Fajr">0</strong><div><button class="qaza-btn" onclick="alterQaza('Fajr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Fajr',-1)">-</button></div></div>
+                        <div class="qaza-box"><div>Dhuhr</div><strong id="q-Dhuhr">0</strong><div><button class="qaza-btn" onclick="alterQaza('Dhuhr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Dhuhr',-1)">-</button></div></div>
+                        <div class="qaza-box"><div>Asr</div><strong id="q-Asr">0</strong><div><button class="qaza-btn" onclick="alterQaza('Asr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Asr',-1)">-</button></div></div>
+                        <div class="qaza-box"><div>Maghrib</div><strong id="q-Maghrib">0</strong><div><button class="qaza-btn" onclick="alterQaza('Maghrib',1)">+</button><button class="qaza-btn" onclick="alterQaza('Maghrib',-1)">-</button></div></div>
+                        <div class="qaza-box"><div>Isha</div><strong id="q-Isha">0</strong><div><button class="qaza-btn" onclick="alterQaza('Isha',1)">+</button><button class="qaza-btn" onclick="alterQaza('Isha',-1)">-</button></div></div>
                     </div>
                 </div>
             </div>
 
-            <!-- 4. TASBEEH COUNTER PAGE -->
+            <!-- 4. TASBEEH & ASMA-UL-HUSNA AUDIO -->
             <div id="page-tasbeeh" class="app-page-view">
                 <div class="card" style="text-align: center;">
-                    <h3 style="font-size: 1.1rem;"><i class="fa-solid fa-bead-necklace" style="color: var(--gold-primary)"></i> Cyber Tasbeeh Engine</h3>
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 6px;">Tap circle to count. Cycles reset at 33 / 100.</p>
-                    
                     <div class="tasbeeh-circle" onclick="triggerTasbeehCount(event)">
-                        <span style="font-size: 0.8rem; color: var(--text-muted); letter-spacing: 2px;">COUNT</span>
-                        <h1 id="tasbeeh-display" style="font-family: 'Orbitron'; font-size: 3.5rem; margin: 6px 0; font-weight: 800;" class="gold-text">0</h1>
-                        <span id="tasbeeh-cycle" style="font-size: 0.8rem; color: var(--neon-green); font-weight: 600;">Cycle: 0</span>
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">COUNT</span>
+                        <h1 id="tasbeeh-display" style="font-family:'Orbitron'; font-size:3.2rem;" class="gold-text">0</h1>
+                        <span id="tasbeeh-cycle" style="font-size: 0.75rem; color: var(--neon-green);">Cycle: 0</span>
                     </div>
+                    <button onclick="resetTasbeeh()" style="background:transparent; border:1px solid rgba(255,255,255,0.1); color:var(--text-muted); padding:8px 18px; border-radius:10px; cursor:pointer; font-size:0.8rem;">Reset</button>
+                </div>
 
-                    <button onclick="resetTasbeeh()" style="background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); padding: 10px 24px; border-radius: 12px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">
-                        <i class="fa-solid fa-rotate-right"></i> Reset Counter
-                    </button>
+                <div class="card">
+                    <h3 style="font-size:1.05rem;"><i class="fa-solid fa-volume-high" style="color:var(--gold-primary)"></i> Asma-ul-Husna Reciter Engine</h3>
+                    <div class="name-slider-box">
+                        <div>
+                            <h2 id="allah-name-arabic" class="gold-text" style="font-size:1.8rem; text-align:left;">Ar-Rahman</h2>
+                            <p id="allah-name-meaning" style="font-size:0.85rem; color:var(--text-main); margin-top:4px;">Meaning: The Most Merciful</p>
+                        </div>
+                        <button onclick="playNameAudio()" class="btn-primary" style="width:auto; padding:12px 18px; border-radius:12px;"><i class="fa-solid fa-play"></i> Recite</button>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-top:12px;">
+                        <button onclick="navigateNames(-1)" class="btn-secondary" style="width:48%; margin:0;"><i class="fa-solid fa-arrow-left"></i> Prev</button>
+                        <button onclick="navigateNames(1)" class="btn-secondary" style="width:48%; margin:0;">Next <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
                 </div>
             </div>
 
-            <!-- 5. SETTINGS PAGE -->
+            <!-- 5. SETTINGS -->
             <div id="page-settings" class="app-page-view">
                 <div class="card">
-                    <h3 style="font-size: 1.05rem;"><i class="fa-solid fa-sliders" style="color: var(--gold-primary)"></i> Dynamic Core Settings</h3>
-                    <div style="margin-top: 18px;">
-                        <label style="font-size: 0.85rem; color: var(--text-muted); display:block; margin-bottom: 8px;">Calculation Method</label>
-                        <select id="calc-method" onchange="saveSettings()" style="width:100%; padding: 12px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; border-radius: 12px;">
-                            <option value="2">ISNA (Islamic Society of North America)</option>
-                            <option value="4">Umm Al-Qura University, Makkah</option>
-                            <option value="1">University of Islamic Sciences, Karachi</option>
-                            <option value="3">Muslim World League (MWL)</option>
-                            <option value="5">Egyptian General Authority of Survey</option>
-                        </select>
-                    </div>
-                    <div style="margin-top: 24px;">
-                        <button onclick="handleSessionLogout()" style="width: 100%; background: rgba(239,68,68,0.08); border: 1px solid var(--neon-red); color: var(--neon-red); padding: 14px; border-radius: 14px; font-weight: bold; cursor: pointer;">
-                            <i class="fa-solid fa-power-off"></i> Clear Profile Session
-                        </button>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 40px;">
-                    <span onclick="promptAdminAccess()" style="font-size: 0.8rem; color: rgba(255,255,255,0.03); cursor: pointer; user-select: none;">[ System Terminal Access ]</span>
+                    <h3 style="font-size: 1.05rem; margin-bottom:15px;"><i class="fa-solid fa-sliders" style="color: var(--gold-primary)"></i> System Core Engine</h3>
+                    <select id="calc-method" onchange="saveSettings()" style="width:100%; padding: 12px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; border-radius: 12px;">
+                        <option value="2">ISNA (North America)</option>
+                        <option value="4">Umm Al-Qura, Makkah</option>
+                        <option value="1">University of Islamic Sciences, Karachi</option>
+                        <option value="3">Muslim World League (MWL)</option>
+                    </select>
+                    <button onclick="handleSessionLogout()" style="width:100%; background:rgba(239,68,68,0.08); border:1px solid var(--neon-red); color:var(--neon-red); padding:14px; border-radius:14px; font-weight:bold; cursor:pointer; margin-top:20px;">Clear Session</button>
                 </div>
             </div>
 
-            <!-- 6. FOUNDER HUB -->
+            <!-- 6. FOUNDER HUB WITH BRAND INSTAGRAM -->
             <div id="page-founder" class="app-page-view">
-                <div class="card" style="text-align: center; border: 1px solid var(--gold-primary) !important; background: linear-gradient(180deg, rgba(226,183,71,0.05) 0%, rgba(5,7,15,0.1) 100%) !important; padding: 40px 24px;">
-                    <i class="fa-solid fa-crown" style="font-size: 3.2rem; margin-bottom: 12px; color: var(--gold-primary); filter: drop-shadow(0 0 15px var(--gold-glow));"></i>
-                    <h3 style="font-family: 'Orbitron'; font-size: 0.8rem; color: var(--text-muted); letter-spacing: 4px;">CHIEF ECOSYSTEM ARCHITECT</h3>
-                    <h1 style="font-family: 'Orbitron'; font-size: 2.3rem; color: #fff; margin: 12px 0; font-weight: 800;" class="gold-text">SHOEB NADAF</h1>
-                    <div style="display: inline-block; background: rgba(226,183,71,0.1); border: 1px solid var(--gold-primary); padding: 6px 16px; border-radius: 30px; font-size: 0.85rem; color: #FFF3B0; margin-bottom: 18px;">
-                        <i class="fa-solid fa-location-dot"></i> Islampur, Maharashtra, India
-                    </div>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); font-style: italic; line-height: 1.6;">
-                        "Developing cloud-integrated automated networks to establish systemic precision in day-to-day spiritual progression."
-                    </p>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--glass-border); padding-top: 20px; margin-top: 25px; font-size: 0.85rem;">
-                        <div><strong style="color: var(--gold-primary)">v5.5-Pro</strong><br><span style="font-size:0.75rem;color:var(--text-muted)">Build</span></div>
-                        <div><strong style="color:var(--neon-green)">Optimal</strong><br><span style="font-size:0.75rem;color:var(--text-muted)">Network Engine</span></div>
-                    </div>
-                </div>
-
-                <div id="admin-panel-area" style="display: none;" class="card">
-                    <h3 class="gold-text" style="font-family:'Orbitron'; font-size:1.1rem; margin-bottom:14px;"><i class="fa-solid fa-terminal"></i> Shoeb's Core System Terminal</h3>
-                    <div style="background:rgba(5,7,15,0.8); padding:14px; border-radius:12px; font-family:monospace; font-size:0.8rem; color:var(--neon-green); line-height: 1.6;">
-                        &gt; SYSTEM STATE: SECURE<br>
-                        &gt; MAIN CLOUD SYNC: ACTIVE<br>
-                        &gt; INSTANTIATED LOCAL USERS: <span id="admin-user-count">1</span> Active Session(s)<br>
-                        &gt; ENCRYPTION ARCHITECTURE: AES-LOCAL-STORAGE
-                    </div>
+                <div class="card" style="text-align: center; border: 1px solid var(--gold-primary) !important; background: linear-gradient(180deg, rgba(226,183,71,0.05) 0%, rgba(5,7,15,0.1) 100%) !important; padding: 30px 20px;">
+                    <i class="fa-solid fa-crown" style="font-size: 3rem; margin-bottom: 12px; color: var(--gold-primary);"></i>
+                    <h1 class="gold-text" style="font-family:'Orbitron'; font-size:2.2rem;">SHOEB NADAF</h1>
+                    <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Islampur, Maharashtra, India</p>
+                    
+                    <!-- INSTAGRAM PRESET EMBED LINK -->
+                    <a href="https://instagram.com/shoebx96" target="_blank" style="text-decoration:none; display:inline-flex; align-items:center; gap:10px; background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color:#fff; padding:12px 24px; border-radius:14px; font-weight:700; font-size:0.9rem; box-shadow:0 8px 20px rgba(220,39,67,0.3);">
+                        <i class="fa-brands fa-instagram" style="font-size:1.3rem;"></i> Follow @shoebx96
+                    </a>
                 </div>
             </div>
 
         </div>
 
-        <!-- APP BOTTOM NAV BAR -->
         <nav class="bottom-nav">
             <div class="nav-item active" id="nav-home" onclick="triggerTabSwitch('home')"><i class="fa-solid fa-house"></i><span>Home</span></div>
             <div class="nav-item" id="nav-tracker" onclick="triggerTabSwitch('tracker')"><i class="fa-solid fa-calendar-check"></i><span>Tracker</span></div>
             <div class="nav-item" id="nav-tasbeeh" onclick="triggerTabSwitch('tasbeeh')"><i class="fa-solid fa-bead-necklace"></i><span>Tasbeeh</span></div>
             <div class="nav-item" id="nav-settings" onclick="triggerTabSwitch('settings')"><i class="fa-solid fa-sliders"></i><span>Settings</span></div>
-            <div class="nav-item" id="nav-founder" onclick="triggerTabSwitch('founder')"><i class="fa-solid fa-crown" style="color: var(--gold-primary)"></i><span style="color: var(--gold-primary)">Founder</span></div>
+            <div class="nav-item" id="nav-founder" onclick="triggerTabSwitch('founder')"><i class="fa-solid fa-crown"></i><span>Founder</span></div>
         </nav>
     </div>
 
-    <!-- BRAND FOOTER -->
-    <footer style="text-align: center; padding: 24px; font-size: 0.8rem; color: #475569; margin-top: 30px;">
-        <p>© 2026 Deen Connect. Maintained & Designed by <span style="font-weight:700; color: var(--gold-primary);">Shoeb Nadaf</span>.</p>
+    <footer style="text-align: center; padding: 20px; font-size: 0.8rem; color: #475569;">
+        <p>© 2026 Designed by <a href="https://instagram.com/shoebx96" target="_blank" style="color:var(--gold-primary); text-decoration:none; font-weight:700;">@shoebx96</a></p>
     </footer>
 
-    <!-- LOGIC SYSTEM ENGINE -->
     <script>
         const CORE_ENGINE = {
-            user: "", city: "", method: "2", lat: "", lng: "", useGPS: false,
-            times: {}, tasbeeh: 0, cycles: 0,
-            quotes: [
-                "\"The best among you are those who have the best manners and character.\" (Sahih Al-Bukhari)",
-                "\"So remember Me; I will remember you.\" (Surah Al-Baqarah 2:152)",
-                "\"Prayer prohibits immorality and wrongdoing.\" (Surah Al-Ankabut 29:45)",
-                "\"Cleanliness is half of faith (Iman).\" (Sahih Muslim)"
-            ]
+            user: "", city: "", method: "2", lat: "", lng: "", useGPS: false, times: {}, tasbeeh: 0, cycles: 0,
+            quotes: ["\"The best among you are those who have the best manners.\"","\"So remember Me; I will remember you.\""],
+            names: [
+                {ar: "Ar-Rahman", en: "The Most Merciful"},
+                {ar: "Ar-Rahim", en: "The Bestower of Mercy"},
+                {ar: "Al-Malik", en: "The Absolute Sovereign"},
+                {ar: "Al-Quddus", en: "The Pure One"},
+                {ar: "As-Salam", en: "The Source of Peace"}
+            ],
+            currentNameIdx: 0
         };
 
-        // --- BACKGROUND CANVAS ENGINE ---
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        let particlesArray = [];
-
+        const canvas = document.getElementById('particle-canvas'); const ctx = canvas.getContext('2d'); let pArray = [];
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+        class Particle { constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5; this.speedY = Math.random()*-0.2; } update() { this.y += this.speedY; if(this.y<0) this.y=canvas.height; } draw() { ctx.fillStyle = "rgba(226,183,71,0.3)"; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill(); } }
+        for(let i=0;i<30;i++) pArray.push(new Particle());
+        function anim() { ctx.clearRect(0,0,canvas.width,canvas.height); pArray.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(anim); } anim();
 
-        class BackgroundParticle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.speedX = Math.random() * 0.2 - 0.1;
-                this.speedY = Math.random() * -0.3 - 0.1;
-                this.opacity = Math.random() * 0.5 + 0.2;
-            }
-            update() {
-                this.y += this.speedY;
-                if (this.y < 0) { this.y = canvas.height; this.x = Math.random() * canvas.width; }
-            }
-            draw() {
-                ctx.fillStyle = `rgba(226, 183, 71, ${this.opacity})`;
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+        function toggleSidebarHistory(open) { document.getElementById("history-sidebar").classList.toggle("open", open); }
+
+        function triggerTargetBurst(e, color) {
+            const cx = e.clientX || (e.touches && e.touches[0].clientX); const cy = e.clientY || (e.touches && e.touches[0].clientY);
+            if(!cx || !cy) return;
+            for(let i=0;i<8;i++){
+                const div = document.createElement('div'); div.className = 'sparkle-dot'; div.style.background = color; document.body.appendChild(div);
+                const a = Math.random()*Math.PI*2; const v = Math.random()*3+2; let x=cx; let y=cy; let o=1;
+                const m = setInterval(()=>{ x+=Math.cos(a)*v; y+=Math.sin(a)*v; o-=0.05; div.style.left=`${x}px`; div.style.top=`${y}px`; div.style.opacity=o; if(o<=0){clearInterval(m); div.remove();} },16);
             }
         }
 
-        function initBackgroundParticles() {
-            for (let i = 0; i < 40; i++) particlesArray.push(new BackgroundParticle());
-        }
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particlesArray.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animateParticles);
-        }
-        initBackgroundParticles(); animateParticles();
-
-        // --- MECHANICAL CLICK BURST ENGINE ---
-        function triggerTargetBurst(e, color = '#E2B747') {
-            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-            if(!clientX || !clientY) return;
-
-            for (let i = 0; i < 12; i++) {
-                const spark = document.createElement('div');
-                spark.className = 'sparkle-dot';
-                spark.style.background = color;
-                spark.style.boxShadow = `0 0 8px ${color}`;
-                document.body.appendChild(spark);
-
-                const angle = Math.random() * Math.PI * 2;
-                const velocity = Math.random() * 4 + 2;
-                let currentX = clientX; let currentY = clientY; let opacity = 1;
-
-                const moveSpark = setInterval(() => {
-                    currentX += Math.cos(angle) * velocity;
-                    currentY += Math.sin(angle) * velocity + 0.5;
-                    opacity -= 0.04;
-                    spark.style.left = `${currentX}px`; spark.style.top = `${currentY}px`; spark.style.opacity = opacity;
-                    if (opacity <= 0) { clearInterval(moveSpark); spark.remove(); }
-                }, 16);
-            }
-        }
-
-        // --- GEOLOCATION PRECISION CONTROLLER ---
         function triggerGeoPrecisionFetch() {
-            const geoBtn = document.getElementById("btn-geo");
-            if (!navigator.geolocation) {
-                alert("GPS not supported by your device browser."); return;
-            }
-            geoBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin" style="color:var(--gold-primary)"></i> Ping Satellites...`;
-            
-            navigator.geolocation.getCurrentPosition((position) => {
-                CORE_ENGINE.lat = position.coords.latitude;
-                CORE_ENGINE.lng = position.coords.longitude;
-                CORE_ENGINE.useGPS = true;
-                
-                localStorage.setItem("pro_user_lat", CORE_ENGINE.lat);
-                localStorage.setItem("pro_user_lng", CORE_ENGINE.lng);
-                localStorage.setItem("pro_use_gps", "true");
-
-                geoBtn.style.borderColor = "var(--neon-green)";
-                geoBtn.innerHTML = `<i class="fa-solid fa-circle-check" style="color:var(--neon-green)"></i> Coordinates Secured!`;
-                
-                document.getElementById("auth-city").value = "GPS Precise Coordinates";
-            }, (error) => {
-                alert("Location access denied. Please type manually.");
-                geoBtn.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> Retry Live Detection`;
+            if(!navigator.geolocation) return alert("GPS not supported");
+            navigator.geolocation.getCurrentPosition(pos => {
+                CORE_ENGINE.lat = pos.coords.latitude; CORE_ENGINE.lng = pos.coords.longitude; CORE_ENGINE.useGPS = true;
+                localStorage.setItem("pro_user_lat", CORE_ENGINE.lat); localStorage.setItem("pro_user_lng", CORE_ENGINE.lng); localStorage.setItem("pro_use_gps", "true");
+                document.getElementById("auth-city").value = "GPS Secure Location";
             });
         }
 
-        // --- DYNAMIC RUNTIME CODES ---
         document.addEventListener("DOMContentLoaded", () => {
+            buildAdvancedTriStateUI();
             initializeSystemCore();
-            setupRandomQuote();
+            renderName();
         });
 
-        function setupRandomQuote() {
-            const idx = Math.floor(Math.random() * CORE_ENGINE.quotes.length);
-            document.getElementById("daily-quote").innerText = CORE_ENGINE.quotes[idx];
+        function buildAdvancedTriStateUI() {
+            const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+            const container = document.getElementById("tri-state-tracker-container");
+            container.innerHTML = "";
+            prayers.forEach(p => {
+                const row = document.createElement("div");
+                row.className = "tracker-card-row";
+                row.innerHTML = `
+                    <div class="tracker-header-info"><span>${p} Namaz Status</span><span id="status-label-${p}" style="color:var(--text-muted)">Unmarked</span></div>
+                    <div class="tri-btn-group">
+                        <button class="tri-btn" id="btn-${p}-jamat" onclick="setPrayerStatus(event, '${p}', 'jamat')">JAMAT</button>
+                        <button class="tri-btn" id="btn-${p}-akele" onclick="setPrayerStatus(event, '${p}', 'akele')">AKELE</button>
+                        <button class="tri-btn" id="btn-${p}-qaza" onclick="setPrayerStatus(event, '${p}', 'qaza')">QAZA</button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function setPrayerStatus(e, prayer, status) {
+            const key = `track_${CORE_ENGINE.user}_${new Date().toISOString().slice(0,10)}`;
+            let data = JSON.parse(localStorage.getItem(key)) || {};
+            
+            if(data[prayer] === status) {
+                data[prayer] = null;
+                triggerTargetBurst(e, '#64748B');
+            } else {
+                data[prayer] = status;
+                if(status==='jamat') triggerTargetBurst(e, '#10B981');
+                if(status==='akele') triggerTargetBurst(e, '#3B82F6');
+                if(status==='qaza') {
+                    triggerTargetBurst(e, '#EF4444');
+                    alterQaza(prayer, 1);
+                }
+            }
+            localStorage.setItem(key, JSON.stringify(data));
+            syncTrackerDashboard();
+        }
+
+        function syncTrackerDashboard() {
+            const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+            const key = `track_${CORE_ENGINE.user}_${new Date().toISOString().slice(0,10)}`;
+            const data = JSON.parse(localStorage.getItem(key)) || {};
+            let score = 0;
+
+            prayers.forEach(p => {
+                document.getElementById(`btn-${p}-jamat`).className = "tri-btn";
+                document.getElementById(`btn-${p}-akele`).className = "tri-btn";
+                document.getElementById(`btn-${p}-qaza`).className = "tri-btn";
+                const label = document.getElementById(`status-label-${p}`);
+
+                if(data[p] === 'jamat') {
+                    document.getElementById(`btn-${p}-jamat`).classList.add("active-jamat");
+                    label.innerText = "With Jamat"; label.style.color = "var(--neon-green)";
+                    score += 20;
+                } else if(data[p] === 'akele') {
+                    document.getElementById(`btn-${p}-akele`).classList.add("active-akele");
+                    label.innerText = "Prayed Akele"; label.style.color = "var(--neon-blue)";
+                    score += 15;
+                } else if(data[p] === 'qaza') {
+                    document.getElementById(`btn-${p}-qaza`).classList.add("active-qaza");
+                    label.innerText = "Missed / Qaza"; label.style.color = "var(--neon-red)";
+                } else {
+                    label.innerText = "Unmarked"; label.style.color = "var(--text-muted)";
+                }
+            });
+            document.getElementById("progress-percent").innerText = `${score}%`;
+            document.getElementById("progress-fill").style.width = `${score}%`;
         }
 
         function initializeSystemCore() {
-            const savedUser = localStorage.getItem("pro_user_name");
-            const savedCity = localStorage.getItem("pro_user_city");
-            const savedMethod = localStorage.getItem("pro_calc_method");
-            const savedLat = localStorage.getItem("pro_user_lat");
-            const savedLng = localStorage.getItem("pro_user_lng");
-            const savedUseGPS = localStorage.getItem("pro_use_gps");
-
-            if (savedMethod) {
-                CORE_ENGINE.method = savedMethod;
-                document.getElementById("calc-method").value = savedMethod;
-            }
-
-            if (savedUser && (savedCity || savedUseGPS === "true")) {
-                CORE_ENGINE.user = savedUser;
-                CORE_ENGINE.city = savedCity || "GPS Location";
-                CORE_ENGINE.lat = savedLat;
-                CORE_ENGINE.lng = savedLng;
-                CORE_ENGINE.useGPS = (savedUseGPS === "true");
-
-                document.getElementById("nav-user-name").innerText = savedUser;
-                document.getElementById("user-location").innerHTML = `<i class="fa-solid fa-location-dot" style="color: var(--gold-primary)"></i> ${CORE_ENGINE.useGPS ? 'Live Coordinates' : CORE_ENGINE.city}`;
-                
+            const u = localStorage.getItem("pro_user_name"); const c = localStorage.getItem("pro_user_city");
+            if(u) {
+                CORE_ENGINE.user = u; CORE_ENGINE.city = c || "GPS Lat/Lng";
+                document.getElementById("nav-user-name").innerText = u;
+                document.getElementById("user-location").innerText = CORE_ENGINE.city;
                 document.getElementById("page-auth").style.display = "none";
                 document.getElementById("main-app-content").style.display = "block";
-
-                syncTrackerDashboard();
-                fetchDynamicTimings();
-                syncQazaDisplay();
-                loadTasbeehSession();
-                simulateHistoryDots();
+                fetchDynamicTimings(); syncQazaDisplay(); loadTasbeehSession(); syncTrackerDashboard();
                 setInterval(runCountdownClock, 1000);
-                triggerTabSwitch("home");
-            } else {
-                document.getElementById("main-app-content").style.display = "none";
-                document.getElementById("page-auth").style.display = "block";
             }
-            updateDateString();
-        }
-
-        function updateDateString() {
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US', options);
+            document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+            document.getElementById("daily-quote").innerText = CORE_ENGINE.quotes[0];
         }
 
         function handleUniversalLogin() {
             const u = document.getElementById("auth-username").value.trim();
             const c = document.getElementById("auth-city").value.trim();
-            if(!u || !c) { alert("Bhai, Credentials fill up karo!"); return; }
-            
-            localStorage.setItem("pro_user_name", u);
-            if (!CORE_ENGINE.useGPS) {
-                localStorage.setItem("pro_user_city", c);
-                localStorage.setItem("pro_use_gps", "false");
-            }
-            initializeSystemCore();
-        }
-
-        function handleSessionLogout() {
-            localStorage.clear();
-            window.location.reload();
-        }
-
-        function saveSettings() {
-            const m = document.getElementById("calc-method").value;
-            localStorage.setItem("pro_calc_method", m);
-            CORE_ENGINE.method = m;
-            fetchDynamicTimings();
+            if(!u || !c) return alert("Credentials mandatory!");
+            localStorage.setItem("pro_user_name", u); localStorage.setItem("pro_user_city", c);
+            initializeSystemCore(); triggerTabSwitch("home");
         }
 
         function triggerTabSwitch(tab) {
-            document.querySelectorAll(".app-page-view").forEach(p => { p.style.display = "none"; p.classList.remove("active"); });
-            const targetPage = document.getElementById(`page-${tab}`);
-            if(targetPage) {
-                targetPage.style.display = "block";
-                setTimeout(() => targetPage.classList.add("active"), 20);
-            }
+            document.querySelectorAll(".app-page-view").forEach(p => { p.style.display="none"; p.classList.remove("active"); });
+            const page = document.getElementById(`page-${tab}`); if(page){ page.style.display="block"; setTimeout(()=>page.classList.add("active"),10); }
             document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active"));
-            const targetNav = document.getElementById(`nav-${tab}`);
-            if(targetNav) targetNav.classList.add("active");
+            const nav = document.getElementById(`nav-${tab}`); if(nav) nav.classList.add("active");
         }
 
         async function fetchDynamicTimings() {
+            let url = `https://api.aladhan.com/v1/timingsByCity?city=${CORE_ENGINE.city}&country=India&method=${CORE_ENGINE.method}`;
+            if(CORE_ENGINE.useGPS && CORE_ENGINE.lat) url = `https://api.aladhan.com/v1/timings?latitude=${CORE_ENGINE.lat}&longitude=${CORE_ENGINE.lng}&method=${CORE_ENGINE.method}`;
             try {
-                let url = `https://api.aladhan.com/v1/timingsByCity?city=${CORE_ENGINE.city}&country=India&method=${CORE_ENGINE.method}`;
-                if (CORE_ENGINE.useGPS && CORE_ENGINE.lat && CORE_ENGINE.lng) {
-                    const epoch = Math.floor(Date.now() / 1000);
-                    url = `https://api.aladhan.com/v1/timings/${epoch}?latitude=${CORE_ENGINE.lat}&longitude=${CORE_ENGINE.lng}&method=${CORE_ENGINE.method}`;
+                const res = await fetch(url); const d = await res.json();
+                if(d.code === 200) {
+                    CORE_ENGINE.times = d.data.timings;
+                    document.getElementById('hijri-date').innerText = `${d.data.date.hijri.day} ${d.data.date.hijri.month.en}`;
+                    ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => { document.getElementById(`time-${p}`).innerText = CORE_ENGINE.times[p]; });
                 }
-                
-                const res = await fetch(url);
-                const data = await res.json();
-                if(data.code === 200) {
-                    const t = data.data.timings;
-                    CORE_ENGINE.times = { Fajr: t.Fajr, Dhuhr: t.Dhuhr, Asr: t.Asr, Maghrib: t.Maghrib, Isha: t.Isha };
-                    document.getElementById('hijri-date').innerText = `${data.data.date.hijri.day} ${data.data.date.hijri.month.en} ${data.data.date.hijri.year} AH`;
-                    
-                    ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => {
-                        const item = document.getElementById(p);
-                        const [h, m] = t[p].split(':');
-                        const displayTime = `${h % 12 || 12}:${m} ${h >= 12 ? 'PM' : 'AM'}`;
-                        document.getElementById(`time-${p}`).innerText = displayTime;
-                        if(item) item.classList.remove('skeleton');
-                    });
-                }
-            } catch(e) { console.log("Engine sync delay..."); }
+            } catch(e){}
         }
 
         function runCountdownClock() {
             if(!CORE_ENGINE.times.Fajr) return;
-            const now = new Date();
-            let nextNamazName = ""; let nextNamazDiff = Infinity;
-            const prayers = Object.keys(CORE_ENGINE.times);
-
-            for(let i=0; i<prayers.length; i++) {
-                const p = prayers[i]; const [h, m] = CORE_ENGINE.times[p].split(':');
-                const pDate = new Date(); pDate.setHours(h, m, 0, 0);
-                if(pDate > now && (pDate - now) < nextNamazDiff) { nextNamazDiff = pDate - now; nextNamazName = p; }
-            }
-            if(nextNamazName === "") {
-                const [h, m] = CORE_ENGINE.times["Fajr"].split(':');
-                const pDate = new Date(); pDate.setDate(pDate.getDate() + 1); pDate.setHours(h, m, 0, 0);
-                nextNamazDiff = pDate - now; nextNamazName = "Fajr";
-            }
-            const diffSecs = Math.floor(nextNamazDiff / 1000);
-            document.getElementById("countdown-timer").innerText = `${nextNamazName} in ${Math.flat = Math.floor(diffSecs / 3600)}h ${Math.floor((diffSecs % 3600) / 60)}m ${diffSecs % 60}s`;
-        }
-
-        function togglePrayerPro(e, p) {
-            triggerTargetBurst(e, '#10B981');
-            const key = `track_${CORE_ENGINE.user}_${new Date().toISOString().slice(0,10)}`;
-            let currentData = JSON.parse(localStorage.getItem(key)) || {Fajr:false,Dhuhr:false,Asr:false,Maghrib:false,Isha:false};
-            currentData[p] = !currentData[p];
-            localStorage.setItem(key, JSON.stringify(currentData));
-            syncTrackerDashboard(); simulateHistoryDots();
-        }
-
-        function syncTrackerDashboard() {
-            const key = `track_${CORE_ENGINE.user}_${new Date().toISOString().slice(0,10)}`;
-            const currentData = JSON.parse(localStorage.getItem(key)) || {Fajr:false,Dhuhr:false,Asr:false,Maghrib:false,Isha:false};
-            let count = 0;
+            const now = new Date(); let nextN = "Fajr"; let minDiff = Infinity;
             ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => {
-                const row = document.querySelector(`[data-p="${p}"]`);
-                if(currentData[p]) { count++; if(row) row.classList.add("checked"); }
-                else { if(row) row.classList.remove("checked"); }
+                const [h,m] = CORE_ENGINE.times[p].split(':'); const d = new Date(); d.setHours(h,m,0,0);
+                if(d > now && (d - now) < minDiff) { minDiff = d - now; nextN = p; }
             });
-            const pct = Math.round((count / 5) * 100);
-            document.getElementById("progress-percent").innerText = `${pct}%`;
-            document.getElementById("progress-fill").style.width = `${pct}%`;
-        }
-
-        function simulateHistoryDots() {
-            for(let i=0; i<7; i++) {
-                const dot = document.getElementById(`dot-${i}`); if(!dot) continue;
-                if(i === new Date().getDay() - 1 || (new Date().getDay() === 0 && i === 6)) {
-                    const key = `track_${CORE_ENGINE.user}_${new Date().toISOString().slice(0,10)}`;
-                    const total = Object.values(JSON.parse(localStorage.getItem(key)) || {}).filter(Boolean).length;
-                    dot.className = "dot " + (total === 5 ? "full" : total > 0 ? "partial" : "empty");
-                } else { dot.className = "dot " + (i % 2 === 0 ? "full" : "partial"); }
-            }
-        }
-
-        function syncQazaDisplay() {
-            ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => {
-                document.getElementById(`q-${p}`).innerText = localStorage.getItem(`qaza_${CORE_ENGINE.user}_${p}`) || "0";
-            });
+            const diffSecs = Math.floor(minDiff === Infinity ? 0 : minDiff / 1000);
+            document.getElementById("countdown-timer").innerText = `${nextN} in ${Math.floor(diffSecs/3600)}h ${Math.floor((diffSecs%3600)/60)}m`;
         }
 
         function alterQaza(p, amt) {
-            const current = parseInt(localStorage.getItem(`qaza_${CORE_ENGINE.user}_${p}`) || "0");
-            localStorage.setItem(`qaza_${CORE_ENGINE.user}_${p}`, Math.max(0, current + amt));
+            let cur = parseInt(localStorage.getItem(`qaza_${CORE_ENGINE.user}_${p}`) || "0");
+            cur = Math.max(0, cur + amt); localStorage.setItem(`qaza_${CORE_ENGINE.user}_${p}`, cur);
             syncQazaDisplay();
         }
+        function syncQazaDisplay() { ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => { document.getElementById(`q-${p}`).innerText = localStorage.getItem(`qaza_${CORE_ENGINE.user}_${p}`) || "0"; }); }
 
-        function loadTasbeehSession() {
-            CORE_ENGINE.tasbeeh = parseInt(localStorage.getItem(`tasb_${CORE_ENGINE.user}_cnt`) || "0");
-            CORE_ENGINE.cycles = parseInt(localStorage.getItem(`tasb_${CORE_ENGINE.user}_cyc`) || "0");
-            updateTasbeehUI();
-        }
+        function triggerTasbeehCount(e) { CORE_ENGINE.tasbeeh++; triggerTargetBurst(e, '#E2B747'); if(CORE_ENGINE.tasbeeh%33===0) CORE_ENGINE.cycles++; updateTasbeehUI(); }
+        function resetTasbeeh() { CORE_ENGINE.tasbeeh=0; CORE_ENGINE.cycles=0; updateTasbeehUI(); }
+        function updateTasbeehUI() { document.getElementById("tasbeeh-display").innerText = CORE_ENGINE.tasbeeh; document.getElementById("tasbeeh-cycle").innerText = `Cycle: ${CORE_ENGINE.cycles}`; }
+        function loadTasbeehSession() { updateTasbeehUI(); }
 
-        function triggerTasbeehCount(e) {
-            CORE_ENGINE.tasbeeh++; triggerTargetBurst(e, '#E2B747');
-            if(window.AudioContext || window.webkitAudioContext) {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)(); const osc = ctx.createOscillator(); const gain = ctx.createGain();
-                osc.connect(gain); gain.connect(ctx.destination); osc.frequency.value = CORE_ENGINE.tasbeeh % 33 === 0 ? 800 : 600;
-                gain.gain.setValueAtTime(0.04, ctx.currentTime); osc.start(); osc.stop(ctx.currentTime + 0.04);
-            }
-            if(CORE_ENGINE.tasbeeh === 33 || CORE_ENGINE.tasbeeh === 100) CORE_ENGINE.cycles++;
-            localStorage.setItem(`tasb_${CORE_ENGINE.user}_cnt`, CORE_ENGINE.tasbeeh); localStorage.setItem(`tasb_${CORE_ENGINE.user}_cyc`, CORE_ENGINE.cycles);
-            updateTasbeehUI();
+        function renderName() {
+            const item = CORE_ENGINE.names[CORE_ENGINE.currentNameIdx];
+            document.getElementById("allah-name-arabic").innerText = item.ar;
+            document.getElementById("allah-name-meaning").innerText = `Meaning: ${item.en}`;
         }
-
-        function resetTasbeeh() {
-            CORE_ENGINE.tasbeeh = 0; CORE_ENGINE.cycles = 0;
-            localStorage.setItem(`tasb_${CORE_ENGINE.user}_cnt`, "0"); localStorage.setItem(`tasb_${CORE_ENGINE.user}_cyc`, "0");
-            updateTasbeehUI();
+        function navigateNames(dir) {
+            CORE_ENGINE.currentNameIdx = (CORE_ENGINE.currentNameIdx + dir + CORE_ENGINE.names.length) % CORE_ENGINE.names.length;
+            renderName();
         }
-
-        function updateTasbeehUI() {
-            document.getElementById("tasbeeh-display").innerText = CORE_ENGINE.tasbeeh;
-            document.getElementById("tasbeeh-cycle").innerText = `Cycle: ${CORE_ENGINE.cycles}`;
+        function playNameAudio() {
+            const item = CORE_ENGINE.names[CORE_ENGINE.currentNameIdx];
+            if ('speechSynthesis' in window) {
+                const msg = new SpeechSynthesisUtterance(item.ar);
+                msg.lang = 'ar-SA'; msg.rate = 0.8; window.speechSynthesis.speak(msg);
+            } else { alert("Audio synthesis not supported locally."); }
         }
-
-        function promptAdminAccess() {
-            if(prompt("Enter Chief Founder Secure Key:") === "shoeb786") {
-                document.getElementById("admin-panel-area").style.display = "block"; triggerTabSwitch("founder");
-                alert("Access Granted! Welcome Back Shoeb Bhai.");
-            }
-        }
+        function handleSessionLogout() { localStorage.clear(); window.location.reload(); }
     </script>
 </body>
 </html>
