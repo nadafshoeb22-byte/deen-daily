@@ -3,50 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deen Daily - Islamic Reminders</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Deen Daily Pro | By Shoeb</title>
+    <!-- Google Fonts & FontAwesome Icons for Premium Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
+    <!-- 1. PREMIUM HEADER WITH SHOEB BRANDING -->
+    <header class="app-header">
         <div class="logo">
-            <i class="fa-solid fa-mosque"></i> <span>Deen Daily</span>
+            <i class="fa-solid fa-moon-star gold-text"></i>
+            <span>Deen <span class="gold-text">Daily</span></span>
+        </div>
+        <div class="creator-badge">
+            <span>By Shoeb</span>
         </div>
     </header>
 
-    <main class="container">
+    <main class="app-container">
         
-        <section class="reminder-card">
-            <div class="card-tag">Daily Reminder</div>
-            <p id="reminder-text" class="arabic-text">✨ Loading beautiful reminder...</p>
-            <p id="reminder-translation">Please wait a moment.</p>
-            <button id="next-btn" class="btn-secondary"><i class="fa-solid fa-shuffle"></i> Next Reminder</button>
+        <!-- 2. DAILY ISLAMIC QUOTE SECTION -->
+        <section class="card quote-card animate-fade-in">
+            <i class="fa-solid fa-quote-left quote-icon"></i>
+            <p id="daily-quote">"Verily, with hardship, there is relief."</p>
+            <span id="quote-source">— Surah Al-Inshirah [94:6]</span>
         </section>
 
-        <section class="features-grid">
-            <div class="feature-box tasbeeh-box">
-                <h3><i class="fa-solid fa-calculator"></i> Digital Tasbeeh</h3>
-                <div class="counter-display" id="counter-val">0</div>
-                <div class="counter-buttons">
-                    <button id="count-btn" class="btn-primary">Count</button>
-                    <button id="reset-btn" class="btn-danger">Reset</button>
-                </div>
+        <!-- 3. LIVE PRAYER TIMES CARD -->
+        <section class="card prayer-card animate-fade-in">
+            <h2 class="section-title"><i class="fa-solid fa-clock gold-text"></i> Today's Prayer Times</h2>
+            <div class="prayer-grid">
+                <div class="prayer-item" id="fajr-box"><span>Fajr</span> <strong id="fajr-time">04:30 AM</strong></div>
+                <div class="prayer-item" id="dhuhr-box"><span>Dhuhr</span> <strong id="dhuhr-time">12:30 PM</strong></div>
+                <div class="prayer-item" id="asr-box"><span>Asr</span> <strong id="asr-time">04:15 PM</strong></div>
+                <div class="prayer-item" id="maghrib-box"><span>Maghrib</span> <strong id="maghrib-time">07:05 PM</strong></div>
+                <div class="prayer-item" id="isha-box"><span>Isha</span> <strong id="isha-time">08:45 PM</strong></div>
+            </div>
+        </section>
+
+        <!-- 4. ADVANCED TASBEEH COUNTER CARD -->
+        <section class="card tasbeeh-card animate-fade-in">
+            <h2 class="section-title"><i class="fa-solid fa-dhikr gold-text"></i> Digital Tasbeeh</h2>
+            
+            <!-- Dhikr Selector -->
+            <div class="selector-container">
+                <select id="dhikr-select">
+                    <option value="Subhanallah">Subhanallah (सुभान अल्लाह)</option>
+                    <option value="Alhamdulillah">Alhamdulillah (अल्हम्दुलिल्लाह)</option>
+                    <option value="Allahu Akbar">Allahu Akbar (अल्लाहू अकबर)</option>
+                    <option value="Astaghfirullah">Astaghfirullah (अस्तग़फ़िरुल्लाह)</option>
+                </select>
             </div>
 
-            <div class="feature-box links-box">
-                <h3><i class="fa-solid fa-link"></i> Beneficial Links</h3>
-                <ul>
-                    <li><a href="https://quran.com" target="_blank"><i class="fa-solid fa-book-quran"></i> Read Quran Online</a></li>
-                    <li><a href="https://sunnah.com" target="_blank"><i class="fa-solid fa-book"></i> Read Hadith (Sunnah.com)</a></li>
-                </ul>
+            <!-- Counter Display -->
+            <div class="counter-display-wrapper">
+                <div id="counter-number">0</div>
+                <p id="target-text">Target: 33</p>
+            </div>
+
+            <!-- Control Buttons -->
+            <div class="tasbeeh-buttons">
+                <button id="btn-count" class="btn-primary"><i class="fa-solid fa-fingerprint"></i> COUNT</button>
+                <button id="btn-reset" class="btn-secondary"><i class="fa-solid fa-rotate-left"></i> Reset</button>
             </div>
         </section>
 
     </main>
 
-    <footer>
-        <p>May Allah bless us with knowledge. Developed with ❤️</p>
+    <!-- 5. FOOTER WITH BRANDING -->
+    <footer class="app-footer">
+        <p>Designed & Developed with <i class="fa-solid fa-heart heart-icon"></i> by <span class="gold-text bold">Shoeb</span></p>
+        <p class="copyright">© 2026 Deen Daily Pro. All Rights Reserved.</p>
     </footer>
 
     <script src="script.js"></script>
