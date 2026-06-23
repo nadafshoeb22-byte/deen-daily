@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deen Connect Pro Ecosystem | By Shoeb Nadaf</title>
-    <!-- Google Fonts & FontAwesome -->
+    <!-- Google Fonts & FontAwesome Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -22,24 +22,86 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-dark); font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text-main); min-height: 100vh; padding-bottom: 90px; }
+        
+        body { 
+            background-color: var(--bg-dark) !important; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            color: var(--text-main); 
+            min-height: 100vh; 
+            padding-bottom: 90px; 
+        }
+        
         .gold-text { color: var(--gold-primary); text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
-        .card { background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); margin-bottom: 20px; }
-        .btn-primary { background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%); border: none; color: #000; padding: 12px 20px; font-weight: 700; border-radius: 12px; cursor: pointer; font-family: 'Orbitron', sans-serif; transition: all 0.3s ease; width: 100%; }
+        
+        .card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 16px; 
+            padding: 20px; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
+            margin-bottom: 20px; 
+        }
+        
+        .btn-primary { 
+            background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%); 
+            border: none; 
+            color: #000; 
+            padding: 12px 20px; 
+            font-weight: 700; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-family: 'Orbitron', sans-serif; 
+            transition: all 0.3s ease; 
+            width: 100%; 
+        }
+        
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); }
         
-        /* HEADER & NAV */
-        .app-header { background: linear-gradient(180deg, rgba(11, 19, 41, 0.95) 0%, rgba(4, 8, 20, 0.8) 100%); backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        /* HEADER & NAVIGATION */
+        .app-header { 
+            background: linear-gradient(180deg, rgba(11, 19, 41, 0.95) 0%, rgba(4, 8, 20, 0.8) 100%); 
+            backdrop-filter: blur(12px); 
+            border-bottom: 1px solid var(--glass-border); 
+            padding: 15px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
+        
         .app-container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 600px; background: rgba(11, 19, 41, 0.95); backdrop-filter: blur(20px); border-top: 1px solid var(--glass-border); display: flex; justify-content: space-around; padding: 12px 0; z-index: 1000; border-radius: 20px 20px 0 0; }
+        
+        .bottom-nav { 
+            position: fixed; 
+            bottom: 0; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 100%; 
+            max-width: 600px; 
+            background: rgba(11, 19, 41, 0.95); 
+            backdrop-filter: blur(20px); 
+            border-top: 1px solid var(--glass-border); 
+            display: flex; 
+            justify-content: space-around; 
+            padding: 12px 0; 
+            z-index: 1000; 
+            border-radius: 20px 20px 0 0; 
+        }
+        
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; font-size: 0.7rem; font-weight: 600; width: 60px; transition: all 0.2s; }
         .nav-item i { font-size: 1.1rem; }
         .nav-item.active { color: var(--text-main); }
         .nav-item.active i { color: var(--gold-primary); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
 
-        /* PRAYER GRID & TRACKER */
+        /* PRAYER TIMINGS ROW */
         .prayer-grid { display: flex; flex-direction: column; gap: 10px; }
         .prayer-item { background: rgba(11, 19, 41, 0.6); border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; }
+        .prayer-item .p-left { display: flex; align-items: center; gap: 12px; font-weight: 600; }
+        .icon-prayer { color: var(--gold-primary); font-size: 1.1rem; }
+
+        /* REGISTER TRACKER ROWS */
         .tracker-row { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 10px; transition: 0.2s; }
         .tracker-row.checked { background: rgba(74, 222, 128, 0.1); border-color: var(--neon-green); }
         .btn-check { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--text-muted); background: transparent; display: flex; align-items: center; justify-content: center; color: transparent; }
@@ -53,16 +115,16 @@
         .dot.partial { background: var(--gold-primary); box-shadow: 0 0 8px var(--gold-primary); }
         .dot.empty { background: var(--neon-red); }
 
-        /* TASBEEH COUNTER */
-        .tasbeeh-circle { width: 180px; height: 180px; border-radius: 50%; border: 4px dashed var(--gold-primary); margin: 30px auto; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(212,175,55,0.03); transition: 0.1s; box-shadow: 0 0 20px rgba(0,0,0,0.6); }
+        /* TASBEEH ENGINE UI */
+        .tasbeeh-circle { width: 170px; height: 170px; border-radius: 50%; border: 4px dashed var(--gold-primary); margin: 25px auto; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(212,175,55,0.03); transition: 0.1s; box-shadow: 0 0 20px rgba(0,0,0,0.6); }
         .tasbeeh-circle:active { transform: scale(0.95); background: rgba(212,175,55,0.1); }
 
-        /* QAZA COUNTER GRID */
-        .qaza-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 15px; }
-        .qaza-box { background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 10px; padding: 10px 5px; text-align: center; }
-        .qaza-btn { background: rgba(255,255,255,0.05); border: none; color: #fff; width: 24px; height: 24px; border-radius: 5px; cursor: pointer; font-weight: bold; margin: 5px 2px 0 2px; }
+        /* QAZA MATRIX GRID */
+        .qaza-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 15px; }
+        .qaza-box { background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 10px; padding: 10px 4px; text-align: center; font-size: 0.8rem; }
+        .qaza-btn { background: rgba(255,255,255,0.08); border: none; color: #fff; width: 22px; height: 22px; border-radius: 5px; cursor: pointer; font-weight: bold; margin: 5px 1px 0 1px; }
 
-        /* UTILS */
+        /* SYSTEM PAGES VIEW CORES */
         .app-page-view { display: none; }
         .app-page-view.active { display: block; }
         .skeleton strong { color: transparent; background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%); background-size: 200% 100%; animation: loading 1.5s infinite; border-radius: 4px; width: 70px; display: inline-block; }
@@ -242,13 +304,13 @@
                     <p style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; line-height: 1.5;">
                         "Developing cloud-integrated automated networks to establish systemic precision in day-to-day spiritual progression."
                     </p>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--glass-border); padding-top: 15px; margin-top: 20px; font-size: 0.8-rem;">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--glass-border); padding-top: 15px; margin-top: 20px; font-size: 0.8rem;">
                         <div><strong class="gold-text">v5.5-Pro</strong><br><span style="font-size:0.7rem;color:var(--text-muted)">Build</span></div>
                         <div><strong style="color:var(--neon-green)">Optimal</strong><br><span style="font-size:0.7rem;color:var(--text-muted)">Network Engine</span></div>
                     </div>
                 </div>
 
-                <!-- Hidden Admin Panel Area (Triggers only when unlocked) -->
+                <!-- Hidden Admin Panel Area -->
                 <div id="admin-panel-area" style="display: none;" class="card">
                     <h3 class="gold-text" style="font-family:'Orbitron'; font-size:1rem; margin-bottom:10px;"><i class="fa-solid fa-terminal"></i> Shoeb's Core System Terminal</h3>
                     <p style="font-size:0.8rem; margin-bottom:10px; color:var(--text-muted);">Simulated system metrics from local user database nodes:</p>
@@ -273,7 +335,12 @@
         </nav>
     </div>
 
-    <!-- AUDIO CONTEXT GENERATOR FOR TASBEEH CLICK -->
+    <!-- BRAND FOOTER -->
+    <footer style="text-align: center; padding: 20px; font-size: 0.75rem; color: #334155; margin-top: 20px;">
+        <p>© 2026 Deen Connect. Maintained & Designed by <span class="gold-text" style="font-weight:700;">Shoeb Nadaf</span>.</p>
+    </footer>
+
+    <!-- LOGIC SYSTEM ENGINE -->
     <script>
         const CORE_ENGINE = {
             user: "", city: "", method: "2",
@@ -316,7 +383,6 @@
                 document.getElementById("page-auth").style.display = "none";
                 document.getElementById("main-app-content").style.display = "block";
 
-                // Setup sub-modules
                 syncTrackerDashboard();
                 fetchDynamicTimings();
                 syncQazaDisplay();
@@ -430,7 +496,6 @@
             document.getElementById("countdown-timer").innerText = `${nextNamazName} in ${hours}h ${mins}m ${secs}s`;
         }
 
-        // TRACKER REGISTER LOGIC
         function togglePrayerPro(p) {
             const key = `track_${CORE_ENGINE.user}_${new Date().toISOString().slice(0,10)}`;
             let currentData = JSON.parse(localStorage.getItem(key)) || {Fajr:false,Dhuhr:false,Asr:false,Maghrib:false,Isha:false};
@@ -447,8 +512,8 @@
             
             ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => {
                 const row = document.querySelector(`[data-p="${p}"]`);
-                if(currentData[p]) { count++; row.classList.add("checked"); }
-                else { row.classList.remove("checked"); }
+                if(currentData[p]) { count++; if(row) row.classList.add("checked"); }
+                else { if(row) row.classList.remove("checked"); }
             });
 
             const pct = Math.round((count / 5) * 100);
@@ -457,9 +522,9 @@
         }
 
         function simulateHistoryDots() {
-            // Generates active mock-historical verification node displays
             for(let i=0; i<7; i++) {
                 const dot = document.getElementById(`dot-${i}`);
+                if(!dot) continue;
                 if(i === new Date().getDay() - 1 || (new Date().getDay() === 0 && i === 6)) {
                     const key = `track_${CORE_ENGINE.user}_${new Date().toISOString().slice(0,10)}`;
                     const currentData = JSON.parse(localStorage.getItem(key)) || {Fajr:false,Dhuhr:false,Asr:false,Maghrib:false,Isha:false};
@@ -471,7 +536,6 @@
             }
         }
 
-        // QAZA MANAGEMENT ENGINE
         function syncQazaDisplay() {
             ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => {
                 const val = localStorage.getItem(`qaza_${CORE_ENGINE.user}_${p}`) || "0";
@@ -486,7 +550,6 @@
             syncQazaDisplay();
         }
 
-        // CYBER TASBEEH ENGINE
         function loadTasbeehSession() {
             CORE_ENGINE.tasbeeh = parseInt(localStorage.getItem(`tasb_${CORE_ENGINE.user}_cnt`) || "0");
             CORE_ENGINE.cycles = parseInt(localStorage.getItem(`tasb_${CORE_ENGINE.user}_cyc`) || "0");
@@ -495,8 +558,6 @@
 
         function triggerTasbeehCount() {
             CORE_ENGINE.tasbeeh++;
-            
-            // Web Audio API beep simulation for real tactile feedback
             if(window.AudioContext || window.webkitAudioContext) {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
                 const osc = ctx.createOscillator();
@@ -530,7 +591,6 @@
             document.getElementById("tasbeeh-cycle").innerText = `Cycle: ${CORE_ENGINE.cycles}`;
         }
 
-        // SECRET TERMINAL GATEWAY
         function promptAdminAccess() {
             const secret = prompt("Enter Chief Founder Secure Key:");
             if(secret === "shoeb786" || secret === "admin") {
