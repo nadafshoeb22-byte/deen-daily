@@ -1,1 +1,40 @@
+/* Premium Dark-Glass Reset */
+:root {
+  --glass: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.1);
+  --primary-glow: #00d4ff;
+}
+
+body {
+  background: radial-gradient(circle at top right, #1a1a2e, #0f0f1a);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 20px;
+}
+
+/* Glassmorphism Card Style */
+.card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:active {
+  transform: scale(0.97); /* Ye wo premium bounce effect hai */
+}
+
+/* Typography */
+h1 {
+  font-weight: 800;
+  letter-spacing: -1px;
+  background: linear-gradient(to right, #fff, #888);
+  -webkit-background-clip: text;
+  color: transparent;
+}
 
