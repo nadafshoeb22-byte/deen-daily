@@ -1,186 +1,258 @@
-// --- 1. DAILY ISLAMIC QUOTES DATA ---
-const islamicQuotes = [
-    { text: '"Verily, with hardship, there is relief."', source: "— Surah Al-Inshirah [94:6]" },
-    { text: '"So remember Me; I will remember you."', source: "— Surah Al-Baqarah [2:152]" },
-    { text: '"He knows what is in every heart."', source: "— Surah Al-Mulk [67:13]" },
-    { text: '"The best among you are those who have the best manners and character."', source: "— Prophet Muhammad (PBUH)" },
-    { text: '"Call upon Me; I will respond to you."', source: "— Surah Ghafir [40:60]" }
-];
-
-// --- 2. INITIALIZE VARIABLES & DOM ELEMENTS ---
-let count = 0;
-let target = 33;
-
-const counterNumber = document.getElementById('counter-number');
-const btnCount = document.getElementById('btn-count');
-const btnReset = document.getElementById('btn-reset');
-const dhikrSelect = document.getElementById('dhikr-select');
-const targetText = document.getElementById('target-text');
-const quoteText = document.getElementById('daily-quote');
-const quoteSource = document.getElementById('quote-source');
-
-const devBadge = document.getElementById('dev-badge');
-const devModal = document.getElementById('dev-modal');
-const closeModal = document.getElementById('close-modal');
-
-// --- 3. INTERACTIVE DEVELOPER MODAL (SHOEB NADAF POPUP) ---
-devBadge.addEventListener('click', () => {
-    devModal.classList.add('open');
-    if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
-});
-
-closeModal.addEventListener('click', () => {
-    devModal.classList.remove('remove'); // Safe backup call
-    devModal.classList.remove('open');
-});
-
-devModal.addEventListener('click', (e) => {
-    if (e.target === devModal) devModal.classList.remove('open');
-});
-
-// --- 4. SAFE FALLBACK DATA (Agar API block ho jaye toh ye chalega) ---
-const fallbackTimings = {
-    Fajr: "04:45 AM",
-    Dhuhr: "12:30 PM",
-    Asr: "04:15 PM",
-    Maghrib: "07:10 PM",
-    Isha: "08:40 PM"
+// --- 1. CONFIGURATION & STATE SYSTEM ---
+const APP_STATE = {
+    isLoggedIn: false,
+    currentUser: null,
+    todayData: {
+        Fajr: false,
+        Dhuhr: false,
+        Asr: false,
+        Maghrib: false,
+        Isha: false
+    }
 };
 
-function useFallbackData() {
-    document.getElementById('user-location').innerText = "India (Standard)";
-    document.getElementById('hijri-date').innerText = "08 Muharram 1448 AH";
+// Valid credentials setup
+const VALID_USERS = {
+    "shoeb": "786",
+    "nadaf": "786"
+};
+
+// --- 2. INITIALIZATION ON PAGE LOAD ---
+document.addEventListener("DOMContentLoaded", () => {
+    checkAuthSession();
+    setupEventListeners();
+    fetchPrayerTimes();
+    updateDateDisplay();
+});
+
+// Update standard date across views
+function updateDateDisplay() {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const todayStr = new Date().toLocaleDateString('en-US', options);
     
-    const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-    prayers.forEach(prayer => {
-        const itemBox = document.getElementById(prayer);
-        document.getElementById(`time-${prayer}`).innerText = fallbackTimings[prayer];
-        itemBox.classList.remove('skeleton');
+    const elements = ['#today-date', '#tracker-date'];
+    elements.forEach(sel => {
+        const el = document.querySelector(sel);
+        if(el) el.textContent = todayStr;
+    });
+}
+
+// --- 3. AUTHENTICATION CONTROLLER ---
+function checkAuthSession() {
+    const session = localStorage.getItem("islamic_app_session");
+    if (session) {
+        APP_STATE.isLoggedIn = true;
+        APP_STATE.currentUser = session;
+        loadUserTrackerData();
+        showPage("dashboard-page");
+        toggleNavigation(true);
+    } else {
+        APP_STATE.isLoggedIn = false;
+        showPage("login-page");
+        toggleNavigation(false);
+    }
+}
+
+function handleLogin(e) {
+    e.preventDefault();
+    const usernameInput = document.getElementById("username").value.trim().toLowerCase();
+    const passwordInput = document.getElementById("password").value.trim();
+    const errorMessage = document.getElementById("login-error");
+
+    if (VALID_USERS[usernameInput] && VALID_USERS[usernameInput] === passwordInput) {
+        localStorage.setItem("islamic_app_session", usernameInput);
+        if(errorMessage) errorMessage.style.display = "none";
+        
+        // Reset and animate into dashboard
+        document.getElementById("login-form").reset();
+        checkAuthSession();
+    } else {
+        if(errorMessage) {
+            errorMessage.textContent = "Invalid Credentials! Please try again.";
+            errorMessage.style.display = "block";
+        }
+    }
+}
+
+function handleLogout() {
+    localStorage.removeItem("islamic_app_session");
+    checkAuthSession();
+}
+
+function toggleNavigation(show) {
+    const navBar = document.getElementById("bottom-navigation");
+    if(navBar) navBar.style.display = show ? "grid" : "none";
+}
+
+// --- 4. NAVIGATION HANDLER ---
+function showPage(pageId) {
+    // Auth Guard check
+    if (!APP_STATE.isLoggedIn && pageId !== "login-page") {
+        pageId = "login-page";
+    }
+
+    // Toggle active classes on pages
+    document.querySelectorAll(".app-page").forEach(page => {
+        page.classList.remove("active");
+    });
+    const activePage = document.getElementById(pageId);
+    if(activePage) activePage.classList.add("active");
+
+    // Toggle active states on buttons
+    document.querySelectorAll(".nav-item").forEach(btn => {
+        btn.classList.remove("active");
+        if(btn.getAttribute("onclick")?.includes(pageId)) {
+            btn.classList.add("active");
+        }
     });
     
-    // Default highlight Dhuhr or Asr based on simple time
-    document.getElementById('Dhuhr').classList.add('active-namaz');
+    // Smooth scroll back to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// --- 5. LIVE PRAYER TIMES FROM API WITH TIMEOUT PROTECTION ---
-async function fetchLivePrayerTimes() {
-    const locText = document.getElementById('user-location');
-    const hijriText = document.getElementById('hijri-date');
+function setupEventListeners() {
+    const loginForm = document.getElementById("login-form");
+    if(loginForm) loginForm.addEventListener("submit", handleLogin);
+}
 
-    // Create a timeout to force fallback if API takes more than 4 seconds
-    const apiTimeout = setTimeout(() => {
-        console.log("API took too long. Forcing fallback data.");
-        useFallbackData();
-    }, 4000);
-
+// --- 5. PRAYER TIMINGS ENGINE (API INTEGRATION) ---
+async function fetchPrayerTimes() {
+    // API uses Kolhapur coordinates as default
+    const url = "https://api.aladhan.com/v1/timingsByCity?city=Kolhapur&country=India&method=2";
+    
     try {
-        // Automatically detect location via IP API
-        const ipResponse = await fetch('https://ipapi.co/json/');
-        if (!ipResponse.ok) throw new Error("IP API failed");
-        const ipData = await ipResponse.json();
+        const response = await fetch(url);
+        const json = await response.json();
         
-        const city = ipData.city || "Mumbai";
-        const country = ipData.country_name || "India";
-        locText.innerText = `${city}, ${ipData.country_code}`;
-
-        // Fetch Prayer Times from Aladhan API
-        const prayerResponse = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=2`);
-        if (!prayerResponse.ok) throw new Error("Prayer API failed");
-        const pData = await prayerResponse.json();
-        
-        if (pData.code === 200) {
-            clearTimeout(apiTimeout); // Stop the fallback since API responded!
-            
-            const timings = pData.data.timings;
-            const hijri = pData.data.date.hijri;
-
-            hijriText.innerText = `${hijri.day} ${hijri.month.en} ${hijri.year} AH`;
-
-            const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-
-            prayers.forEach(prayer => {
-                const itemBox = document.getElementById(prayer);
-                const timeStr = timings[prayer];
-                
-                const [hours, minutes] = timeStr.split(':');
-                const ampm = hours >= 12 ? 'PM' : 'AM';
-                const formattedHours = hours % 12 || 12;
-                const finalTime = `${String(formattedHours).padStart(2, '0')}:${minutes} ${ampm}`;
-
-                document.getElementById(`time-${prayer}`).innerText = finalTime;
-                itemBox.classList.remove('skeleton');
-            });
-
-            highlightCurrentPrayer(timings);
-        } else {
-            throw new Error("API Data Invalid");
+        if(json.code === 200 && json.data) {
+            const timings = json.data.timings;
+            renderPrayerTimings(timings);
+            detectCurrentActiveNamaz(timings);
         }
     } catch (error) {
-        console.log("API Error, using fallback data...", error);
-        clearTimeout(apiTimeout);
-        useFallbackData();
+        console.error("Failed to sync times:", error);
+        // Fallback local static timings if network fails
+        const fallback = { Fajr: "04:45", Dhuhr: "12:35", Asr: "16:05", Maghrib: "19:12", Isha: "20:35" };
+        renderPrayerTimings(fallback);
     }
 }
 
-function highlightCurrentPrayer(timings) {
-    try {
-        const now = new Date();
-        const currentMinutes = now.getHours() * 60 + now.getMinutes();
-        const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-        let activePrayer = 'Isha';
-
-        const prayerMinutes = {};
-        prayers.forEach(p => {
-            const [h, m] = timings[p].split(':');
-            prayerMinutes[p] = parseInt(h) * 60 + parseInt(m);
-        });
-
-        if (currentMinutes >= prayerMinutes['Fajr'] && currentMinutes < prayerMinutes['Dhuhr']) activePrayer = 'Fajr';
-        else if (currentMinutes >= prayerMinutes['Dhuhr'] && currentMinutes < prayerMinutes['Asr']) activePrayer = 'Dhuhr';
-        else if (currentMinutes >= prayerMinutes['Asr'] && currentMinutes < prayerMinutes['Maghrib']) activePrayer = 'Asr';
-        else if (currentMinutes >= prayerMinutes['Maghrib'] && currentMinutes < prayerMinutes['Isha']) activePrayer = 'Maghrib';
-
-        document.getElementById(activePrayer).classList.add('active-namaz');
-    } catch(e) {
-        document.getElementById('Dhuhr').classList.add('active-namaz');
-    }
+function renderPrayerTimings(timings) {
+    const targets = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    targets.forEach(namaz => {
+        const timeBox = document.getElementById(`time-${namaz.toLowerCase()}`);
+        if(timeBox) {
+            timeBox.textContent = convertTo12Hour(timings[namaz]);
+            timeBox.classList.remove("skeleton");
+        }
+    });
 }
 
-// --- 6. INITIAL LOAD ---
-window.addEventListener('DOMContentLoaded', () => {
-    const randomIndex = Math.floor(Math.random() * islamicQuotes.length);
-    quoteText.innerText = islamicQuotes[randomIndex].text;
-    quoteSource.innerText = islamicQuotes[randomIndex].source;
-    
-    fetchLivePrayerTimes();
-});
+function convertTo12Hour(timeStr) {
+    if(!timeStr) return "--:--";
+    let [hours, minutes] = timeStr.split(':');
+    hours = parseInt(hours);
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // hours '0' should be '12'
+    return `${hours}:${minutes} ${ampm}`;
+}
 
-// --- 7. TASBEEH COUNTER LOGIC ---
-btnCount.addEventListener('click', () => {
-    count++;
-    counterNumber.innerText = count;
-    counterNumber.classList.add('pop-effect');
-    setTimeout(() => { counterNumber.classList.remove('pop-effect'); }, 100);
+function detectCurrentActiveNamaz(timings) {
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
-    if (navigator.vibrate) navigator.vibrate(15); 
+    const parseToMinutes = (tStr) => {
+        const [h, m] = tStr.split(':').map(Number);
+        return h * 60 + m;
+    };
 
-    if (count >= target) {
-        counterNumber.style.color = '#D4AF37';
+    // Remove old highlights
+    document.querySelectorAll(".prayer-item").forEach(el => el.classList.remove("active-namaz"));
+
+    // Check bounds sequentially
+    if (currentMinutes >= parseToMinutes(timings.Fajr) && currentMinutes < parseToMinutes(timings.Dhuhr)) {
+        document.getElementById("item-fajr")?.classList.add("active-namaz");
+    } else if (currentMinutes >= parseToMinutes(timings.Dhuhr) && currentMinutes < parseToMinutes(timings.Asr)) {
+        document.getElementById("item-dhuhr")?.classList.add("active-namaz");
+    } else if (currentMinutes >= parseToMinutes(timings.Asr) && currentMinutes < parseToMinutes(timings.Maghrib)) {
+        document.getElementById("item-asr")?.classList.add("active-namaz");
+    } else if (currentMinutes >= parseToMinutes(timings.Maghrib) && currentMinutes < parseToMinutes(timings.Isha)) {
+        document.getElementById("item-maghrib")?.classList.add("active-namaz");
     } else {
-        counterNumber.style.color = '#FFF';
+        document.getElementById("item-isha")?.classList.add("active-namaz");
     }
-});
+}
 
-btnReset.addEventListener('click', () => {
-    count = 0;
-    counterNumber.innerText = count;
-    counterNumber.style.color = '#FFF';
-});
+// --- 6. LOCALSTORAGE PROGRESS TRACKER ENGINE ---
+function loadUserTrackerData() {
+    const key = `tracker_${APP_STATE.currentUser}_${getTodayKey()}`;
+    const saved = localStorage.getItem(key);
+    
+    if (saved) {
+        APP_STATE.todayData = JSON.parse(saved);
+    } else {
+        APP_STATE.todayData = { Fajr: false, Dhuhr: false, Asr: false, Maghrib: false, Isha: false };
+    }
+    
+    syncTrackerDOM();
+}
 
-dhikrSelect.addEventListener('change', () => {
-    count = 0;
-    counterNumber.innerText = count;
-    counterNumber.style.color = '#FFF';
-    target = dhikrSelect.value === 'Astaghfirullah' ? 100 : 33;
-    targetText.innerText = `Target: ${target}`;
-});
+function toggleNamazStatus(namazName) {
+    // Toggle state sequence
+    APP_STATE.todayData[namazName] = !APP_STATE.todayData[namazName];
+    
+    // Persist data
+    const key = `tracker_${APP_STATE.currentUser}_${getTodayKey()}`;
+    localStorage.setItem(key, JSON.stringify(APP_STATE.todayData));
+    
+    syncTrackerDOM();
+}
+
+function syncTrackerDOM() {
+    let checkedCount = 0;
+    const keys = Object.keys(APP_STATE.todayData);
+    
+    keys.forEach(namaz => {
+        const isChecked = APP_STATE.todayData[namaz];
+        const row = document.getElementById(`row-${namaz.toLowerCase()}`);
+        const icon = document.getElementById(`check-icon-${namaz.toLowerCase()}`);
+        
+        if(isChecked) checkedCount++;
+        
+        if(row && icon) {
+            if(isChecked) {
+                row.classList.add("checked");
+                icon.className = "fas fa-check";
+            } else {
+                row.classList.remove("checked");
+                icon.className = "fas fa-plus";
+            }
+        }
+    });
+
+    // Calculate percent global data
+    const total = keys.length;
+    const percent = Math.round((checkedCount / total) * 100);
+    
+    // Update progress elements across application frames
+    const fill = document.getElementById("progress-fill");
+    const percentText = document.getElementById("progress-percent");
+    const countText = document.getElementById("completed-count");
+    
+    if(fill) fill.style.width = `${percent}%`;
+    if(percentText) percentText.textContent = `${percent}%`;
+    if(countText) countText.textContent = checkedCount;
+
+    // Synchronize founder special calculations view data
+    const streakMetric = document.getElementById("f-streak-metric");
+    if(streakMetric) {
+        // Logic builds visual presentation data
+        streakMetric.textContent = percent === 100 ? "100%" : `${percent}%`;
+    }
+}
+
+function getTodayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+}
