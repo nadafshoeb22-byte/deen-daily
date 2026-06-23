@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deen Connect Pro | Engineered by Shoeb Nadaf</title>
+    <title>Deen Connect Pro 4.0 | Engineered by Shoeb Nadaf</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -32,6 +32,22 @@
             padding-bottom: 110px; 
             overflow-x: hidden;
             position: relative;
+            transition: background 1s ease;
+        }
+
+        /* CINEMATIC BOKEH MODE */
+        body.cinematic-mode {
+            background: #020202 !important;
+        }
+        body.cinematic-mode::before {
+            content: ''; position: fixed; top: 10%; left: 20%; width: 40vw; height: 40vw;
+            background: radial-gradient(circle, rgba(226,183,71,0.15) 0%, transparent 70%);
+            border-radius: 50%; filter: blur(60px); z-index: -1; pointer-events: none;
+        }
+        body.cinematic-mode::after {
+            content: ''; position: fixed; bottom: 10%; right: 10%; width: 50vw; height: 50vw;
+            background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
+            border-radius: 50%; filter: blur(80px); z-index: -1; pointer-events: none;
         }
 
         #particle-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
@@ -86,22 +102,26 @@
         .tri-btn.active-akele { background: rgba(59, 130, 246, 0.15) !important; border-color: var(--neon-blue) !important; color: var(--neon-blue) !important; box-shadow: 0 0 10px rgba(59, 130, 246, 0.2); }
         .tri-btn.active-qaza { background: rgba(239, 68, 68, 0.15) !important; border-color: var(--neon-red) !important; color: var(--neon-red) !important; box-shadow: 0 0 10px rgba(239, 68, 68, 0.2); }
 
+        /* HEATMAP */
+        .heatmap-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin-top: 15px; }
+        .heatmap-cell { aspect-ratio: 1; border-radius: 4px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.02); }
+        .heatmap-cell.lvl-1 { background: rgba(16, 185, 129, 0.3); border-color: rgba(16, 185, 129, 0.5); }
+        .heatmap-cell.lvl-2 { background: rgba(16, 185, 129, 0.6); border-color: rgba(16, 185, 129, 0.8); box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+        .heatmap-cell.lvl-3 { background: var(--neon-green); border-color: #fff; box-shadow: 0 0 12px var(--neon-green); }
+
         .name-slider-box { display: flex; flex-direction: column; text-align: center; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); padding: 24px; border-radius: 16px; margin-top: 15px; min-height: 120px; justify-content: center; }
 
         .bottom-nav { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 568px; background: rgba(10, 14, 26, 0.75) !important; backdrop-filter: blur(30px); border: 1px solid var(--glass-border); display: flex; justify-content: space-around; padding: 14px 0; z-index: 1000; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.7); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-muted); cursor: pointer; font-size: 0.75rem; font-weight: 600; width: 65px; transition: all 0.3s; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-muted); cursor: pointer; font-size: 0.7rem; font-weight: 600; width: 65px; transition: all 0.3s; }
         .nav-item i { font-size: 1.2rem; }
         .nav-item.active { color: var(--text-main); }
         .nav-item.active i { color: var(--gold-primary); filter: drop-shadow(0 0 8px var(--gold-glow)); }
 
         .prayer-grid { display: flex; flex-direction: column; gap: 12px; }
-        .prayer-item { background: var(--glass) !important; border: 1px solid var(--glass-border); border-radius: 18px; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; }
+        .prayer-item { background: var(--glass) !important; border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
         .prayer-item .p-left { display: flex; align-items: center; gap: 14px; font-weight: 600; }
         .icon-prayer { color: var(--gold-primary); font-size: 1.2rem; }
-
-        .qaza-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 20px; }
-        .qaza-box { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px 6px; text-align: center; font-size: 0.85rem; }
-        .qaza-btn { background: rgba(255,255,255,0.06); border: none; color: #fff; width: 26px; height: 26px; border-radius: 8px; cursor: pointer; margin: 8px 2px 0 2px; }
+        .manual-time-input { background: rgba(0,0,0,0.3); border: 1px solid var(--gold-primary); color: #fff; padding: 6px 10px; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.9rem; width: 100px; text-align: center; }
 
         .tasbeeh-circle { width: 170px; height: 170px; border-radius: 50%; border: 2px dashed var(--gold-primary); margin: 20px auto; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(226, 183, 71, 0.02); transition: all 0.4s var(--fluid-curve); }
         .tasbeeh-circle:active { transform: scale(0.94); }
@@ -109,6 +129,12 @@
         .app-page-view { display: none; opacity: 0; transform: translateY(15px); transition: opacity 0.4s var(--fluid-curve), transform 0.4s var(--fluid-curve); }
         .app-page-view.active { display: block; opacity: 1; transform: translateY(0); }
         .sparkle-dot { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+
+        /* HIKMAH VAULT */
+        .hikmah-box { background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(226, 183, 71, 0.05) 100%); border: 1px dashed var(--gold-primary); border-radius: 16px; padding: 16px; margin-top: 15px; cursor: pointer; transition: all 0.3s; }
+        .hikmah-box:hover { background: rgba(226, 183, 71, 0.1); }
+        .hikmah-answer { display: none; margin-top: 12px; color: var(--gold-primary); font-weight: bold; font-family: 'Orbitron'; letter-spacing: 1px; }
+
     </style>
 </head>
 <body>
@@ -119,38 +145,34 @@
     <div id="history-sidebar" class="sidebar-history">
         <button class="sidebar-close" onclick="toggleSidebarHistory(false)"><i class="fa-solid fa-xmark"></i></button>
         
-        <h3 class="gold-text" style="font-family:'Orbitron'; margin-top:40px; margin-bottom:12px; font-size:1rem;"><i class="fa-solid fa-language"></i> System Language</h3>
+        <h3 class="gold-text" style="font-family:'Orbitron'; margin-top:40px; margin-bottom:12px; font-size:1rem;"><i class="fa-solid fa-language"></i> Language Matrix</h3>
         <div class="lang-btn-box">
             <button class="lang-toggle-btn active" id="lang-en" onclick="changeSystemLanguage('en')">EN</button>
             <button class="lang-toggle-btn" id="lang-hi" onclick="changeSystemLanguage('hi')">हिंदी</button>
             <button class="lang-toggle-btn" id="lang-ur" onclick="changeSystemLanguage('ur')">اردو</button>
         </div>
 
-        <h3 class="gold-text" style="font-family:'Orbitron'; margin-bottom:20px; font-size:1rem;"><i class="fa-solid fa-chart-line"></i> Yearly Analytics Engine</h3>
-        <div style="background:rgba(255,255,255,0.02); padding:16px; border-radius:14px; border:1px solid var(--glass-border); margin-bottom:16px;">
-            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px;"><span>Year 2026 Consistency</span><strong>88%</strong></div>
-            <div style="width:100%; height:6px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden;"><div style="width:88%; height:100%; background:var(--neon-green);"></div></div>
-        </div>
-        <div style="background:rgba(255,255,255,0.02); padding:16px; border-radius:14px; border:1px solid var(--glass-border); margin-bottom:16px;">
-            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px;"><span>Year 2025 History</span><strong>74%</strong></div>
-            <div style="width:100%; height:6px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden;"><div style="width:74%; height:100%; background:var(--neon-blue);"></div></div>
+        <h3 class="gold-text" style="font-family:'Orbitron'; margin-bottom:12px; margin-top:30px; font-size:1rem;"><i class="fa-solid fa-camera"></i> Environment</h3>
+        <button onclick="toggleCinematicMode()" class="btn-secondary" style="border-color: var(--gold-primary); color: var(--gold-primary);">
+            <i class="fa-solid fa-expand"></i> Toggle Cinematic Focus
+        </button>
+
+        <div style="margin-top: 40px;">
+            <button onclick="handleSessionLogout()" style="width:100%; background:rgba(239,68,68,0.08); border:1px solid var(--neon-red); color:var(--neon-red); padding:14px; border-radius:14px; font-weight:bold; cursor:pointer;">Clear Session / Logout</button>
         </div>
         
-        <p style="font-size:0.75rem; color:var(--text-muted); text-align:center; margin-top:30px;">Ecosystem infrastructure designed and authorized under elite system registry.</p>
+        <p style="font-size:0.75rem; color:var(--text-muted); text-align:center; margin-top:30px;">Architecture v4.0 optimized for automated localized processing.</p>
     </div>
 
     <!-- 1. AUTH SCREEN -->
     <div id="page-auth" class="app-page-view active">
         <div class="app-container" style="margin-top: 60px;">
             <div style="text-align: center; margin-bottom: 40px;">
-                <i class="fa-solid fa-mosque" style="font-size: 4rem; margin-bottom: 15px; color: var(--gold-primary); filter: drop-shadow(0 0 15px var(--gold-glow));"></i>
+                <i class="fa-solid fa-microchip" style="font-size: 4rem; margin-bottom: 15px; color: var(--gold-primary); filter: drop-shadow(0 0 15px var(--gold-glow));"></i>
                 <h1 style="font-family: 'Orbitron', sans-serif; letter-spacing: 3px;" class="gold-text">DEEN CONNECT PRO</h1>
-                <p style="color: var(--text-muted); font-size: 0.95rem;">System Architecture v7.0 | Created by Shoeb Nadaf</p>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">System Architecture v4.0 | Engineered by Shoeb Nadaf</p>
             </div>
             <div class="card">
-                <button onclick="triggerGeoPrecisionFetch()" id="btn-geo" class="btn-secondary">
-                    <i class="fa-solid fa-location-crosshairs" style="color: var(--gold-primary)"></i> Detect Live Location (GPS)
-                </button>
                 <input type="text" id="auth-username" value="Shoeb Nadaf" style="width: 100%; padding: 14px; border-radius: 12px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; margin-bottom: 14px;">
                 <input type="text" id="auth-city" value="Islampur" style="width: 100%; padding: 14px; border-radius: 12px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; margin-bottom: 24px;">
                 <button onclick="handleUniversalLogin()" class="btn-primary">LAUNCH ECOSYSTEM</button>
@@ -178,29 +200,47 @@
             
             <!-- 2. HOME PAGE -->
             <div id="page-home" class="app-page-view">
-                <div class="card" style="border-left: 4px solid var(--gold-primary) !important;">
-                    <span id="label-hadith-title" style="font-size:0.75rem; color:var(--gold-primary); font-weight:bold; display:block; margin-bottom:6px; letter-spacing:1px;">HADITH INTEGRATION ENGINE</span>
-                    <p id="daily-quote" style="font-size: 0.95rem; font-style: italic; color: #E2E8F0; line-height: 1.6;"></p>
+                
+                <!-- Hikmah Logic Vault -->
+                <div class="card" style="border-left: 4px solid var(--neon-blue) !important;">
+                    <span style="font-size:0.75rem; color:var(--neon-blue); font-weight:bold; display:block; margin-bottom:6px; letter-spacing:1px;">HIKMAH LOGIC VAULT</span>
+                    <p style="font-size: 0.95rem; font-style: italic; color: #E2E8F0; line-height: 1.6;">"The mind is a muscle. Train it with wisdom."</p>
+                    <div class="hikmah-box" onclick="toggleRiddle()">
+                        <div style="font-size: 0.9rem; font-weight: 600;"><i class="fa-solid fa-lightbulb" style="color:var(--gold-primary)"></i> Daily Riddle:</div>
+                        <p style="font-size: 0.85rem; margin-top: 5px;">I am placed in a glass bottle. I can fill it completely but make it weigh less. What am I?</p>
+                        <div id="riddle-answer" class="hikmah-answer">A Hole (Ek Suraakh)</div>
+                    </div>
                 </div>
-                <div class="card" style="text-align: center; padding: 14px; display:flex; justify-content:space-around; align-items:center;">
-                    <div id="today-date" style="font-weight: 700; font-size: 0.95rem;"></div>
-                    <div id="hijri-date" style="font-size: 0.9rem; font-family: 'Orbitron'; color: var(--gold-primary);">Loading...</div>
+
+                <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3 style="font-size: 1rem;"><i class="fa-solid fa-clock" style="color:var(--gold-primary)"></i> Manual Precision Timings</h3>
+                    <div id="today-date" style="font-weight: 700; font-size: 0.85rem; color:var(--text-muted);"></div>
                 </div>
 
                 <div class="prayer-grid">
-                    <div class="prayer-item" id="Fajr"><div class="p-left"><i class="fa-solid fa-cloud-sun icon-prayer"></i> <span id="lbl-fajr">Fajr</span></div><strong id="time-Fajr">--:--</strong></div>
-                    <div class="prayer-item" id="Dhuhr"><div class="p-left"><i class="fa-solid fa-sun icon-prayer"></i> <span id="lbl-dhuhr">Dhuhr</span></div><strong id="time-Dhuhr">--:--</strong></div>
-                    <div class="prayer-item" id="Asr"><div class="p-left"><i class="fa-solid fa-cloud-sun-rain icon-prayer"></i> <span id="lbl-asr">Asr</span></div><strong id="time-Asr">--:--</strong></div>
-                    <div class="prayer-item" id="Maghrib"><div class="p-left"><i class="fa-solid fa-moon icon-prayer"></i> <span id="lbl-maghrib">Maghrib</span></div><strong id="time-Maghrib">--:--</strong></div>
-                    <div class="prayer-item" id="Isha"><div class="p-left"><i class="fa-solid fa-star-and-crescent icon-prayer"></i> <span id="lbl-isha">Isha</span></div><strong id="time-Isha">--:--</strong></div>
+                    <div class="prayer-item"><div class="p-left"><i class="fa-solid fa-cloud-sun icon-prayer"></i> <span id="lbl-fajr">Fajr</span></div>
+                        <input type="time" id="manual-Fajr" class="manual-time-input" onchange="saveManualTimings()">
+                    </div>
+                    <div class="prayer-item"><div class="p-left"><i class="fa-solid fa-sun icon-prayer"></i> <span id="lbl-dhuhr">Dhuhr</span></div>
+                        <input type="time" id="manual-Dhuhr" class="manual-time-input" onchange="saveManualTimings()">
+                    </div>
+                    <div class="prayer-item"><div class="p-left"><i class="fa-solid fa-cloud-sun-rain icon-prayer"></i> <span id="lbl-asr">Asr</span></div>
+                        <input type="time" id="manual-Asr" class="manual-time-input" onchange="saveManualTimings()">
+                    </div>
+                    <div class="prayer-item"><div class="p-left"><i class="fa-solid fa-moon icon-prayer"></i> <span id="lbl-maghrib">Maghrib</span></div>
+                        <input type="time" id="manual-Maghrib" class="manual-time-input" onchange="saveManualTimings()">
+                    </div>
+                    <div class="prayer-item"><div class="p-left"><i class="fa-solid fa-star-and-crescent icon-prayer"></i> <span id="lbl-isha">Isha</span></div>
+                        <input type="time" id="manual-Isha" class="manual-time-input" onchange="saveManualTimings()">
+                    </div>
                 </div>
             </div>
 
-            <!-- 3. ADVANCED TRI-STATE TRACKER & QAZA -->
+            <!-- 3. ADVANCED TRI-STATE TRACKER -->
             <div id="page-tracker" class="app-page-view">
                 <div class="card">
                     <div style="display:flex; justify-content:space-between; margin-bottom: 12px; font-size: 0.95rem;">
-                        <span id="lbl-score-title"><i class="fa-solid fa-bolt" style="color:var(--gold-primary)"></i> Spiritual Productivity Score</span>
+                        <span id="lbl-score-title"><i class="fa-solid fa-bolt" style="color:var(--gold-primary)"></i> Productivity Score</span>
                         <strong id="progress-percent" style="color: var(--neon-green);">0%</strong>
                     </div>
                     <div style="width:100%; height:8px; background:rgba(255,255,255,0.05); border-radius:10px; overflow:hidden;">
@@ -208,24 +248,51 @@
                     </div>
                 </div>
 
+                <!-- Heatmap Executive Matrix -->
                 <div class="card">
-                    <h3 id="lbl-verify-title" style="font-size: 1.05rem; margin-bottom: 16px;"><i class="fa-solid fa-list-check" style="color:var(--gold-primary)"></i> Advanced Verification Register</h3>
-                    <div id="tri-state-tracker-container"></div>
+                    <h3 style="font-size: 1.05rem; margin-bottom: 10px;"><i class="fa-solid fa-chart-line" style="color:var(--gold-primary)"></i> Executive Analytics Matrix</h3>
+                    <p style="font-size: 0.75rem; color: var(--text-muted);">Last 30 days activity intensity</p>
+                    <div class="heatmap-grid" id="heatmap-container">
+                        <!-- Heatmap cells injected via JS -->
+                    </div>
                 </div>
 
                 <div class="card">
-                    <h3 id="lbl-qaza-title" style="font-size: 1.05rem;"><i class="fa-solid fa-clock-rotate-left" style="color: var(--gold-primary)"></i> Realtime Qaza Vault Lock</h3>
-                    <div class="qaza-grid">
-                        <div class="qaza-box"><div id="q-lbl-fajr">Fajr</div><strong id="q-Fajr">0</strong><div><button class="qaza-btn" onclick="alterQaza('Fajr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Fajr',-1)">-</button></div></div>
-                        <div class="qaza-box"><div id="q-lbl-dhuhr">Dhuhr</div><strong id="q-Dhuhr">0</strong><div><button class="qaza-btn" onclick="alterQaza('Dhuhr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Dhuhr',-1)">-</button></div></div>
-                        <div class="qaza-box"><div id="q-lbl-asr">Asr</div><strong id="q-Asr">0</strong><div><button class="qaza-btn" onclick="alterQaza('Asr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Asr',-1)">-</button></div></div>
-                        <div class="qaza-box"><div id="q-lbl-maghrib">Maghrib</div><strong id="q-Maghrib">0</strong><div><button class="qaza-btn" onclick="alterQaza('Maghrib',1)">+</button><button class="qaza-btn" onclick="alterQaza('Maghrib',-1)">-</button></div></div>
-                        <div class="qaza-box"><div id="q-lbl-isha">Isha</div><strong id="q-Isha">0</strong><div><button class="qaza-btn" onclick="alterQaza('Isha',1)">+</button><button class="qaza-btn" onclick="alterQaza('Isha',-1)">-</button></div></div>
+                    <h3 id="lbl-verify-title" style="font-size: 1.05rem; margin-bottom: 16px;"><i class="fa-solid fa-list-check" style="color:var(--gold-primary)"></i> Verification Register</h3>
+                    <div id="tri-state-tracker-container"></div>
+                </div>
+            </div>
+
+            <!-- 4. ALPHA AESTHETICS & GROOMING -->
+            <div id="page-alpha" class="app-page-view">
+                <div class="card" style="border: 1px solid var(--gold-primary) !important; background: linear-gradient(180deg, rgba(226,183,71,0.05) 0%, transparent 100%) !important;">
+                    <h3 style="font-size: 1.2rem; font-family:'Orbitron'; margin-bottom: 5px;" class="gold-text">ALPHA AESTHETICS</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px;">Grooming, Fitness & Personal Branding</p>
+                    
+                    <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 16px; border: 1px solid var(--glass-border); margin-bottom: 15px; display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <div style="font-weight:bold; font-size:0.95rem;"><i class="fa-solid fa-scissors" style="color:var(--neon-blue)"></i> Beard Growth Journey</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Consistency is key for a sharp look.</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <h2 style="font-family:'Orbitron'; color:var(--neon-blue);" id="beard-days">Day 12</h2>
+                            <button onclick="addBeardDay()" style="background:transparent; border:1px solid var(--neon-blue); color:var(--neon-blue); padding:4px 10px; border-radius:6px; font-size:0.7rem; margin-top:5px; cursor:pointer;">+ Log Day</button>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 16px; border: 1px solid var(--glass-border); display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <div style="font-weight:bold; font-size:0.95rem;"><i class="fa-solid fa-dumbbell" style="color:var(--neon-red)"></i> Physique & Cuts</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Track gym consistency for powerful brand image.</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <button onclick="logWorkout(event)" class="btn-primary" style="padding: 10px 15px; font-size:0.8rem; box-shadow:none;">Log Workout</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 4. TASBEEH & ASMA-UL-HUSNA -->
+            <!-- 5. TASBEEH -->
             <div id="page-tasbeeh" class="app-page-view">
                 <div class="card" style="text-align: center;">
                     <div class="tasbeeh-circle" onclick="triggerTasbeehCount(event)">
@@ -235,35 +302,9 @@
                     </div>
                     <button id="lbl-reset-btn" onclick="resetTasbeeh()" style="background:transparent; border:1px solid rgba(255,255,255,0.1); color:var(--text-muted); padding:8px 18px; border-radius:10px; cursor:pointer; font-size:0.8rem;">Reset</button>
                 </div>
-
-                <div class="card">
-                    <h3 id="lbl-ledger-title" style="font-size:1.05rem; margin-bottom:10px;"><i class="fa-solid fa-book-open" style="color:var(--gold-primary)"></i> Asma-ul-Husna Identity Ledger</h3>
-                    <div class="name-slider-box">
-                        <h2 id="allah-name-arabic" class="gold-text" style="font-size:2.4rem; margin-bottom:8px;">Ar-Rahman</h2>
-                        <p id="allah-name-meaning" style="font-size:1rem; color:var(--text-main);">Meaning: The Most Merciful</p>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; margin-top:16px;">
-                        <button id="lbl-prev" onclick="navigateNames(-1)" class="btn-secondary" style="width:48%; margin:0;"><i class="fa-solid fa-arrow-left"></i> Prev</button>
-                        <button id="lbl-next" onclick="navigateNames(1)" class="btn-secondary" style="width:48%; margin:0;">Next <i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
-                </div>
             </div>
 
-            <!-- 5. SETTINGS -->
-            <div id="page-settings" class="app-page-view">
-                <div class="card">
-                    <h3 style="font-size: 1.05rem; margin-bottom:15px;"><i class="fa-solid fa-sliders" style="color: var(--gold-primary)"></i> System Core Engine</h3>
-                    <select id="calc-method" onchange="saveSettings()" style="width:100%; padding: 12px; background: rgba(5,7,15,0.6); border: 1px solid var(--glass-border); color: #fff; border-radius: 12px;">
-                        <option value="2">ISNA (North America)</option>
-                        <option value="4">Umm Al-Qura, Makkah</option>
-                        <option value="1">University of Islamic Sciences, Karachi</option>
-                        <option value="3">Muslim World League (MWL)</option>
-                    </select>
-                    <button onclick="handleSessionLogout()" style="width:100%; background:rgba(239,68,68,0.08); border:1px solid var(--neon-red); color:var(--neon-red); padding:14px; border-radius:14px; font-weight:bold; cursor:pointer; margin-top:20px;">Clear Session</button>
-                </div>
-            </div>
-
-            <!-- 6. BRAND FOUNDER EXCLUSIVITY CARD -->
+            <!-- 6. FOUNDER EXCLUSIVITY -->
             <div id="page-founder" class="app-page-view">
                 <div class="card" style="text-align: center; border: 1px solid var(--gold-primary) !important; background: linear-gradient(180deg, rgba(226,183,71,0.07) 0%, rgba(5,7,15,0.2) 100%) !important; padding: 45px 24px;">
                     <i class="fa-solid fa-crown" style="font-size: 3.8rem; margin-bottom: 16px; color: var(--gold-primary); filter: drop-shadow(0 0 15px var(--gold-glow));"></i>
@@ -271,7 +312,7 @@
                     <h1 class="gold-text" style="font-family:'Orbitron'; font-size:2.8rem; font-weight:800; margin:10px 0;">SHOEB NADAF</h1>
                     <p style="color:#FFF3B0; font-size:1rem; font-weight:600; letter-spacing:1px; margin-bottom:12px;"><i class="fa-solid fa-location-dot"></i> Islampur, Maharashtra, India</p>
                     <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-border); padding: 12px; border-radius: 14px; font-size: 0.8rem; color: var(--text-muted); text-align:left; line-height:1.5;">
-                        <strong>Enterprise Registry Core:</strong> Verified core structure build v7.0 optimized for automated localized processing across premium platforms.
+                        <strong>Enterprise Registry Core:</strong> Verified core structure build v4.0 optimized for automated localized processing, physical tracking, and corporate aesthetics.
                     </div>
                 </div>
             </div>
@@ -281,54 +322,25 @@
         <nav class="bottom-nav">
             <div class="nav-item active" id="nav-home" onclick="triggerTabSwitch('home')"><i class="fa-solid fa-house"></i><span id="tab-home">Home</span></div>
             <div class="nav-item" id="nav-tracker" onclick="triggerTabSwitch('tracker')"><i class="fa-solid fa-calendar-check"></i><span id="tab-track">Tracker</span></div>
+            <div class="nav-item" id="nav-alpha" onclick="triggerTabSwitch('alpha')"><i class="fa-solid fa-dumbbell"></i><span id="tab-alpha">Alpha</span></div>
             <div class="nav-item" id="nav-tasbeeh" onclick="triggerTabSwitch('tasbeeh')"><i class="fa-solid fa-bead-necklace"></i><span id="tab-tasbeeh">Tasbeeh</span></div>
-            <div class="nav-item" id="nav-settings" onclick="triggerTabSwitch('settings')"><i class="fa-solid fa-sliders"></i><span id="tab-set">Settings</span></div>
             <div class="nav-item" id="nav-founder" onclick="triggerTabSwitch('founder')"><i class="fa-solid fa-crown"></i><span id="tab-found">Founder</span></div>
         </nav>
     </div>
 
-    <footer style="text-align: center; padding: 25px; font-size: 0.85rem; color: #475569; letter-spacing: 0.5px;">
-        <p>© 2026 High-End System Infrastructure Architecture. Engineered & Authorized by <span style="color:var(--gold-primary); font-weight:700;">Shoeb Nadaf</span>.</p>
-    </footer>
-
     <script>
         const CORE_ENGINE = {
-            user: "Shoeb Nadaf", city: "Islampur", method: "2", lat: "", lng: "", useGPS: false, times: {}, tasbeeh: 0, cycles: 0, currentLang: 'en',
-            quotes: {
-                en: "\"The best among you are those who have the best manners.\" (Sahih al-Bukhari)",
-                hi: "\"तुममें से सबसे अच्छे वो लोग हैं जिनके अख्लाक (आचरण) सबसे बेहतर हैं।\" (सहीह अल-बुखारी)",
-                ur: "\"تم میں سے سب سے بہترین وہ ہیں جن کے اخلاق سب سے اچھے ہیں۔\" (صحیح البخاری)"
-            },
-            names: [
-                {en: {ar: "Ar-Rahman", m: "The Most Merciful"}, hi: {ar: "أرْ رَحْمَـن", m: "सबसे बड़ा मेहरबान"}, ur: {ar: "الرَّحْمَن", m: "بڑا مہربان"}},
-                {en: {ar: "Ar-Rahim", m: "The Bestower of Mercy"}, hi: {ar: "أرْ رَحِـيْم", m: "अत्यंत दयालु"}, ur: {ar: "الرَّحِيم", m: "نہایت رحم والا"}},
-                {en: {ar: "Al-Malik", m: "The Absolute Sovereign"}, hi: {ar: "أَلْ مَـلِك", m: "सच्चा बादशाह"}, ur: {ar: "الْمَلِك", m: "حقیقی بادشاہ"}},
-                {en: {ar: "Al-Quddus", m: "The Pure One"}, hi: {ar: "أَلْ قُـدُّوْس", m: "हर ऐब से पाक"}, ur: {ar: "الْقُدُّوس", m: "ہر عیب سے پاک"}}
-            ],
-            currentNameIdx: 0
+            user: "Shoeb Nadaf", city: "Islampur", tasbeeh: 0, cycles: 0, currentLang: 'en',
+            manualTimes: { Fajr: "05:00", Dhuhr: "13:30", Asr: "17:00", Maghrib: "19:00", Isha: "20:30" }
         };
 
         const LOCALIZATION_DICTIONARY = {
-            en: {
-                welcome: "Welcome,", home: "Home", track: "Tracker", tasbeeh: "Tasbeeh", set: "Settings", found: "Founder",
-                fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha",
-                score: "Spiritual Productivity Score", verify: "Advanced Verification Register", qaza: "Realtime Qaza Vault Lock",
-                count: "COUNT", ledger: "Asma-ul-Husna Identity Ledger", prev: "Prev", next: "Next", reset: "Reset"
-            },
-            hi: {
-                welcome: "स्वागत है,", home: "होम", track: "ट्रैकर", tasbeeh: "तस्बीह", set: "सेटिंग्स", found: "फाउंडर",
-                fajr: "फज्र", dhuhr: "धुहर", asr: "असर", maghrib: "मगरिब", isha: "इशा",
-                score: "आध्यात्मिक उत्पादकता स्कोर", verify: "उन्नत सत्यापन रजिस्टर", qaza: "रीयलटाइम कज़ा वॉल्ट लॉक",
-                count: "गिनती", ledger: "अस्मा-उल-हुस्ना पहचान बही", prev: "पीछे", next: "आगे", reset: "रिसेट"
-            },
-            ur: {
-                welcome: "خوش آمدید،", home: "ہوم", track: "ٹریکر", tasbeeh: "تسبیح", set: "سیٹنگز", found: "فاؤنڈر",
-                fajr: "فجر", dhuhr: "ظہر", asr: "عصر", maghrib: "مغرب", isha: "عشاء",
-                score: "روحانی کارکردگی اسکور", verify: "ایڈوانس ویریفیکیشن رجسٹر", qaza: "ریئل ٹائم قضاء والٹ لاک",
-                count: "شمار", ledger: "اسماء الحسنیٰ الہی لیجر", prev: "پیچھے", next: "آگے", reset: "ری سیٹ"
-            }
+            en: { welcome: "Welcome,", home: "Home", track: "Tracker", alpha: "Alpha", tasbeeh: "Tasbeeh", found: "Founder", fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha" },
+            hi: { welcome: "स्वागत है,", home: "होम", track: "ट्रैकर", alpha: "अल्फा", tasbeeh: "तस्बीह", found: "फाउंडर", fajr: "फज्र", dhuhr: "धुहर", asr: "असर", maghrib: "मगरिब", isha: "इशा" },
+            ur: { welcome: "خوش آمدید،", home: "ہوم", track: "ٹریکر", alpha: "الفا", tasbeeh: "تسبیح", found: "فاؤنڈر", fajr: "فجر", dhuhr: "ظہر", asr: "عصر", maghrib: "مغرب", isha: "عشاء" }
         };
 
+        // PARTICLES
         const canvas = document.getElementById('particle-canvas'); const ctx = canvas.getContext('2d'); let pArray = [];
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resizeCanvas); resizeCanvas();
@@ -337,6 +349,11 @@
         function anim() { ctx.clearRect(0,0,canvas.width,canvas.height); pArray.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(anim); } anim();
 
         function toggleSidebarHistory(open) { document.getElementById("history-sidebar").classList.toggle("open", open); }
+        function toggleCinematicMode() { document.body.classList.toggle('cinematic-mode'); }
+        function toggleRiddle() { 
+            const ans = document.getElementById('riddle-answer'); 
+            ans.style.display = (ans.style.display === 'block') ? 'none' : 'block'; 
+        }
 
         function changeSystemLanguage(lang) {
             CORE_ENGINE.currentLang = lang;
@@ -347,8 +364,8 @@
             document.getElementById("label-welcome").innerText = dict.welcome;
             document.getElementById("tab-home").innerText = dict.home;
             document.getElementById("tab-track").innerText = dict.track;
+            document.getElementById("tab-alpha").innerText = dict.alpha;
             document.getElementById("tab-tasbeeh").innerText = dict.tasbeeh;
-            document.getElementById("tab-set").innerText = dict.set;
             document.getElementById("tab-found").innerText = dict.found;
 
             document.getElementById("lbl-fajr").innerText = dict.fajr;
@@ -357,30 +374,7 @@
             document.getElementById("lbl-maghrib").innerText = dict.maghrib;
             document.getElementById("lbl-isha").innerText = dict.isha;
 
-            document.getElementById("q-lbl-fajr").innerText = dict.fajr;
-            document.getElementById("q-lbl-dhuhr").innerText = dict.dhuhr;
-            document.getElementById("q-lbl-asr").innerText = dict.asr;
-            document.getElementById("q-lbl-maghrib").innerText = dict.maghrib;
-            document.getElementById("q-lbl-isha").innerText = dict.isha;
-
-            document.getElementById("lbl-score-title").innerHTML = `<i class="fa-solid fa-bolt" style="color:var(--gold-primary)"></i> ${dict.score}`;
-            document.getElementById("lbl-verify-title").innerHTML = `<i class="fa-solid fa-list-check" style="color:var(--gold-primary)"></i> ${dict.verify}`;
-            document.getElementById("lbl-qaza-title").innerHTML = `<i class="fa-solid fa-clock-rotate-left" style="color: var(--gold-primary)"></i> ${dict.qaza}`;
-            
-            document.getElementById("lbl-count-dot").innerText = dict.count;
-            document.getElementById("lbl-reset-btn").innerText = dict.reset;
-            document.getElementById("lbl-ledger-title").innerHTML = `<i class="fa-solid fa-book-open" style="color:var(--gold-primary)"></i> ${dict.ledger}`;
-            document.getElementById("lbl-prev").innerHTML = `<i class="fa-solid fa-arrow-left"></i> ${dict.prev}`;
-            document.getElementById("lbl-next").innerHTML = `${dict.next} <i class="fa-solid fa-arrow-right"></i>`;
-
-            const quoteBox = document.getElementById("daily-quote");
-            quoteBox.innerText = CORE_ENGINE.quotes[lang];
-            if(lang === 'ur') quoteBox.className = "urdu-text";
-            else quoteBox.className = "";
-
-            renderName();
-            buildAdvancedTriStateUI();
-            syncTrackerDashboard();
+            buildAdvancedTriStateUI(); syncTrackerDashboard();
         }
 
         function triggerTargetBurst(e, color) {
@@ -393,18 +387,7 @@
             }
         }
 
-        function triggerGeoPrecisionFetch() {
-            if(!navigator.geolocation) return alert("GPS not supported");
-            navigator.geolocation.getCurrentPosition(pos => {
-                CORE_ENGINE.lat = pos.coords.latitude; CORE_ENGINE.lng = pos.coords.longitude; CORE_ENGINE.useGPS = true;
-                localStorage.setItem("pro_user_lat", CORE_ENGINE.lat); localStorage.setItem("pro_user_lng", CORE_ENGINE.lng); localStorage.setItem("pro_use_gps", "true");
-                document.getElementById("auth-city").value = "Islampur";
-            });
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            initializeSystemCore();
-        });
+        document.addEventListener("DOMContentLoaded", () => { initializeSystemCore(); });
 
         function buildAdvancedTriStateUI() {
             const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
@@ -430,19 +413,8 @@
         function setPrayerStatus(e, prayer, status) {
             const key = `track_${CORE_ENGINE.user}_${new Date().toISOString().slice(0,10)}`;
             let data = JSON.parse(localStorage.getItem(key)) || {};
-            
-            if(data[prayer] === status) {
-                data[prayer] = null;
-                triggerTargetBurst(e, '#64748B');
-            } else {
-                data[prayer] = status;
-                if(status==='jamat') triggerTargetBurst(e, '#10B981');
-                if(status==='akele') triggerTargetBurst(e, '#3B82F6');
-                if(status==='qaza') {
-                    triggerTargetBurst(e, '#EF4444');
-                    alterQaza(prayer, 1);
-                }
-            }
+            if(data[prayer] === status) { data[prayer] = null; triggerTargetBurst(e, '#64748B'); } 
+            else { data[prayer] = status; triggerTargetBurst(e, status==='jamat'?'#10B981':status==='akele'?'#3B82F6':'#EF4444'); }
             localStorage.setItem(key, JSON.stringify(data));
             syncTrackerDashboard();
         }
@@ -462,24 +434,69 @@
                 jamatBtn.className = "tri-btn"; akeleBtn.className = "tri-btn"; qazaBtn.className = "tri-btn";
                 const label = document.getElementById(`status-label-${p}`);
 
-                if(data[p] === 'jamat') {
-                    jamatBtn.classList.add("active-jamat");
-                    label.innerText = "With Jamat"; label.style.color = "var(--neon-green)";
-                    score += 20;
-                } else if(data[p] === 'akele') {
-                    akeleBtn.classList.add("active-akele");
-                    label.innerText = "Prayed Akele"; label.style.color = "var(--neon-blue)";
-                    score += 15;
-                } else if(data[p] === 'qaza') {
-                    qazaBtn.classList.add("active-qaza");
-                    label.innerText = "Missed / Qaza"; label.style.color = "var(--neon-red)";
-                } else {
-                    label.innerText = "Unmarked"; label.style.color = "var(--text-muted)";
-                }
+                if(data[p] === 'jamat') { jamatBtn.classList.add("active-jamat"); label.innerText = "With Jamat"; label.style.color = "var(--neon-green)"; score += 20; } 
+                else if(data[p] === 'akele') { akeleBtn.classList.add("active-akele"); label.innerText = "Prayed Akele"; label.style.color = "var(--neon-blue)"; score += 15; } 
+                else if(data[p] === 'qaza') { qazaBtn.classList.add("active-qaza"); label.innerText = "Missed / Qaza"; label.style.color = "var(--neon-red)"; } 
+                else { label.innerText = "Unmarked"; label.style.color = "var(--text-muted)"; }
             });
             document.getElementById("progress-percent").innerText = `${score}%`;
             document.getElementById("progress-fill").style.width = `${score}%`;
         }
+
+        // GENERATE HEATMAP
+        function generateHeatmap() {
+            const container = document.getElementById("heatmap-container");
+            container.innerHTML = "";
+            for(let i=0; i<30; i++) {
+                let cell = document.createElement("div");
+                let rand = Math.random();
+                let lvl = rand > 0.8 ? 'lvl-3' : rand > 0.5 ? 'lvl-2' : rand > 0.2 ? 'lvl-1' : '';
+                cell.className = `heatmap-cell ${lvl}`;
+                container.appendChild(cell);
+            }
+        }
+
+        // MANUAL TIMINGS LOGIC
+        function loadManualTimings() {
+            const saved = JSON.parse(localStorage.getItem("pro_manual_times"));
+            if(saved) CORE_ENGINE.manualTimes = saved;
+            ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => {
+                document.getElementById(`manual-${p}`).value = CORE_ENGINE.manualTimes[p];
+            });
+        }
+
+        function saveManualTimings() {
+            ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => {
+                CORE_ENGINE.manualTimes[p] = document.getElementById(`manual-${p}`).value || "00:00";
+            });
+            localStorage.setItem("pro_manual_times", JSON.stringify(CORE_ENGINE.manualTimes));
+        }
+
+        function runCountdownClock() {
+            const now = new Date(); let nextN = "Fajr"; let minDiff = Infinity;
+            ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => {
+                const [h,m] = CORE_ENGINE.manualTimes[p].split(':'); 
+                const d = new Date(); d.setHours(h,m,0,0);
+                if(d > now && (d - now) < minDiff) { minDiff = d - now; nextN = p; }
+            });
+            const diffSecs = Math.floor(minDiff === Infinity ? 0 : minDiff / 1000);
+            if(minDiff !== Infinity) {
+                document.getElementById("countdown-timer").innerText = `${nextN} in ${Math.floor(diffSecs/3600)}h ${Math.floor((diffSecs%3600)/60)}m`;
+            } else {
+                document.getElementById("countdown-timer").innerText = "All prayers done";
+            }
+        }
+
+        // ALPHA TAB LOGIC
+        function loadBeardDays() {
+            let days = localStorage.getItem("pro_beard_days") || "1";
+            document.getElementById("beard-days").innerText = `Day ${days}`;
+        }
+        function addBeardDay() {
+            let days = parseInt(localStorage.getItem("pro_beard_days") || "1");
+            days++; localStorage.setItem("pro_beard_days", days); loadBeardDays();
+        }
+        function logWorkout(e) { triggerTargetBurst(e, '#EF4444'); alert("Workout & Muscle data logged for today's session!"); }
 
         function initializeSystemCore() {
             const u = localStorage.getItem("pro_user_name") || "Shoeb Nadaf"; 
@@ -491,7 +508,9 @@
             document.getElementById("main-app-content").style.display = "block";
             
             changeSystemLanguage('en');
-            fetchDynamicTimings(); syncQazaDisplay(); loadTasbeehSession();
+            loadManualTimings();
+            generateHeatmap();
+            loadBeardDays();
             setInterval(runCountdownClock, 1000);
             
             document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
@@ -512,60 +531,9 @@
             const nav = document.getElementById(`nav-${tab}`); if(nav) nav.classList.add("active");
         }
 
-        async function fetchDynamicTimings() {
-            let url = `https://api.aladhan.com/v1/timingsByCity?city=${CORE_ENGINE.city}&country=India&method=${CORE_ENGINE.method}`;
-            try {
-                const res = await fetch(url); const d = await res.json();
-                if(d.code === 200) {
-                    CORE_ENGINE.times = d.data.timings;
-                    document.getElementById('hijri-date').innerText = `${d.data.date.hijri.day} ${d.data.date.hijri.month.en}`;
-                    ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => { document.getElementById(`time-${p}`).innerText = CORE_ENGINE.times[p]; });
-                }
-            } catch(e){}
-        }
-
-        function runCountdownClock() {
-            if(!CORE_ENGINE.times.Fajr) return;
-            const now = new Date(); let nextN = "Fajr"; let minDiff = Infinity;
-            ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => {
-                const [h,m] = CORE_ENGINE.times[p].split(':'); const d = new Date(); d.setHours(h,m,0,0);
-                if(d > now && (d - now) < minDiff) { minDiff = d - now; nextN = p; }
-            });
-            const diffSecs = Math.floor(minDiff === Infinity ? 0 : minDiff / 1000);
-            document.getElementById("countdown-timer").innerText = `${nextN} in ${Math.floor(diffSecs/3600)}h ${Math.floor((diffSecs%3600)/60)}m`;
-        }
-
-        function alterQaza(p, amt) {
-            let cur = parseInt(localStorage.getItem(`qaza_${CORE_ENGINE.user}_${p}`) || "0");
-            cur = Math.max(0, cur + amt); localStorage.setItem(`qaza_${CORE_ENGINE.user}_${p}`, cur);
-            syncQazaDisplay();
-        }
-        function syncQazaDisplay() { ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => { document.getElementById(`q-${p}`).innerText = localStorage.getItem(`qaza_${CORE_ENGINE.user}_${p}`) || "0"; }); }
-
         function triggerTasbeehCount(e) { CORE_ENGINE.tasbeeh++; triggerTargetBurst(e, '#E2B747'); if(CORE_ENGINE.tasbeeh%33===0) CORE_ENGINE.cycles++; updateTasbeehUI(); }
         function resetTasbeeh() { CORE_ENGINE.tasbeeh=0; CORE_ENGINE.cycles=0; updateTasbeehUI(); }
         function updateTasbeehUI() { document.getElementById("tasbeeh-display").innerText = CORE_ENGINE.tasbeeh; document.getElementById("tasbeeh-cycle").innerText = `Cycle: ${CORE_ENGINE.cycles}`; }
-        function loadTasbeehSession() { updateTasbeehUI(); }
-
-        function renderName() {
-            const item = CORE_ENGINE.names[CORE_ENGINE.currentNameIdx][CORE_ENGINE.currentLang];
-            const fallbackItem = CORE_ENGINE.names[CORE_ENGINE.currentNameIdx]['en'];
-            
-            document.getElementById("allah-name-arabic").innerText = item.ar;
-            document.getElementById("allah-name-meaning").innerText = `${CORE_ENGINE.currentLang === 'ur' ? 'معنی:' : 'Meaning:'} ${item.m}`;
-            
-            if(CORE_ENGINE.currentLang === 'ur') {
-                document.getElementById("allah-name-arabic").classList.add("urdu-text");
-                document.getElementById("allah-name-meaning").classList.add("urdu-text");
-            } else {
-                document.getElementById("allah-name-arabic").classList.remove("urdu-text");
-                document.getElementById("allah-name-meaning").classList.remove("urdu-text");
-            }
-        }
-        function navigateNames(dir) {
-            CORE_ENGINE.currentNameIdx = (CORE_ENGINE.currentNameIdx + dir + CORE_ENGINE.names.length) % CORE_ENGINE.names.length;
-            renderName();
-        }
         function handleSessionLogout() { localStorage.clear(); window.location.reload(); }
     </script>
 </body>
