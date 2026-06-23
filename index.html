@@ -3,545 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deen Connect Pro | Engineered by Shoeb Nadaf</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap">
+    <title>DeenHub | Sovereign Islamic Ecosystem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --bg-dark: #04060f;
-            --glass: rgba(255, 255, 255, 0.02);
-            --glass-active: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.07);
-            --gold-primary: #E2B747;
-            --gold-glow: rgba(226, 183, 71, 0.25);
-            --text-main: #F8FAFC;
-            --text-muted: #64748B;
-            --neon-green: #10B981;
-            --neon-blue: #3B82F6;
-            --neon-red: #EF4444;
-            --fluid-curve: cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: radial-gradient(circle at top right, #0d1224, #04060c) !important; 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            color: var(--text-main); 
-            min-height: 100vh; 
-            padding-bottom: 110px; 
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        #particle-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
-        .gold-text { background: linear-gradient(135deg, #FFF 30%, var(--gold-primary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
-        
-        .card { 
-            background: var(--glass) !important; 
-            backdrop-filter: blur(30px) saturate(140%) !important;
-            -webkit-backdrop-filter: blur(30px) saturate(140%) !important;
-            border: 1px solid var(--glass-border) !important; 
-            border-radius: 24px !important; padding: 24px; 
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important; 
-            margin-bottom: 20px; position: relative; z-index: 1;
-        }
-
-        .premium-border-glow {
-            border: 1px solid rgba(226, 183, 71, 0.2) !important;
-            box-shadow: 0 0 25px rgba(226, 183, 71, 0.05), inset 0 0 20px rgba(255,255,255,0.02) !important;
-        }
-        
-        .btn-primary { 
-            background: linear-gradient(135deg, #E2B747 0%, #A37A1A 100%) !important; border: none !important; color: #05070f !important; 
-            padding: 16px 24px; font-weight: 700; border-radius: 16px; cursor: pointer; font-family: 'Orbitron', sans-serif; letter-spacing: 1.5px;
-            transition: all 0.4s var(--fluid-curve); width: 100%; box-shadow: 0 8px 24px rgba(226, 183, 71, 0.15);
-        }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(226, 183, 71, 0.3); }
-        .btn-secondary { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); color: var(--text-main); padding: 14px 20px; border-radius: 14px; cursor: pointer; font-weight: 600; transition: all 0.3s; width: 100%; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; }
-
-        .app-header { background: rgba(4, 6, 15, 0.4) !important; backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); padding: 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .app-container { max-width: 600px; margin: 0 auto; padding: 20px; position: relative; z-index: 2; }
-        
-        /* HIGH-END CORPORATE SIDEBAR */
-        .sidebar-history {
-            position: fixed; top: 0; right: -340px; width: 340px; height: 100%; 
-            background: rgba(5, 8, 18, 0.98); backdrop-filter: blur(50px);
-            border-left: 1px solid rgba(255, 255, 255, 0.05); z-index: 2000; padding: 40px 28px;
-            transition: right 0.5s var(--fluid-curve); box-shadow: -20px 0 50px rgba(0,0,0,0.9);
-            overflow-y: auto;
-        }
-        .sidebar-history.open { right: 0; }
-        .sidebar-close { position: absolute; top: 25px; left: 25px; background: transparent; border: none; color: var(--text-muted); font-size: 1.3rem; cursor: pointer; transition: color 0.3s; }
-        .sidebar-close:hover { color: #fff; }
-
-        .sidebar-section-title { font-family: 'Orbitron'; font-size: 0.85rem; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; margin-top: 25px; display: flex; align-items: center; gap: 8px; }
-
-        .lang-btn-box { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-        .lang-toggle-btn { background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); padding: 12px 4px; border-radius: 10px; cursor: pointer; font-size: 0.8rem; font-weight: 700; transition: all 0.3s; }
-        .lang-toggle-btn.active { background: rgba(226, 183, 71, 0.12); border-color: var(--gold-primary); color: #fff; box-shadow: 0 0 15px rgba(226, 183, 71, 0.1); }
-
-        .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; line-height: 2.3; text-align: right; direction: rtl; }
-
-        /* ADVANCED TRACKER ROW & TRI-STATE BUTTONS */
-        .tracker-card-row { display: flex; flex-direction: column; background: rgba(255,255,255,0.01); border: 1px solid var(--glass-border); border-radius: 18px; padding: 18px; margin-bottom: 14px; gap: 14px; }
-        .tracker-header-info { display: flex; justify-content: space-between; font-weight: 600; font-size: 0.95rem; }
-        .tri-btn-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .tri-btn { border: 1px solid var(--glass-border); background: rgba(255,255,255,0.02); color: var(--text-muted); padding: 12px 4px; border-radius: 12px; cursor: pointer; font-size: 0.75rem; font-weight: 700; transition: all 0.3s var(--fluid-curve); text-align: center; letter-spacing: 0.5px; }
-        
-        .tri-btn.active-jamat { background: rgba(16, 185, 129, 0.12) !important; border-color: var(--neon-green) !important; color: var(--neon-green) !important; }
-        .tri-btn.active-akele { background: rgba(59, 130, 246, 0.12) !important; border-color: var(--neon-blue) !important; color: var(--neon-blue) !important; }
-        .tri-btn.active-qaza { background: rgba(239, 68, 68, 0.12) !important; border-color: var(--neon-red) !important; color: var(--neon-red) !important; }
-
-        .name-slider-box { display: flex; flex-direction: column; text-align: center; background: rgba(255,255,255,0.01); border: 1px solid var(--glass-border); padding: 24px; border-radius: 16px; margin-top: 15px; min-height: 120px; justify-content: center; }
-
-        .bottom-nav { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 568px; background: rgba(8, 11, 22, 0.8) !important; backdrop-filter: blur(30px); border: 1px solid var(--glass-border); display: flex; justify-content: space-around; padding: 14px 0; z-index: 1000; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-muted); cursor: pointer; font-size: 0.75rem; font-weight: 600; width: 65px; transition: all 0.3s; }
-        .nav-item i { font-size: 1.2rem; }
-        .nav-item.active { color: var(--text-main); }
-        .nav-item.active i { color: var(--gold-primary); filter: drop-shadow(0 0 8px var(--gold-glow)); }
-
-        .qaza-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 20px; }
-        .qaza-box { background: rgba(255,255,255,0.01); border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px 6px; text-align: center; font-size: 0.85rem; }
-        .qaza-btn { background: rgba(255,255,255,0.04); border: none; color: #fff; width: 26px; height: 26px; border-radius: 8px; cursor: pointer; margin: 8px 2px 0 2px; transition: background 0.2s; }
-        .qaza-btn:hover { background: rgba(255,255,255,0.1); }
-
-        .tasbeeh-circle { width: 175px; height: 175px; border-radius: 50%; border: 2px dashed var(--gold-primary); margin: 25px auto; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(226, 183, 71, 0.01); transition: all 0.4s var(--fluid-curve); }
-        .tasbeeh-circle:active { transform: scale(0.94); }
-
-        .app-page-view { display: none; opacity: 0; transform: translateY(15px); transition: opacity 0.4s var(--fluid-curve), transform 0.4s var(--fluid-curve); }
-        .app-page-view.active { display: block; opacity: 1; transform: translateY(0); }
-        .sparkle-dot { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
-
-        /* LOGIN SECURE HUB LAYOUT */
-        .secure-input-wrapper { position: relative; margin-bottom: 16px; }
-        .secure-input-wrapper i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1rem; }
-        .secure-field { width: 100%; padding: 16px 16px 16px 45px; border-radius: 14px; background: rgba(5,7,15,0.7); border: 1px solid var(--glass-border); color: #fff; font-size: 0.95rem; font-family: 'Plus Jakarta Sans'; transition: all 0.3s; }
-        .secure-field:focus { border-color: var(--gold-primary); outline: none; box-shadow: 0 0 15px rgba(226, 183, 71, 0.1); }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <canvas id="particle-canvas"></canvas>
 
-    <!-- SIDEBAR FOR CONTROL MATRIX (PROFESSIONAL DESIGNED) -->
-    <div id="history-sidebar" class="sidebar-history">
-        <button class="sidebar-close" onclick="toggleSidebarHistory(false)"><i class="fa-solid fa-xmark"></i></button>
-        
-        <div style="margin-top: 30px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px;">
-            <h2 class="gold-text" style="font-family:'Orbitron'; font-size:1.2rem;">CONTROL HUB</h2>
-            <p style="font-size:0.75rem; color:var(--text-muted);">Ecosystem Architecture Settings</p>
-        </div>
-
-        <div class="sidebar-section-title"><i class="fa-solid fa-language"></i> Localization Matrix</div>
-        <div class="lang-btn-box">
-            <button class="lang-toggle-btn active" id="lang-en" onclick="changeSystemLanguage('en')">EN</button>
-            <button class="lang-toggle-btn" id="lang-hi" onclick="changeSystemLanguage('hi')">हिंदी</button>
-            <button class="lang-toggle-btn" id="lang-ur" onclick="changeSystemLanguage('ur')">اردو</button>
-        </div>
-
-        <div class="sidebar-section-title"><i class="fa-solid fa-chart-pie"></i> Historical Statistics</div>
-        <div style="background:rgba(255,255,255,0.01); padding:16px; border-radius:14px; border:1px solid var(--glass-border); margin-bottom:12px;">
-            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px;"><span>Year 2026 Metrics</span><strong>88%</strong></div>
-            <div style="width:100%; height:5px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden;"><div style="width:88%; height:100%; background:var(--neon-green);"></div></div>
-        </div>
-        <div style="background:rgba(255,255,255,0.01); padding:16px; border-radius:14px; border:1px solid var(--glass-border); margin-bottom:12px;">
-            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px;"><span>Year 2025 Ledger</span><strong>74%</strong></div>
-            <div style="width:100%; height:5px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden;"><div style="width:74%; height:100%; background:var(--neon-blue);"></div></div>
-        </div>
-        
-        <p style="font-size:0.75rem; color:var(--text-muted); text-align:center; margin-top:40px;">Ecosystem authorized under registry verification systems.</p>
-    </div>
-
-    <!-- 1. HIGH-END PROFESSIONAL AUTH SCREEN -->
-    <div id="page-auth" class="app-page-view active">
-        <div class="app-container" style="margin-top: 50px;">
-            <div style="text-align: center; margin-bottom: 40px;">
-                <i class="fa-solid fa-fingerprint" style="font-size: 3.5rem; margin-bottom: 15px; color: var(--gold-primary); filter: drop-shadow(0 0 15px var(--gold-glow));"></i>
-                <h1 style="font-family: 'Orbitron', sans-serif; letter-spacing: 3px;" class="gold-text">DEEN CONNECT PRO</h1>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Secure Verification Terminal</p>
+    <div id="page-auth" class="app-page active">
+        <div class="auth-container">
+            <div class="auth-logo">
+                <i class="fa-solid fa-fingerprint gold-icon pulse-icon"></i>
+                <h1 class="gold-text">DEENHUB</h1>
+                <p>Designed & Engineered by Shoeb Nadaf</p>
             </div>
-            
-            <div class="card premium-border-glow">
-                <div style="margin-bottom: 20px; text-align: center;">
-                    <span style="font-size: 0.8rem; color: var(--gold-primary); font-family: 'Orbitron'; letter-spacing: 1px;">INITIALIZE INTEGRITY CREDENTIALS</span>
-                </div>
-                
-                <div class="secure-input-wrapper">
+            <div class="card premium-glow">
+                <h3 id="lbl-auth-title">Initialize Terminal Session</h3>
+                <div class="secure-input">
                     <i class="fa-solid fa-user-shield"></i>
-                    <input type="text" id="auth-username" value="Shoeb Nadaf" class="secure-field" placeholder="Operator Identity Name">
+                    <input type="text" id="auth-username" value="Shoeb Nadaf" placeholder="Enter Operator Name">
                 </div>
-                
-                <div class="secure-input-wrapper" style="margin-bottom: 24px;">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <input type="text" id="auth-city" value="Islampur" class="secure-field" placeholder="Terminal Geo Location Node">
+                <div class="secure-input">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                    <input type="text" id="auth-city" value="Islampur" placeholder="Enter Geo Location Node">
                 </div>
-                
-                <button onclick="handleUniversalLogin()" class="btn-primary">AUTHENTICATE SYSTEM</button>
+                <button class="btn-primary" onclick="initEcosystemPlatform()">LAUNCH ECOSYSTEM</button>
             </div>
         </div>
     </div>
 
-    <!-- MAIN APP WRAPPER -->
-    <div id="main-app-content" style="display: none;">
+    <div id="main-app-shell" style="display: none;">
+        
         <header class="app-header">
-            <div>
-                <span id="label-welcome" style="font-size: 0.75rem; color: var(--text-muted);">Welcome,</span>
-                <h2 id="nav-user-name" style="font-size: 1.2rem;" class="gold-text">Shoeb Nadaf</h2>
+            <div class="header-user">
+                <span id="lbl-welcome">Welcome,</span>
+                <h2 id="nav-user-name" class="gold-text">Shoeb Nadaf</h2>
             </div>
-            <div style="text-align: right; display:flex; align-items:center; gap:15px;">
-                <div>
-                    <span id="user-location" style="font-size: 0.85rem; font-weight: 600; display:block;">Islampur</span>
-                    <span style="font-size: 0.7rem; color: var(--neon-green); font-weight: 600;">System Protected</span>
+            <div class="header-meta">
+                <div class="geo-block">
+                    <span id="user-location"><i class="fa-solid fa-location-dot"></i> Islampur</span>
+                    <span id="countdown-timer" class="neon-green">Next: Fajr --:--</span>
                 </div>
-                <button onclick="toggleSidebarHistory(true)" style="background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); color:#fff; padding:10px; border-radius:12px; cursor:pointer;"><i class="fa-solid fa-sliders" style="color:var(--gold-primary)"></i></button>
+                <button class="icon-btn" onclick="toggleSidebarMenu(true)"><i class="fa-solid fa-sliders"></i></button>
             </div>
         </header>
 
-        <div class="app-container">
+        <div id="control-sidebar" class="sidebar-panel">
+            <button class="sidebar-close" onclick="toggleSidebarMenu(false)"><i class="fa-solid fa-xmark"></i></button>
+            <div class="sidebar-header">
+                <h3 class="gold-text">MATRIX CORE</h3>
+                <p>Ecosystem Configurations</p>
+            </div>
             
-            <!-- 2. HOME PAGE (CLEAN INTUITION WORKSPACE) -->
-            <div id="page-home" class="app-page-view">
-                <div class="card premium-border-glow" style="border-left: 4px solid var(--gold-primary) !important;">
-                    <span id="label-hadith-title" style="font-size:0.75rem; color:var(--gold-primary); font-weight:bold; display:block; margin-bottom:8px; letter-spacing:1px;">DAILY ISLAMIC MATRIX MODULE</span>
-                    <p id="daily-quote" style="font-size: 1rem; font-style: italic; color: #E2E8F0; line-height: 1.6;"></p>
-                </div>
-                
-                <div class="card" style="text-align: center; padding: 18px; display:flex; justify-content:space-around; align-items:center;">
-                    <div id="today-date" style="font-weight: 700; font-size: 0.95rem;"></div>
-                    <div id="hijri-date" style="font-size: 0.95rem; font-family: 'Orbitron'; color: var(--gold-primary);">Ecosystem Registry</div>
-                </div>
-
-                <div class="card" style="text-align: center; padding: 35px 20px;">
-                    <i class="fa-solid fa-shield-halved" style="font-size: 2.5rem; color: var(--gold-primary); margin-bottom: 12px;"></i>
-                    <h3 style="font-family:'Orbitron'; font-size: 1rem; margin-bottom: 8px;">Deen Connection Verified</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); max-width: 80%; margin: 0 auto;">Timings engine cleared. Navigate tabs to verify logs, manage your counters, or update tracking fields.</p>
+            <div class="sidebar-section">
+                <h4><i class="fa-solid fa-language"></i> Language Selection</h4>
+                <div class="lang-grid">
+                    <button class="lang-btn active" id="lang-en" onclick="shiftSystemLanguage('en')">EN</button>
+                    <button class="lang-btn" id="lang-hi" onclick="shiftSystemLanguage('hi')">हिंदी</button>
+                    <button class="lang-btn" id="lang-ur" onclick="shiftSystemLanguage('ur')">اردو</button>
+                    <button class="lang-btn" id="lang-ar" onclick="shiftSystemLanguage('ar')">عربي</button>
                 </div>
             </div>
 
-            <!-- 3. ADVANCED TRI-STATE TRACKER & QAZA -->
-            <div id="page-tracker" class="app-page-view">
-                <div class="card">
-                    <div style="display:flex; justify-content:space-between; margin-bottom: 12px; font-size: 0.95rem;">
-                        <span id="lbl-score-title"><i class="fa-solid fa-bolt" style="color:var(--gold-primary)"></i> Spiritual Productivity Score</span>
-                        <strong id="progress-percent" style="color: var(--neon-green);">0%</strong>
-                    </div>
-                    <div style="width:100%; height:8px; background:rgba(255,255,255,0.05); border-radius:10px; overflow:hidden;">
-                        <div id="progress-fill" style="width: 0%; height:100%; background: linear-gradient(90deg, var(--neon-green), var(--neon-blue)); transition: width 0.5s;"></div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3 id="lbl-verify-title" style="font-size: 1.05rem; margin-bottom: 16px;"><i class="fa-solid fa-list-check" style="color:var(--gold-primary)"></i> Advanced Verification Register</h3>
-                    <div id="tri-state-tracker-container"></div>
-                </div>
-
-                <div class="card">
-                    <h3 id="lbl-qaza-title" style="font-size: 1.05rem;"><i class="fa-solid fa-clock-rotate-left" style="color: var(--gold-primary)"></i> Realtime Qaza Vault Lock</h3>
-                    <div class="qaza-grid">
-                        <div class="qaza-box"><div id="q-lbl-fajr">Fajr</div><strong id="q-Fajr">0</strong><div><button class="qaza-btn" onclick="alterQaza('Fajr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Fajr',-1)">-</button></div></div>
-                        <div class="qaza-box"><div id="q-lbl-dhuhr">Dhuhr</div><strong id="q-Dhuhr">0</strong><div><button class="qaza-btn" onclick="alterQaza('Dhuhr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Dhuhr',-1)">-</button></div></div>
-                        <div class="qaza-box"><div id="q-lbl-asr">Asr</div><strong id="q-Asr">0</strong><div><button class="qaza-btn" onclick="alterQaza('Asr',1)">+</button><button class="qaza-btn" onclick="alterQaza('Asr',-1)">-</button></div></div>
-                        <div class="qaza-box"><div id="q-lbl-maghrib">Maghrib</div><strong id="q-Maghrib">0</strong><div><button class="qaza-btn" onclick="alterQaza('Maghrib',1)">+</button><button class="qaza-btn" onclick="alterQaza('Maghrib',-1)">-</button></div></div>
-                        <div class="qaza-box"><div id="q-lbl-isha">Isha</div><strong id="q-Isha">0</strong><div><button class="qaza-btn" onclick="alterQaza('Isha',1)">+</button><button class="qaza-btn" onclick="alterQaza('Isha',-1)">-</button></div></div>
-                    </div>
-                </div>
+            <div class="sidebar-section">
+                <h4><i class="fa-solid fa-circle-half-stroke"></i> Display Interface</h4>
+                <button class="btn-secondary" onclick="toggleVisualTheme()"><i class="fa-solid fa-moon"></i> Toggle Dark/Light</button>
             </div>
 
-            <!-- 4. TASBEEH & ASMA-UL-HUSNA -->
-            <div id="page-tasbeeh" class="app-page-view">
-                <div class="card" style="text-align: center;">
-                    <div class="tasbeeh-circle" onclick="triggerTasbeehCount(event)">
-                        <span id="lbl-count-dot" style="font-size: 0.75rem; color: var(--text-muted);">COUNT</span>
-                        <h1 id="tasbeeh-display" style="font-family:'Orbitron'; font-size:3.2rem;" class="gold-text">0</h1>
-                        <span id="tasbeeh-cycle" style="font-size: 0.75rem; color: var(--neon-green);">Cycle: 0</span>
-                    </div>
-                    <button id="lbl-reset-btn" onclick="resetTasbeeh()" style="background:transparent; border:1px solid rgba(255,255,255,0.1); color:var(--text-muted); padding:8px 18px; border-radius:10px; cursor:pointer; font-size:0.8rem;">Reset</button>
-                </div>
-
-                <div class="card">
-                    <h3 id="lbl-ledger-title" style="font-size:1.05rem; margin-bottom:10px;"><i class="fa-solid fa-book-open" style="color:var(--gold-primary)"></i> Asma-ul-Husna Identity Ledger</h3>
-                    <div class="name-slider-box">
-                        <h2 id="allah-name-arabic" class="gold-text" style="font-size:2.4rem; margin-bottom:8px;">Ar-Rahman</h2>
-                        <p id="allah-name-meaning" style="font-size:1rem; color:var(--text-main);">Meaning: The Most Merciful</p>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; margin-top:16px;">
-                        <button id="lbl-prev" onclick="navigateNames(-1)" class="btn-secondary" style="width:48%; margin:0;"><i class="fa-solid fa-arrow-left"></i> Prev</button>
-                        <button id="lbl-next" onclick="navigateNames(1)" class="btn-secondary" style="width:48%; margin:0;">Next <i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
+            <div class="sidebar-section">
+                <h4><i class="fa-solid fa-dna"></i> Developer Signature</h4>
+                <div class="dev-card">
+                    <strong>Shoeb Nadaf</strong>
+                    <p>Lead Infrastructure Developer</p>
+                    <span>Islampur, MH, India</span>
                 </div>
             </div>
-
-            <!-- 5. SETTINGS -->
-            <div id="page-settings" class="app-page-view">
-                <div class="card">
-                    <h3 style="font-size: 1.05rem; margin-bottom:20px;"><i class="fa-solid fa-sliders" style="color: var(--gold-primary)"></i> Architecture Matrix Core</h3>
-                    <button onclick="handleSessionLogout()" style="width:100%; background:rgba(239,68,68,0.06); border:1px solid var(--neon-red); color:var(--neon-red); padding:15px; border-radius:14px; font-weight:bold; cursor:pointer;">Clear Session Data</button>
-                </div>
-            </div>
-
-            <!-- 6. BRAND FOUNDER EXCLUSIVITY CARD -->
-            <div id="page-founder" class="app-page-view">
-                <div class="card premium-border-glow" style="text-align: center; background: linear-gradient(180deg, rgba(226,183,71,0.06) 0%, rgba(5,7,15,0.2) 100%) !important; padding: 45px 24px; border-radius: 28px;">
-                    <i class="fa-solid fa-crown" style="font-size: 3.8rem; margin-bottom: 16px; color: var(--gold-primary); filter: drop-shadow(0 0 15px var(--gold-glow));"></i>
-                    <h3 style="font-family: 'Orbitron'; font-size: 0.85rem; color: var(--text-muted); letter-spacing: 6px; font-weight:800;">LEAD SYSTEM ARCHITECT & FOUNDER</h3>
-                    <h1 class="gold-text" style="font-family:'Orbitron'; font-size:2.8rem; font-weight:800; margin:10px 0;">SHOEB NADAF</h1>
-                    <p style="color:#FFF3B0; font-size:1rem; font-weight:600; letter-spacing:1px; margin-bottom:12px;"><i class="fa-solid fa-location-dot"></i> Islampur, Maharashtra, India</p>
-                    <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); padding: 14px; border-radius: 14px; font-size: 0.8rem; color: var(--text-muted); text-align:left; line-height:1.6;">
-                        <strong>Enterprise Executive Core:</strong> Platform v8.0 optimized explicitly by Shoeb Nadaf. Engineered with premium localized code architectures for ultimate scalability across clean, production-level environments.
-                    </div>
-                </div>
-            </div>
-
         </div>
 
-        <nav class="bottom-nav">
-            <div class="nav-item active" id="nav-home" onclick="triggerTabSwitch('home')"><i class="fa-solid fa-house"></i><span id="tab-home">Home</span></div>
-            <div class="nav-item" id="nav-tracker" onclick="triggerTabSwitch('tracker')"><i class="fa-solid fa-calendar-check"></i><span id="tab-track">Tracker</span></div>
-            <div class="nav-item" id="nav-tasbeeh" onclick="triggerTabSwitch('tasbeeh')"><i class="fa-solid fa-bead-necklace"></i><span id="tab-tasbeeh">Tasbeeh</span></div>
-            <div class="nav-item" id="nav-settings" onclick="triggerTabSwitch('settings')"><i class="fa-solid fa-sliders"></i><span id="tab-set">Settings</span></div>
-            <div class="nav-item" id="nav-founder" onclick="triggerTabSwitch('founder')"><i class="fa-solid fa-crown"></i><span id="tab-found">Founder</span></div>
+        <main class="app-container">
+
+            <div id="view-home" class="app-page-view">
+                <div class="card premium-glow calligraphy-hero">
+                    <div class="calligraphy-vector">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+                    <p id="daily-hadith" class="hadith-text">"The best among you are those who have the best manners and character." (Sahih Al-Bukhari)</p>
+                </div>
+
+                <div class="info-strip">
+                    <div class="card info-box"><span>CALENDAR</span><strong id="date-gregorian">June 23, 2026</strong></div>
+                    <div class="card info-box"><span>HIJRI NODE</span><strong class="gold-text">1447 H</strong></div>
+                </div>
+
+                <div class="card">
+                    <h3 id="lbl-verify-title"><i class="fa-solid fa-list-check gold-text"></i> Verification Registry</h3>
+                    <div id="tri-state-injection-zone"></div>
+                </div>
+            </div>
+
+            <div id="view-quran" class="app-page-view">
+                <div class="card">
+                    <input type="text" id="quran-search" class="search-bar" placeholder="Search Surah Index or Name..." oninput="filterQuranSurahList()">
+                    <div id="quran-catalog" class="catalog-scroll"></div>
+                </div>
+                
+                <div id="quran-reader-overlay" class="card premium-glow reader-overlay" style="display: none;">
+                    <div class="reader-header">
+                        <h3 id="reader-surah-title" class="gold-text">Surah Title</h3>
+                        <button class="close-overlay" onclick="closeQuranReaderOverlay()"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </div>
+                    <div id="reader-stream-flow" class="verses-flow"></div>
+                </div>
+            </div>
+
+            <div id="view-dua" class="app-page-view">
+                <div class="card">
+                    <input type="text" id="dua-search" class="search-bar" placeholder="Filter daily adhkar categories..." oninput="filterDuaMatrixData()">
+                    <div id="dua-catalog" class="catalog-scroll"></div>
+                </div>
+            </div>
+
+            <div id="view-tasbeeh" class="app-page-view">
+                <div class="card text-center">
+                    <div class="tasbeeh-halo-ring" onclick="executeTasbeehQuantumCount(event)">
+                        <span id="lbl-count-action">TAP HUB</span>
+                        <h1 id="tasbeeh-screen" class="gold-text">0</h1>
+                        <span id="tasbeeh-cycles" class="neon-green">Cycle Core: 0</span>
+                    </div>
+                    <button class="btn-secondary" style="width: auto; margin: 0 auto;" onclick="resetTasbeehEngineCore()">Reset Counter Matrix</button>
+                </div>
+            </div>
+
+            <div id="view-ramadan" class="app-page-view">
+                <div class="ramadan-grid">
+                    <div class="card timing-box">
+                        <span>SEHRI CLOSING</span>
+                        <h2 class="neon-blue">04:42 AM</h2>
+                    </div>
+                    <div class="card timing-box">
+                        <span>IFTAR BREAKING</span>
+                        <h2 class="gold-text">07:14 PM</h2>
+                    </div>
+                </div>
+                <div class="card flex-row-space">
+                    <span>Track & Commit Today's Fasting</span>
+                    <button id="btn-roza-toggle" class="status-pill active-jamat" onclick="toggleFastingStatusState(this)">COMPLETED</button>
+                </div>
+            </div>
+
+            <div id="view-ai" class="app-page-view">
+                <div class="card premium-glow chat-wrapper">
+                    <div id="chat-scroller" class="chat-display-box">
+                        <div class="msg ai-msg">Assalamu Alaikum Shoeb bhai! DeenHub AI Assistant online. Query theological structure references natively.</div>
+                    </div>
+                    <div class="chat-input-row">
+                        <input type="text" id="chat-query-field" class="search-bar" placeholder="Ask AI Terminal...">
+                        <button class="send-btn" onclick="dispatchEcosystemAIMessage(event)"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-learning" class="app-page-view">
+                <div class="card">
+                    <h3 class="gold-text">ISLAMIC HISTORY & PROPHETIC CHRONICLES</h3>
+                    <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">Database contains fully scalable educational roadmap matrices regarding the lives of Sahabas, Prophets, and structured baseline jurisprudential analytics managed directly from Islampur Server Nodes.</p>
+                </div>
+            </div>
+
+            <div id="view-founder" class="app-page-view">
+                <div class="card text-center premium-glow founder-card">
+                    <i class="fa-solid fa-crown gold-icon architecture-crown"></i>
+                    <span class="label-badge">CHIEF SYSTEM ARCHITECT & FOUNDER</span>
+                    <h1 class="gold-text Enterprise-Name">SHOEB NADAF</h1>
+                    <span class="location-badge"><i class="fa-solid fa-location-dot"></i> Islampur, Maharashtra, India</span>
+                    
+                    <div class="achievements-matrix">
+                        <div class="badge-box"><i class="fa-solid fa-fire"></i><strong>12 Days</strong><span>Streak Node</span></div>
+                        <div class="badge-box"><i class="fa-solid fa-medal"></i><strong>Elite</strong><span>Ranking Status</span></div>
+                        <div class="badge-box"><i class="fa-solid fa-bolt"></i><strong>100%</strong><span>Core Integrity</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <nav class="bottom-navigation-bar">
+            <div class="nav-item active" id="nav-home" onclick="switchEcosystemTab('home')"><i class="fa-solid fa-house"></i><span id="tab-home">Home</span></div>
+            <div class="nav-item" id="nav-quran" onclick="switchEcosystemTab('quran')"><i class="fa-solid fa-book-open"></i><span id="tab-quran">Quran</span></div>
+            <div class="nav-item" id="nav-dua" onclick="switchEcosystemTab('dua')"><i class="fa-solid fa-hand-holding-heart"></i><span id="tab-dua">Dua</span></div>
+            <div class="nav-item" id="nav-tasbeeh" onclick="switchEcosystemTab('tasbeeh')"><i class="fa-solid fa-bead-necklace"></i><span id="tab-tasbeeh">Tasbeeh</span></div>
+            <div class="nav-item" id="nav-ramadan" onclick="switchEcosystemTab('ramadan')"><i class="fa-solid fa-moon"></i><span id="tab-ramadan">Ramadan</span></div>
+            <div class="nav-item" id="nav-learning" onclick="switchEcosystemTab('learning')"><i class="fa-solid fa-graduation-cap"></i><span id="tab-learn">Learn</span></div>
+            <div class="nav-item" id="nav-ai" onclick="switchEcosystemTab('ai')"><i class="fa-solid fa-robot"></i><span id="tab-ai">AI Chat</span></div>
+            <div class="nav-item" id="nav-founder" onclick="switchEcosystemTab('founder')"><i class="fa-solid fa-crown"></i><span id="tab-found">Founder</span></div>
         </nav>
+
     </div>
 
-    <footer style="text-align: center; padding: 25px; font-size: 0.85rem; color: #475569; letter-spacing: 0.5px;">
-        <p>© 2026 High-End System Infrastructure Architecture. Engineered & Authorized by <span style="color:var(--gold-primary); font-weight:700;">Shoeb Nadaf</span>.</p>
-    </footer>
-
-    <script>
-        const CORE_ENGINE = {
-            user: "Shoeb Nadaf", city: "Islampur", method: "2", lat: "", lng: "", times: {}, tasbeeh: 0, cycles: 0, currentLang: 'en',
-            quotes: {
-                en: "\"The best among you are those who have the best manners.\" (Sahih al-Bukhari)",
-                hi: "\"तुममें से सबसे अच्छे वो लोग हैं जिनके अख्लाक (आचरण) सबसे बेहतर हैं।\" (सहीह अल-बुखारी)",
-                ur: "\"تم میں سے سب سے بہترین وہ ہیں جن کے اخلاق سب سے اچھے ہیں۔\" (صحیح البخاری)"
-            },
-            names: [
-                {en: {ar: "Ar-Rahman", m: "The Most Merciful"}, hi: {ar: "أरْ रَحْمَـन", m: "सबसे बड़ा मेहरबान"}, ur: {ar: "الرَّحْمَن", m: "بڑا مہربان"}},
-                {en: {ar: "Ar-Rahim", m: "The Bestower of Mercy"}, hi: {ar: "أरْ رَحِـيْم", m: "अत्यंत दयालु"}, ur: {ar: "الرَّحِيم", m: "نہایت رحم والا"}},
-                {en: {ar: "Al-Malik", m: "The Absolute Sovereign"}, hi: {ar: "أَلْ مَـلِك", m: "सच्चा बादशाह"}, ur: {ar: "الْمَلِك", m: "حقیقی بادشاہ"}},
-                {en: {ar: "Al-Quddus", m: "The Pure One"}, hi: {ar: "أَلْ قُـدُّوْس", m: "हर ऐब से पाक"}, ur: {ar: "الْقُدُّوس", m: "ہر عیب سے پاک"}}
-            ],
-            currentNameIdx: 0
-        };
-
-        const LOCALIZATION_DICTIONARY = {
-            en: {
-                welcome: "Welcome,", home: "Home", track: "Tracker", tasbeeh: "Tasbeeh", set: "Settings", found: "Founder",
-                fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha",
-                score: "Spiritual Productivity Score", verify: "Advanced Verification Register", qaza: "Realtime Qaza Vault Lock",
-                count: "COUNT", ledger: "Asma-ul-Husna Identity Ledger", prev: "Prev", next: "Next", reset: "Reset"
-            },
-            hi: {
-                welcome: "स्वागत है,", home: "होम", track: "ट्रैकर", tasbeeh: "तस्बीह", set: "सेटिंग्स", found: "फाउंडर",
-                fajr: "फज्र", dhuhr: "धुहर", asr: "असर", maghrib: "मगरिब", isha: "इशा",
-                score: "आध्यात्मिक उत्पादकता स्कोर", verify: "उन्नत सत्यापन रजिस्टर", qaza: "रीयलटाइम कज़ा वॉल्ट锁",
-                count: "गिनती", ledger: "अस्मा-उल-हुस्ना पहचान बही", prev: "पीछे", next: "आगे", reset: "रिसेट"
-            },
-            ur: {
-                welcome: "خوش آمدید،", home: "ہوم", track: "ٹریکر", tasbeeh: "تسبیح", set: "سیٹنگز", found: "فاؤنڈر",
-                fajr: "فجر", dhuhr: "ظہر", asr: "عصر", maghrib: "مغرب", isha: "عشاء",
-                score: "روحانی کارکردگی اسکور", verify: "ایڈوانس ویریفیکیشن رجسٹر", qaza: "ریئل ٹائم قضاء والٹ لاک",
-                count: "شمار", ledger: "اسماء الحسنیٰ الہی لیجر", prev: "پیچھے", next: "آگے", reset: "ری سیٹ"
-            }
-        };
-
-        const canvas = document.getElementById('particle-canvas'); const ctx = canvas.getContext('2d'); let pArray = [];
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas); resizeCanvas();
-        class Particle { constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5; this.speedY = Math.random()*-0.2; } update() { this.y += this.speedY; if(this.y<0) this.y=canvas.height; } draw() { ctx.fillStyle = "rgba(226,183,71,0.2)"; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill(); } }
-        for(let i=0;i<30;i++) pArray.push(new Particle());
-        function anim() { ctx.clearRect(0,0,canvas.width,canvas.height); pArray.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(anim); } anim();
-
-        function toggleSidebarHistory(open) { document.getElementById("history-sidebar").classList.toggle("open", open); }
-
-        function changeSystemLanguage(lang) {
-            CORE_ENGINE.currentLang = lang;
-            document.querySelectorAll(".lang-toggle-btn").forEach(b => b.classList.remove("active"));
-            document.getElementById(`lang-${lang}`).classList.add("active");
-            
-            const dict = LOCALIZATION_DICTIONARY[lang];
-            document.getElementById("label-welcome").innerText = dict.welcome;
-            document.getElementById("tab-home").innerText = dict.home;
-            document.getElementById("tab-track").innerText = dict.track;
-            document.getElementById("tab-tasbeeh").innerText = dict.tasbeeh;
-            document.getElementById("tab-set").innerText = dict.set;
-            document.getElementById("tab-found").innerText = dict.found;
-
-            document.getElementById("q-lbl-fajr").innerText = dict.fajr;
-            document.getElementById("q-lbl-dhuhr").innerText = dict.dhuhr;
-            document.getElementById("q-lbl-asr").innerText = dict.asr;
-            document.getElementById("q-lbl-maghrib").innerText = dict.maghrib;
-            document.getElementById("q-lbl-isha").innerText = dict.isha;
-
-            document.getElementById("lbl-score-title").innerHTML = `<i class="fa-solid fa-bolt" style="color:var(--gold-primary)"></i> ${dict.score}`;
-            document.getElementById("lbl-verify-title").innerHTML = `<i class="fa-solid fa-list-check" style="color:var(--gold-primary)"></i> ${dict.verify}`;
-            document.getElementById("lbl-qaza-title").innerHTML = `<i class="fa-solid fa-clock-rotate-left" style="color: var(--gold-primary)"></i> ${dict.qaza}`;
-            
-            document.getElementById("lbl-count-dot").innerText = dict.count;
-            document.getElementById("lbl-reset-btn").innerText = dict.reset;
-            document.getElementById("lbl-ledger-title").innerHTML = `<i class="fa-solid fa-book-open" style="color:var(--gold-primary)"></i> ${dict.ledger}`;
-            document.getElementById("lbl-prev").innerHTML = `<i class="fa-solid fa-arrow-left"></i> ${dict.prev}`;
-            document.getElementById("lbl-next").innerHTML = `${dict.next} <i class="fa-solid fa-arrow-right"></i>`;
-
-            const quoteBox = document.getElementById("daily-quote");
-            quoteBox.innerText = CORE_ENGINE.quotes[lang];
-            if(lang === 'ur') quoteBox.className = "urdu-text";
-            else quoteBox.className = "";
-
-            renderName();
-            buildAdvancedTriStateUI();
-            syncTrackerDashboard();
-        }
-
-        function triggerTargetBurst(e, color) {
-            const cx = e.clientX || (e.touches && e.touches[0].clientX); const cy = e.clientY || (e.touches && e.touches[0].clientY);
-            if(!cx || !cy) return;
-            for(let i=0;i<8;i++){
-                const div = document.createElement('div'); div.className = 'sparkle-dot'; div.style.background = color; document.body.appendChild(div);
-                const a = Math.random()*Math.PI*2; const v = Math.random()*3+2; let x=cx; let y=cy; let o=1;
-                const m = setInterval(()=>{ x+=Math.cos(a)*v; y+=Math.sin(a)*v; o-=0.05; div.style.left=`${x}px`; div.style.top=`${y}px`; div.style.opacity=o; if(o<=0){clearInterval(m); div.remove();} },16);
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            initializeSystemCore();
-        });
-
-        function buildAdvancedTriStateUI() {
-            const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-            const dict = LOCALIZATION_DICTIONARY[CORE_ENGINE.currentLang];
-            const container = document.getElementById("tri-state-tracker-container");
-            container.innerHTML = "";
-            prayers.forEach(p => {
-                const localizedPrayerName = dict[p.toLowerCase()];
-                const row = document.createElement("div");
-                row.className = "tracker-card-row";
-                row.innerHTML = `
-                    <div class="tracker-header-info"><span>${localizedPrayerName} Status</span><span id="status-label-${p}" style="color:var(--text-muted)">Unmarked</span></div>
-                    <div class="tri-btn-group">
-                        <button class="tri-btn" id="btn-${p}-jamat" onclick="setPrayerStatus(event, '${p}', 'jamat')">JAMAT</button>
-                        <button class="tri-btn" id="btn-${p}-akele" onclick="setPrayerStatus(event, '${p}', 'akele')">AKELE</button>
-                        <button class="tri-btn" id="btn-${p}-qaza" onclick="setPrayerStatus(event, '${p}', 'qaza')">QAZA</button>
-                    </div>
-                `;
-                container.appendChild(row);
-            });
-        }
-
-        function setPrayerStatus(e, prayer, status) {
-            const key = `track_${CORE_ENGINE.user}_${new Date().toISOString().slice(0,10)}`;
-            let data = JSON.parse(localStorage.getItem(key)) || {};
-            
-            if(data[prayer] === status) {
-                data[prayer] = null;
-                triggerTargetBurst(e, '#64748B');
-            } else {
-                data[prayer] = status;
-                if(status==='jamat') triggerTargetBurst(e, '#10B981');
-                if(status==='akele') triggerTargetBurst(e, '#3B82F6');
-                if(status==='qaza') {
-                    triggerTargetBurst(e, '#EF4444');
-                    alterQaza(prayer, 1);
-                }
-            }
-            localStorage.setItem(key, JSON.stringify(data));
-            syncTrackerDashboard();
-        }
-
-        function syncTrackerDashboard() {
-            const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-            const key = `track_${CORE_ENGINE.user}_${new Date().toISOString().slice(0,10)}`;
-            const data = JSON.parse(localStorage.getItem(key)) || {};
-            let score = 0;
-
-            prayers.forEach(p => {
-                const jamatBtn = document.getElementById(`btn-${p}-jamat`);
-                const akeleBtn = document.getElementById(`btn-${p}-akele`);
-                const qazaBtn = document.getElementById(`btn-${p}-qaza`);
-                if(!jamatBtn) return;
-                
-                jamatBtn.className = "tri-btn"; akeleBtn.className = "tri-btn"; qazaBtn.className = "tri-btn";
-                const label = document.getElementById(`status-label-${p}`);
-
-                if(data[p] === 'jamat') {
-                    jamatBtn.classList.add("active-jamat");
-                    label.innerText = "With Jamat"; label.style.color = "var(--neon-green)";
-                    score += 20;
-                } else if(data[p] === 'akele') {
-                    akeleBtn.classList.add("active-akele");
-                    label.innerText = "Prayed Akele"; label.style.color = "var(--neon-blue)";
-                    score += 15;
-                } else if(data[p] === 'qaza') {
-                    qazaBtn.classList.add("active-qaza");
-                    label.innerText = "Missed / Qaza"; label.style.color = "var(--neon-red)";
-                } else {
-                    label.innerText = "Unmarked"; label.style.color = "var(--text-muted)";
-                }
-            });
-            document.getElementById("progress-percent").innerText = `${score}%`;
-            document.getElementById("progress-fill").style.width = `${score}%`;
-        }
-
-        function initializeSystemCore() {
-            const u = localStorage.getItem("pro_user_name") || "Shoeb Nadaf"; 
-            const c = localStorage.getItem("pro_user_city") || "Islampur";
-            CORE_ENGINE.user = u; CORE_ENGINE.city = c;
-            document.getElementById("nav-user-name").innerText = u;
-            document.getElementById("user-location").innerText = c;
-            document.getElementById("page-auth").style.display = "none";
-            document.getElementById("main-app-content").style.display = "block";
-            
-            changeSystemLanguage('en');
-            syncQazaDisplay(); loadTasbeehSession();
-            document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-        }
-
-        function handleUniversalLogin() {
-            const u = document.getElementById("auth-username").value.trim();
-            const c = document.getElementById("auth-city").value.trim();
-            if(!u || !c) return alert("Credentials mandatory!");
-            localStorage.setItem("pro_user_name", u); localStorage.setItem("pro_user_city", c);
-            initializeSystemCore(); triggerTabSwitch("home");
-        }
-
-        function triggerTabSwitch(tab) {
-            document.querySelectorAll(".app-page-view").forEach(p => { p.style.display="none"; p.classList.remove("active"); });
-            const page = document.getElementById(`page-${tab}`); if(page){ page.style.display="block"; setTimeout(()=>page.classList.add("active"),10); }
-            document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active"));
-            const nav = document.getElementById(`nav-${tab}`); if(nav) nav.classList.add("active");
-        }
-
-        function alterQaza(p, amt) {
-            let cur = parseInt(localStorage.getItem(`qaza_${CORE_ENGINE.user}_${p}`) || "0");
-            cur = Math.max(0, cur + amt); localStorage.setItem(`qaza_${CORE_ENGINE.user}_${p}`, cur);
-            syncQazaDisplay();
-        }
-        function syncQazaDisplay() { ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => { document.getElementById(`q-${p}`).innerText = localStorage.getItem(`qaza_${CORE_ENGINE.user}_${p}`) || "0"; }); }
-
-        function triggerTasbeehCount(e) { CORE_ENGINE.tasbeeh++; triggerTargetBurst(e, '#E2B747'); if(CORE_ENGINE.tasbeeh%33===0) CORE_ENGINE.cycles++; updateTasbeehUI(); }
-        function resetTasbeeh() { CORE_ENGINE.tasbeeh=0; CORE_ENGINE.cycles=0; updateTasbeehUI(); }
-        function updateTasbeehUI() { document.getElementById("tasbeeh-display").innerText = CORE_ENGINE.tasbeeh; document.getElementById("tasbeeh-cycle").innerText = `Cycle: ${CORE_ENGINE.cycles}`; }
-        function loadTasbeehSession() { updateTasbeehUI(); }
-
-        function renderName() {
-            const item = CORE_ENGINE.names[CORE_ENGINE.currentNameIdx][CORE_ENGINE.currentLang];
-            document.getElementById("allah-name-arabic").innerText = item.ar;
-            document.getElementById("allah-name-meaning").innerText = `${CORE_ENGINE.currentLang === 'ur' ? 'معنی:' : 'Meaning:'} ${item.m}`;
-            
-            if(CORE_ENGINE.currentLang === 'ur') {
-                document.getElementById("allah-name-arabic").classList.add("urdu-text");
-                document.getElementById("allah-name-meaning").classList.add("urdu-text");
-            } else {
-                document.getElementById("allah-name-arabic").classList.remove("urdu-text");
-                document.getElementById("allah-name-meaning").classList.remove("urdu-text");
-            }
-        }
-        function navigateNames(dir) {
-            CORE_ENGINE.currentNameIdx = (CORE_ENGINE.currentNameIdx + dir + CORE_ENGINE.names.length) % CORE_ENGINE.names.length;
-            renderName();
-        }
-        function handleSessionLogout() { localStorage.clear(); window.location.reload(); }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
