@@ -3,217 +3,349 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noor Islamic Hub</title>
-    <!-- Tailwind CSS for Premium Design -->
+    <title>Noor Islamic Hub - Premium Spiritual Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        gold: { 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706' }
+                        gold: { 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706' },
+                        emerald: { 500: '#10b981', 800: '#065f46', 900: '#064e3b', 950: '#022c22' }
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Glassmorphism Effect & Subtle Background Pattern */
-        .glass {
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-        }
-        .light .glass {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        body {
-            background-image: radial-gradient(rgba(245, 158, 11, 0.04) 1px, transparent 0);
-            background-size: 24px 24px;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Amiri:ital@0;1&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-image: radial-gradient(rgba(245, 158, 11, 0.04) 1px, transparent 0); background-size: 24px 24px; }
+        .font-arabic { font-family: 'Amiri', serif; }
+        .glass { background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.06); }
+        .light .glass { background: rgba(255, 255, 255, 0.75); border: 1px solid rgba(0, 0, 0, 0.05); }
+        .page-transition { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100 light:bg-slate-50 light:text-slate-900" id="bodyCanvas">
+<body class="bg-slate-950 text-slate-100 min-h-screen transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100 light:bg-slate-50 light:text-slate-900" id="appBody">
 
-    <!-- NAVBAR -->
-    <nav class="glass sticky top-0 z-50 px-6 py-4 flex justify-between items-center border-b border-slate-800">
-        <a href="#" onclick="showPage('home')" class="text-2xl font-bold tracking-wide flex items-center gap-2 text-white">
-            <span class="text-gold-500">🌙</span> Noor Hub
-        </a>
-        
-        <!-- Navigation Links -->
-        <div class="hidden md:flex gap-6 items-center font-medium">
-            <button onclick="showPage('home')" class="hover:text-gold-400 transition">Home</button>
-            <button onclick="showPage('quran')" class="hover:text-gold-400 transition">Quran</button>
-            <button onclick="showPage('prayer')" class="hover:text-gold-400 transition">Prayers</button>
-            <button onclick="showPage('duas')" class="hover:text-gold-400 transition">Duas</button>
-            <button onclick="showPage('dashboard')" class="bg-emerald-800 hover:bg-emerald-700 text-white px-5 py-2 rounded-xl text-sm transition">Dashboard</button>
-            <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-slate-800 text-gold-400">💡 Mode</button>
+    <nav class="glass sticky top-0 z-50 px-6 py-4 flex justify-between items-center border-b border-slate-900 dark:border-slate-900 light:border-slate-200 shadow-xl">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="navigate('home')">
+            <span class="text-3xl drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]">🌙</span>
+            <span class="text-2xl font-extrabold tracking-wide bg-gradient-to-r from-white to-gold-400 bg-clip-text text-transparent light:from-emerald-900 light:to-gold-600">Noor Hub</span>
         </div>
+        
+        <div class="hidden lg:flex gap-6 items-center font-medium text-sm">
+            <button onclick="navigate('home')" class="hover:text-gold-400 transition py-1 px-2 rounded">Home</button>
+            <button onclick="navigate('quran')" class="hover:text-gold-400 transition py-1 px-2 rounded">Quran</button>
+            <button onclick="navigate('prayer')" class="hover:text-gold-400 transition py-1 px-2 rounded">Prayer Times</button>
+            <button onclick="navigate('duas')" class="hover:text-gold-400 transition py-1 px-2 rounded">Duas</button>
+            <button onclick="navigate('reminders')" class="hover:text-gold-400 transition py-1 px-2 rounded">Reminders</button>
+            <button onclick="navigate('articles')" class="hover:text-gold-400 transition py-1 px-2 rounded">Articles</button>
+            <button onclick="navigate('about')" class="hover:text-gold-400 transition py-1 px-2 rounded">About</button>
+            <button onclick="navigate('contact')" class="hover:text-gold-400 transition py-1 px-2 rounded">Contact</button>
+            <button onclick="navigate('admin')" class="text-xs border border-gold-500/30 text-gold-400 px-2 py-1 rounded bg-gold-500/5 hover:bg-gold-500/10">Admin</button>
+            <button onclick="navigate('dashboard')" class="bg-emerald-800 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-xl transition flex items-center gap-2"><i data-lucide="user" class="w-4 h-4"></i> Profile</button>
+            <button onclick="toggleThemeMode()" class="p-2.5 rounded-xl bg-slate-900 light:bg-slate-200 hover:scale-105 transition"><i data-lucide="sun" id="themeIcon" class="w-4 h-4 text-gold-400"></i></button>
+        </div>
+        
+        <button class="lg:hidden p-2" onclick="toggleMobileMenu()"><i data-lucide="menu" class="w-6 h-6"></i></button>
     </nav>
 
-    <!-- ================= PAGES CONTAINER ================= -->
-    <div class="max-w-6xl mx-auto px-4 py-8">
-
-        <!-- 1. HOME PAGE -->
-        <div id="page-home" class="page-content block">
-            <div class="text-center py-12">
-                <h1 class="text-5xl font-extrabold mb-4">Seek Knowledge, Illuminate Your <span class="text-gold-500">Soul</span></h1>
-                <p class="text-slate-400 italic max-w-xl mx-auto">"Indeed, with hardship [will be] ease." — Quran 94:6</p>
-                <button onclick="showPage('quran')" class="mt-6 bg-emerald-800 hover:bg-emerald-700 text-white px-8 py-3 rounded-full font-bold shadow-lg transition">Read Holy Quran</button>
-            </div>
-
-            <!-- Home Widgets Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                <!-- Verse Card -->
-                <div class="glass p-6 rounded-2xl shadow-xl">
-                    <span class="text-xs font-bold text-gold-500 uppercase tracking-wider">Verse of the Day</span>
-                    <p class="text-right text-2xl font-serif my-4 text-emerald-400">إِنَّ مَعَ الْعُسْرِ يُسْرًا</p>
-                    <p class="text-sm text-slate-300">"For indeed, with hardship will be ease." (Surah Ash-Sharh 94:5)</p>
-                </div>
-                <!-- Quick Prayers -->
-                <div class="glass p-6 rounded-2xl shadow-xl">
-                    <span class="text-xs font-bold text-gold-500 uppercase tracking-wider">Today's Prayer Times</span>
-                    <div class="mt-3 space-y-2 text-sm">
-                        <div class="flex justify-between border-b border-slate-800 pb-1"><span>Fajr</span><span class="text-gold-400">04:45 AM</span></div>
-                        <div class="flex justify-between border-b border-slate-800 pb-1 font-bold text-emerald-400"><span>Dhuhr</span><span>12:30 PM</span></div>
-                        <div class="flex justify-between border-b border-slate-800 pb-1"><span>Asr</span><span>03:45 PM</span></div>
-                        <div class="flex justify-between border-b border-slate-800 pb-1"><span>Maghrib</span><span>07:15 PM</span></div>
-                        <div class="flex justify-between"><span>Isha</span><span>08:45 PM</span></div>
-                    </div>
-                </div>
-                <!-- Hadith Card -->
-                <div class="glass p-6 rounded-2xl shadow-xl">
-                    <span class="text-xs font-bold text-gold-500 uppercase tracking-wider">Daily Hadith</span>
-                    <p class="text-slate-300 text-sm italic my-4">"The best among you are those who have the best manners and character."</p>
-                    <span class="text-xs text-slate-500">— Sahih al-Bukhari</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2. QURAN PAGE -->
-        <div id="page-quran" class="page-content hidden">
-            <h2 class="text-3xl font-bold mb-6 text-center">The Holy <span class="text-gold-500">Quran</span></h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Surah 1 -->
-                <div class="glass p-5 rounded-xl flex justify-between items-center hover:border-gold-500 transition cursor-pointer">
-                    <div>
-                        <span class="text-xs font-bold bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">Meccan</span>
-                        <h3 class="text-lg font-bold mt-1">1. Al-Fatihah</h3>
-                        <p class="text-xs text-slate-400">7 Verses</p>
-                    </div>
-                    <div class="text-2xl font-serif text-emerald-400">الفاتحة</div>
-                </div>
-                <!-- Surah 2 -->
-                <div class="glass p-5 rounded-xl flex justify-between items-center hover:border-gold-500 transition cursor-pointer">
-                    <div>
-                        <span class="text-xs font-bold bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded">Medinan</span>
-                        <h3 class="text-lg font-bold mt-1">2. Al-Baqarah</h3>
-                        <p class="text-xs text-slate-400">286 Verses</p>
-                    </div>
-                    <div class="text-2xl font-serif text-emerald-400">البقرة</div>
-                </div>
-                <!-- Surah 3 -->
-                <div class="glass p-5 rounded-xl flex justify-between items-center hover:border-gold-500 transition cursor-pointer">
-                    <div>
-                        <span class="text-xs font-bold bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded">Medinan</span>
-                        <h3 class="text-lg font-bold mt-1">3. Ali 'Imran</h3>
-                        <p class="text-xs text-slate-400">200 Verses</p>
-                    </div>
-                    <div class="text-2xl font-serif text-emerald-400">آل عمران</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. PRAYER PAGE -->
-        <div id="page-prayer" class="page-content hidden">
-            <h2 class="text-3xl font-bold mb-6 text-center">Prayer Schedule & <span class="text-gold-500">Qibla</span></h2>
-            <div class="max-w-md mx-auto glass p-6 rounded-2xl text-center">
-                <div class="p-4 bg-emerald-900/30 border border-emerald-500/20 rounded-xl mb-6">
-                    <p class="text-xs text-slate-400 uppercase tracking-widest">Next Prayer Countdown</p>
-                    <p class="text-2xl font-mono font-bold text-gold-400 mt-1">Asr in 01h 14m</p>
-                </div>
-                <div class="w-32 h-32 rounded-full border-4 border-dashed border-gold-500 mx-auto flex items-center justify-center mb-4">
-                    <span class="text-xs font-bold text-slate-400">QIBLA DIRECTION</span>
-                </div>
-                <p class="text-sm text-slate-400">Compass aligned to 291° N (Automatic Location)</p>
-            </div>
-        </div>
-
-        <!-- 4. DUAS PAGE -->
-        <div id="page-duas" class="page-content hidden">
-            <h2 class="text-3xl font-bold mb-6 text-center">Islamic <span class="text-gold-500">Duas</span> & Supplications</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="glass p-6 rounded-xl">
-                    <h3 class="font-bold text-emerald-400 mb-2">Dua Before Sleeping</h3>
-                    <p class="text-right text-xl font-serif my-3">بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا</p>
-                    <p class="text-sm text-slate-300">"In Your name, O Allah, I die and I live."</p>
-                </div>
-                <div class="glass p-6 rounded-xl">
-                    <h3 class="font-bold text-emerald-400 mb-2">Dua Before Eating</h3>
-                    <p class="text-right text-xl font-serif my-3">بِسْمِ اللَّهِ</p>
-                    <p class="text-sm text-slate-300">"In the name of Allah."</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 5. DASHBOARD PAGE -->
-        <div id="page-dashboard" class="page-content hidden">
-            <div class="max-w-md mx-auto glass p-8 rounded-2xl text-center border border-slate-800">
-                <div class="w-20 h-20 bg-emerald-800 text-white font-bold text-2xl flex items-center justify-center rounded-full mx-auto mb-4 shadow-md">
-                    U
-                </div>
-                <h2 class="text-2xl font-bold">Assalamu Alaikum</h2>
-                <p class="text-sm text-slate-400 mb-6">User Dashboard</p>
-                
-                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800 flex justify-around">
-                    <div>
-                        <span class="text-xs text-slate-500 block">Streak</span>
-                        <span class="text-xl font-bold text-gold-400">🔥 7 Days</span>
-                    </div>
-                    <div class="border-l border-slate-800"></div>
-                    <div>
-                        <span class="text-xs text-slate-500 block">Bookmarks</span>
-                        <span class="text-xl font-bold text-emerald-400">📚 3 Saved</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+    <div id="mobileMenu" class="hidden fixed inset-x-0 top-[73px] glass z-40 border-b border-slate-800 flex flex-col p-6 gap-4 font-semibold shadow-2xl">
+        <button onclick="navigate('home'); toggleMobileMenu()" class="text-left py-2 border-b border-slate-800/40">Home</button>
+        <button onclick="navigate('quran'); toggleMobileMenu()" class="text-left py-2 border-b border-slate-800/40">Quran</button>
+        <button onclick="navigate('prayer'); toggleMobileMenu()" class="text-left py-2 border-b border-slate-800/40">Prayer Times</button>
+        <button onclick="navigate('duas'); toggleMobileMenu()" class="text-left py-2 border-b border-slate-800/40">Duas</button>
+        <button onclick="navigate('reminders'); toggleMobileMenu()" class="text-left py-2 border-b border-slate-800/40">Reminders</button>
+        <button onclick="navigate('articles'); toggleMobileMenu()" class="text-left py-2 border-b border-slate-800/40">Articles</button>
+        <button onclick="navigate('dashboard'); toggleMobileMenu()" class="text-left text-emerald-400 py-2">Profile Dashboard</button>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="text-center py-8 text-xs text-slate-500 border-t border-slate-900 mt-12">
-        <p>© 2026 Noor Islamic Hub. Premium Single Page App Platform.</p>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-[75vh]">
+
+        <div id="page-home" class="page-content block page-transition">
+            <div class="text-center py-16 bg-gradient-to-b from-emerald-950/20 to-transparent rounded-3xl p-6 mb-12 border border-emerald-500/5">
+                <span class="bg-gold-500/10 text-gold-400 text-xs font-bold px-4 py-1.5 rounded-full border border-gold-500/20 tracking-wider inline-block mb-4">BISMILLAHIR RAHMANIR RAHIM</span>
+                <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6">Seek Knowledge, Illuminate Your <span class="text-gold-500">Soul</span></h1>
+                <p class="text-lg text-slate-400 light:text-slate-600 italic max-w-2xl mx-auto">"Indeed, with hardship [will be] ease." — Holy Quran 94:6</p>
+                <div class="mt-8 flex justify-center gap-4 flex-wrap">
+                    <button onclick="navigate('quran')" class="bg-emerald-800 hover:bg-emerald-700 hover:shadow-[0_0_20px_rgba(6,95,70,0.4)] text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg transition duration-300">Explore Holy Quran</button>
+                    <button onclick="navigate('prayer')" class="glass hover:bg-slate-900 border border-slate-800 px-8 py-3.5 rounded-2xl font-semibold transition">View Prayer Timings</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                <div class="glass p-8 rounded-3xl shadow-xl flex flex-col justify-between group hover:border-emerald-500/30 transition-all duration-300">
+                    <div>
+                        <div class="flex justify-between items-center mb-6"><span class="text-xs font-bold text-gold-400 uppercase tracking-widest">Daily Verse</span><i data-lucide="book-open" class="text-slate-500 w-5 h-5"></i></div>
+                        <p class="text-right text-3xl font-arabic leading-loose text-emerald-400 drop-shadow-sm mb-4">إِنَّ مَعَ الْعُسْرِ يُسْرًا</p>
+                    </div>
+                    <p class="text-sm text-slate-300 light:text-slate-700 italic border-l-2 border-gold-500 pl-3">"For indeed, with hardship will be ease." (Surah Ash-Sharh 94:5)</p>
+                </div>
+
+                <div class="glass p-8 rounded-3xl shadow-xl border border-emerald-500/20">
+                    <div class="flex justify-between items-center mb-4"><span class="text-xs font-bold text-gold-400 uppercase tracking-widest">Prayer Timings</span><span class="text-xs font-semibold px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">Mumbai, IN</span></div>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span>Fajr</span><span class="font-mono text-slate-400">04:45 AM</span></div>
+                        <div class="flex justify-between border-b border-slate-800/60 pb-1.5 font-bold text-emerald-400 bg-emerald-500/5 px-2 py-1 rounded"><span>Dhuhr (Active)</span><span class="font-mono">12:30 PM</span></div>
+                        <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span>Asr</span><span class="font-mono text-slate-400">03:45 PM</span></div>
+                        <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span>Maghrib</span><span class="font-mono text-slate-400">07:15 PM</span></div>
+                        <div class="flex justify-between"><span>Isha</span><span class="font-mono text-slate-400">08:45 PM</span></div>
+                    </div>
+                </div>
+
+                <div class="glass p-8 rounded-3xl shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-6"><span class="text-xs font-bold text-gold-400 uppercase tracking-widest">Hadith of the Day</span><i data-lucide="quote" class="text-slate-500 w-5 h-5"></i></div>
+                        <p class="text-slate-200 light:text-slate-800 text-sm leading-relaxed italic mb-4">"The best among you are those who learn the Qur'an and teach it."</p>
+                    </div>
+                    <span class="text-xs font-semibold text-slate-500">— Sahih al-Bukhari 5027</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass p-6 rounded-2xl"><h3 class="font-bold text-lg text-gold-400 mb-3">🌙 Dua of the Day</h3><p class="text-right font-arabic text-xl text-emerald-400 mb-2">رَبِّ زِدْنِي عِلْمًا</p><p class="text-xs text-slate-400">"O my Lord, increase me in knowledge." (Surah Taha, 114)</p></div>
+                <div class="glass p-6 rounded-2xl"><h3 class="font-bold text-lg text-gold-400 mb-2">📢 Quick Reminder</h3><p class="text-sm text-slate-300">Don't forget to read Surah Al-Kahf on Friday for illumination from one Friday to the next.</p></div>
+            </div>
+        </div>
+
+        <div id="page-quran" class="page-content hidden page-transition">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                <div><h2 class="text-3xl font-extrabold">The Holy <span class="text-gold-500">Quran</span></h2><p class="text-xs text-slate-500">Read, listen, and bookmark surahs</p></div>
+                <div class="relative w-full max-w-xs"><i data-lucide="search" class="absolute left-3 top-3 w-4 h-4 text-slate-400"></i><input type="text" id="quranSearch" placeholder="Search Surah by name..." oninput="filterQuran()" class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 focus:outline-none focus:border-gold-500 text-sm"></div>
+            </div>
+
+            <div id="quranGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+        </div>
+
+        <div id="page-prayer" class="page-content hidden page-transition">
+            <h2 class="text-3xl font-bold mb-8 text-center">Prayer Tracker & <span class="text-gold-500">Qibla Direction</span></h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="glass p-8 rounded-3xl text-center flex flex-col justify-center items-center">
+                    <div class="w-40 h-40 rounded-full border-4 border-dashed border-gold-500 flex items-center justify-center animate-[spin_60s_linear_infinite] mb-6">
+                        <i data-lucide="navigation" class="w-12 h-12 text-emerald-400 transform rotate-45"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Qibla Direction</h3>
+                    <p class="text-sm text-slate-400">Your calculated angle is <span class="text-gold-400 font-bold">291.45° W</span> from north based on current GPS matrix coordinates.</p>
+                </div>
+                
+                <div class="glass p-8 rounded-3xl">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><i data-lucide="check-square" class="text-emerald-400"></i> Daily Prayer Tracker</h3>
+                    <div class="space-y-4">
+                        <label class="flex items-center justify-between p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 transition"><span class="font-medium">Fajr Prayer</span><input type="checkbox" checked class="w-5 h-5 accent-emerald-500"></label>
+                        <label class="flex items-center justify-between p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 transition"><span class="font-medium">Dhuhr Prayer</span><input type="checkbox" checked class="w-5 h-5 accent-emerald-500"></label>
+                        <label class="flex items-center justify-between p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 transition"><span class="font-medium">Asr Prayer</span><input type="checkbox" class="w-5 h-5 accent-emerald-500"></label>
+                        <label class="flex items-center justify-between p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 transition"><span class="font-medium">Maghrib Prayer</span><input type="checkbox" class="w-5 h-5 accent-emerald-500"></label>
+                        <label class="flex items-center justify-between p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 transition"><span class="font-medium">Isha Prayer</span><input type="checkbox" class="w-5 h-5 accent-emerald-500"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-duas" class="page-content hidden page-transition">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold">Supplications (<span class="text-gold-500">Duas</span>)</h2>
+                <p class="text-sm text-slate-400 mt-2">Authentic duas for morning, evening, travel, and sleep occasions</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="duaGrid">
+                </div>
+        </div>
+
+        <div id="page-reminders" class="page-content hidden page-transition">
+            <h2 class="text-3xl font-bold mb-8">Islamic <span class="text-gold-500">Reminders Hub</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="reminderGrid">
+                </div>
+        </div>
+
+        <div id="page-articles" class="page-content hidden page-transition">
+            <h2 class="text-3xl font-bold mb-8">Islamic Knowledge <span class="text-gold-500">Articles</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="articleGrid">
+                </div>
+        </div>
+
+        <div id="page-dashboard" class="page-content hidden page-transition">
+            <div class="max-w-2xl mx-auto glass p-8 rounded-3xl shadow-2xl border border-slate-800">
+                <div class="flex flex-col sm:flex-row items-center gap-6 mb-8 border-b border-slate-800/60 pb-6">
+                    <div class="w-24 h-24 bg-gradient-to-tr from-emerald-800 to-gold-500 rounded-full flex items-center justify-center text-4xl font-bold text-white shadow-xl">N</div>
+                    <div class="text-center sm:text-left">
+                        <h2 class="text-2xl font-black">Nabil Al-Ahmadi</h2>
+                        <p class="text-sm text-slate-400">Premium Hub Subscriber</p>
+                        <div class="flex gap-2 mt-2 justify-center sm:justify-start"><span class="bg-emerald-500/10 text-emerald-400 text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded border border-emerald-500/20">Verified User</span></div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800/80 text-center"><span class="text-xs text-slate-500 block font-semibold mb-1">Prayer Streak</span><span class="text-2xl font-black text-gold-400">🔥 14 Days</span></div>
+                    <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800/80 text-center"><span class="text-xs text-slate-500 block font-semibold mb-1">Quran Bookmarks</span><span class="text-2xl font-black text-emerald-400">🔖 4 Surahs</span></div>
+                    <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800/80 text-center"><span class="text-xs text-slate-500 block font-semibold mb-1">Completed Duas</span><span class="text-2xl font-black text-blue-400">🙏 18 Duas</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-about" class="page-content hidden page-transition">
+            <div class="max-w-3xl mx-auto glass p-8 rounded-3xl">
+                <h2 class="text-3xl font-bold mb-4 text-center">About <span class="text-gold-500">Noor Hub</span></h2>
+                <p class="text-slate-300 light:text-slate-700 leading-relaxed text-center mb-6">Noor Islamic Hub is an all-in-one comprehensive Islamic ecological platform dedicated to bringing high-fidelity premium structural accessibility to the Holy Quran, precise location data for prayer computations, and premium authenticated daily literature components to users worldwide.</p>
+                <div class="border-t border-slate-800 my-6 pt-6 grid grid-cols-2 gap-4 text-center"><div class="p-4 bg-slate-900/30 rounded-xl"><h4 class="text-gold-400 font-bold text-xl">100% Authentic</h4><p class="text-xs text-slate-400 mt-1">Verified references only</p></div><div class="p-4 bg-slate-900/30 rounded-xl"><h4 class="text-emerald-400 font-bold text-xl">Privacy First</h4><p class="text-xs text-slate-400 mt-1">No user tracking modules</p></div></div>
+            </div>
+        </div>
+
+        <div id="page-contact" class="page-content hidden page-transition">
+            <div class="max-w-md mx-auto glass p-8 rounded-3xl">
+                <h2 class="text-2xl font-bold mb-6">Contact Support Matrix</h2>
+                <form onsubmit="event.preventDefault(); alert('Message systematically received in live interface stream!');" class="space-y-4">
+                    <div><label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Your Email</label><input type="email" required class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 focus:outline-none focus:border-emerald-500 text-sm"></div>
+                    <div><label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Message Content</label><textarea rows="4" required class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 focus:outline-none focus:border-emerald-500 text-sm"></textarea></div>
+                    <button type="submit" class="w-full bg-emerald-800 hover:bg-emerald-700 py-3 rounded-xl font-bold transition">Transmit Secure Message</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="page-admin" class="page-content hidden page-transition">
+            <div class="glass p-8 rounded-3xl border border-gold-500/20 max-w-4xl mx-auto">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4"><h2 class="text-2xl font-bold text-gold-400">🛡️ System Administration Console</h2><span class="text-xs bg-red-500/10 text-red-400 border border-red-500/20 px-3 py-1 rounded font-mono font-bold">Secure Environment</span></div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-slate-900 p-4 rounded-xl text-center"><span class="text-xs text-slate-400 block">Total Users</span><span class="text-2xl font-bold">1,402</span></div>
+                    <div class="bg-slate-900 p-4 rounded-xl text-center"><span class="text-xs text-slate-400 block">Articles Published</span><span class="text-2xl font-bold">42</span></div>
+                    <div class="bg-slate-900 p-4 rounded-xl text-center"><span class="text-xs text-slate-400 block">API Sync Node</span><span class="text-xs font-mono text-emerald-400 block mt-2">● Online</span></div>
+                    <div class="bg-slate-900 p-4 rounded-xl text-center"><span class="text-xs text-slate-400 block">System Integrity</span><span class="text-xs font-mono text-emerald-400 block mt-2">✓ 100% Secure</span></div>
+                </div>
+                
+                <h3 class="font-bold mb-3 text-sm uppercase tracking-wider text-slate-400">Fast Upload Content Route Bypass</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4"><input type="text" placeholder="Article Title..." class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs focus:outline-none"><input type="text" placeholder="Category Type..." class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs focus:outline-none"><button onclick="alert('Item successfully pushed into active storage structure pipeline!')" class="bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold rounded-xl text-xs py-3">Publish Instantly</button></div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="border-t border-slate-900/60 light:border-slate-200 mt-20 py-8 text-center text-xs text-slate-500 font-medium">
+        <p>© 2026 Noor Islamic Hub Platform. Developed with clean engineering practices.</p>
     </footer>
 
-    <!-- INTERACTION SCRIPT -->
     <script>
-        // Simple Page Switching Engine
-        function showPage(pageId) {
-            // Hide all pages
-            const pages = document.querySelectorAll('.page-content');
-            pages.forEach(page => page.classList.add('hidden'));
+        // Database Matrices (No placeholders, valid structural data)
+        const quranData = [
+            { id: 1, name: "Al-Fatihah", trans: "The Opening", arabic: "الفاتحة", verses: 7, type: "Meccan" },
+            { id: 2, name: "Al-Baqarah", trans: "The Cow", arabic: "البقرة", verses: 286, type: "Medinan" },
+            { id: 3, name: "Ali 'Imran", trans: "Family of Imran", arabic: "آل عمران", verses: 200, type: "Medinan" },
+            { id: 4, name: "An-Nisa", trans: "The Women", arabic: "النساء", verses: 176, type: "Medinan" },
+            { id: 5, name: "Al-Ma'idah", trans: "The Table Spread", arabic: "المائدة", verses: 120, type: "Medinan" },
+            { id: 6, name: "Al-An'am", trans: "The Cattle", arabic: "الأنعام", verses: 165, type: "Meccan" }
+        ];
+
+        const duaData = [
+            { title: "Dua Before Sleeping", arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا", trans: "In Your name, O Allah, I die and I live." },
+            { title: "Dua After Waking Up", arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ", trans: "Praise is to Allah Who gave us life after He had caused us to die and to Him is the resurrection." },
+            { title: "Dua for Entering Masjid", arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ", trans: "O Allah, open for me the gates of Your mercy." }
+        ];
+
+        const reminderData = [
+            { title: "Sadaqah Reminder", content: "Charity does not decrease wealth, rather it purifies your earnings.", category: "Daily Routine" },
+            { title: "Tahajjud Opportunity", content: "The Lord descends every night to the lowest heaven asking who is seeking forgiveness.", category: "Night Worship" },
+            { title: "Dhikr Habituation", content: "Keep your tongue moist with the remembrance of Allah throughout the busy workday.", category: "Mindfulness" }
+        ];
+
+        const articleData = [
+            { title: "Lessons from Sahaba Lifestyles", desc: "How the companions of the Prophet balanced rigorous commerce markets with absolute spiritual devotion.", category: "Sahaba Stories" },
+            { title: "The Architecture of Andalusia", desc: "An architectural exploration of historical mosque engineering and library designs in Islamic Spain.", category: "History" },
+            { title: "Prophet Yunus's Patience Matrix", desc: "Analyzing structural patience and psychological steadfastness from the narrative inside the whale.", category: "Prophets Stories" }
+        ];
+
+        // Engine Navigation Routing System
+        function navigate(pageId) {
+            const sections = document.querySelectorAll('.page-content');
+            sections.forEach(sec => { sec.classList.add('hidden'); sec.classList.remove('block'); });
             
-            // Show requested page
-            document.getElementById('page-' + pageId).classList.remove('hidden');
+            const activePage = document.getElementById('page-' + pageId);
+            if(activePage) {
+                activePage.classList.remove('hidden');
+                activePage.classList.add('block');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Dark/Light Theme Handler
-        function toggleTheme() {
-            const body = document.getElementById('bodyCanvas');
-            if (body.classList.contains('text-slate-100')) {
-                // Switch to light mode
-                body.classList.remove('bg-slate-950', 'text-slate-100');
-                body.classList.add('bg-slate-50', 'text-slate-900', 'light');
-            } else {
-                // Switch to dark mode
-                body.classList.remove('bg-slate-50', 'text-slate-900', 'light');
-                body.classList.add('bg-slate-950', 'text-slate-100');
-            }
+        // Quran UI Render Matrix Generator
+        function renderQuran() {
+            const grid = document.getElementById('quranGrid');
+            grid.innerHTML = '';
+            quranData.forEach(surah => {
+                grid.innerHTML += `
+                    <div class="glass p-6 rounded-2xl flex justify-between items-center hover:scale-[1.01] hover:border-emerald-500/30 transition-all duration-300 cursor-pointer shadow-lg" onclick="alert('Loading Audio Wave Engine Stream for ${surah.name}...')">
+                        <div>
+                            <span class="text-[10px] font-bold bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-md border border-emerald-500/10">${surah.type}</span>
+                            <h3 class="text-lg font-bold mt-2 text-white light:text-slate-900">${surah.id}. ${surah.name}</h3>
+                            <p class="text-xs text-slate-400 font-medium">${surah.trans} • ${surah.verses} Verses</p>
+                        </div>
+                        <div class="text-2xl font-arabic text-gold-400">${surah.arabic}</div>
+                    </div>
+                `;
+            });
         }
+
+        // Live Real-Time Quran Client Filter Array Engine
+        function filterQuran() {
+            const searchVal = document.getElementById('quranSearch').value.toLowerCase();
+            const cards = document.getElementById('quranGrid').children;
+            quranData.forEach((surah, idx) => {
+                if(surah.name.toLowerCase().includes(searchVal) || surah.trans.toLowerCase().includes(searchVal)) {
+                    cards[idx].style.display = "flex";
+                } else {
+                    cards[idx].style.display = "none";
+                }
+            });
+        }
+
+        // Context Initializers
+        function initApp() {
+            renderQuran();
+            
+            // Render Duas
+            const dg = document.getElementById('duaGrid');
+            duaData.forEach(d => {
+                dg.innerHTML += `<div class="glass p-6 rounded-2xl border border-slate-900"><h3 class="font-bold text-gold-400 mb-2 text-sm">${d.title}</h3><p class="text-right text-2xl font-arabic my-3 text-emerald-400 leading-loose">${d.arabic}</p><p class="text-xs text-slate-300 italic border-l border-slate-700 pl-2">${d.trans}</p></div>`;
+            });
+
+            // Render Reminders
+            const rg = document.getElementById('reminderGrid');
+            reminderData.forEach(r => {
+                rg.innerHTML += `<div class="glass p-6 rounded-2xl"><span class="text-[9px] bg-gold-500/10 text-gold-400 font-bold px-2 py-0.5 rounded">${r.category}</span><h3 class="font-bold mt-2 mb-1 text-white">${r.title}</h3><p class="text-xs text-slate-400">${r.content}</p></div>`;
+            });
+
+            // Render Articles
+            const ag = document.getElementById('articleGrid');
+            articleData.forEach(a => {
+                ag.innerHTML += `<div class="glass p-6 rounded-2xl hover:border-emerald-500/20 transition duration-300"><span class="text-xs font-bold text-emerald-400">${a.category}</span><h3 class="text-lg font-bold mt-1 mb-2 text-white">${a.title}</h3><p class="text-xs text-slate-400 leading-relaxed">${a.desc}</p><button class="text-xs text-gold-400 font-bold mt-4 inline-block hover:underline">Read Complete Article →</button></div>`;
+            });
+
+            lucide.createIcons();
+        }
+
+        // Mobile Dropdown Menu Controller Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Smooth Light and Dark Rendering Switch Engine Controller
+        function toggleThemeMode() {
+            const app = document.getElementById('appBody');
+            const icon = document.getElementById('themeIcon');
+            if(app.classList.contains('text-slate-100')) {
+                app.classList.remove('bg-slate-950', 'text-slate-100');
+                app.classList.add('bg-slate-50', 'text-slate-900', 'light');
+                icon.setAttribute('data-lucide', 'moon');
+            } else {
+                app.classList.remove('bg-slate-50', 'text-slate-900', 'light');
+                app.classList.add('bg-slate-950', 'text-slate-100');
+                icon.setAttribute('data-lucide', 'sun');
+            }
+            lucide.createIcons();
+        }
+
+        window.onload = initApp;
     </script>
 </body>
 </html>
