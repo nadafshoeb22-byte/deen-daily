@@ -1,351 +1,720 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noor Islamic Hub - Premium Spiritual Platform</title>
+    <title>DeenVerse - Premium Islamic Super Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        gold: { 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706' },
-                        emerald: { 500: '#10b981', 800: '#065f46', 900: '#064e3b', 950: '#022c22' }
+                        gold: {
+                            50: '#fdfbf7', 100: '#fbf7ed', 200: '#f5eacf', 300: '#eddca1',
+                            400: '#e1bf65', 500: '#d4a343', 600: '#bf8937', 700: '#9f6f2e',
+                            800: '#7f5627', 900: '#684622', 950: '#3c2612'
+                        },
+                        emerald: {
+                            950: '#022c22'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        arabic: ['Amiri', 'serif']
                     }
                 }
             }
         }
     </script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Amiri:ital@0;1&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-image: radial-gradient(rgba(245, 158, 11, 0.04) 1px, transparent 0); background-size: 24px 24px; }
-        .font-arabic { font-family: 'Amiri', serif; }
-        .glass { background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.06); }
-        .light .glass { background: rgba(255, 255, 255, 0.75); border: 1px solid rgba(0, 0, 0, 0.05); }
-        .page-transition { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-image: radial-gradient(rgba(212, 163, 67, 0.03) 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+        .glass {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .light .glass {
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(214, 163, 67, 0.2);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(214, 163, 67, 0.4);
+        }
+        .animate-subtle-pulse {
+            animation: subtlePulse 3s infinite ease-in-out;
+        }
+        @keyframes subtlePulse {
+            0%, 100% { opacity: 0.9; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.01); }
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100 light:bg-slate-50 light:text-slate-900" id="appBody">
+<body class="bg-slate-950 text-slate-100 min-h-screen dark:bg-slate-950 dark:text-slate-100 light:bg-slate-50 light:text-slate-900 transition-colors duration-300 overflow-x-hidden custom-scrollbar" id="appRoot">
 
-    <nav class="glass sticky top-0 z-50 px-6 py-4 flex justify-between items-center border-b border-slate-900 dark:border-slate-900 light:border-slate-200 shadow-xl">
-        <div class="flex items-center gap-3 cursor-pointer" onclick="navigate('home')">
-            <span class="text-3xl drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]">🌙</span>
-            <span class="text-2xl font-extrabold tracking-wide bg-gradient-to-r from-white to-gold-400 bg-clip-text text-transparent light:from-emerald-900 light:to-gold-600">Noor Hub</span>
+    <div id="loadingScreen" class="fixed inset-0 z-[100] bg-slate-950 flex flex-col items-center justify-center transition-opacity duration-700">
+        <div class="relative flex items-center justify-center mb-4">
+            <div class="w-24 h-24 rounded-full border-2 border-gold-500/20 border-t-gold-500 animate-spin"></div>
+            <span class="absolute text-4xl drop-shadow-[0_0_12px_rgba(212,163,67,0.4)]">🌙</span>
         </div>
-        
-        <div class="hidden lg:flex gap-6 items-center font-medium text-sm">
-            <button onclick="navigate('home')" class="hover:text-gold-400 transition py-1 px-2 rounded">Home</button>
-            <button onclick="navigate('quran')" class="hover:text-gold-400 transition py-1 px-2 rounded">Quran</button>
-            <button onclick="navigate('prayer')" class="hover:text-gold-400 transition py-1 px-2 rounded">Prayer Times</button>
-            <button onclick="navigate('duas')" class="hover:text-gold-400 transition py-1 px-2 rounded">Duas</button>
-            <button onclick="navigate('reminders')" class="hover:text-gold-400 transition py-1 px-2 rounded">Reminders</button>
-            <button onclick="navigate('articles')" class="hover:text-gold-400 transition py-1 px-2 rounded">Articles</button>
-            <button onclick="navigate('about')" class="hover:text-gold-400 transition py-1 px-2 rounded">About</button>
-            <button onclick="navigate('contact')" class="hover:text-gold-400 transition py-1 px-2 rounded">Contact</button>
-            <button onclick="navigate('admin')" class="text-xs border border-gold-500/30 text-gold-400 px-2 py-1 rounded bg-gold-500/5 hover:bg-gold-500/10">Admin</button>
-            <button onclick="navigate('dashboard')" class="bg-emerald-800 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-xl transition flex items-center gap-2"><i data-lucide="user" class="w-4 h-4"></i> Profile</button>
-            <button onclick="toggleThemeMode()" class="p-2.5 rounded-xl bg-slate-900 light:bg-slate-200 hover:scale-105 transition"><i data-lucide="sun" id="themeIcon" class="w-4 h-4 text-gold-400"></i></button>
-        </div>
-        
-        <button class="lg:hidden p-2" onclick="toggleMobileMenu()"><i data-lucide="menu" class="w-6 h-6"></i></button>
-    </nav>
-
-    <div id="mobileMenu" class="hidden fixed inset-x-0 top-[73px] glass z-40 border-b border-slate-800 flex flex-col p-6 gap-4 font-semibold shadow-2xl">
-        <button onclick="navigate('home'); toggleMobileMenu()" class="text-left py-2 border-b border-slate-800/40">Home</button>
-        <button onclick="navigate('quran'); toggleMobileMenu()" class="text-left py-2 border-b border-slate-800/40">Quran</button>
-        <button onclick="navigate('prayer'); toggleMobileMenu()" class="text-left py-2 border-b border-slate-800/40">Prayer Times</button>
-        <button onclick="navigate('duas'); toggleMobileMenu()" class="text-left py-2 border-b border-slate-800/40">Duas</button>
-        <button onclick="navigate('reminders'); toggleMobileMenu()" class="text-left py-2 border-b border-slate-800/40">Reminders</button>
-        <button onclick="navigate('articles'); toggleMobileMenu()" class="text-left py-2 border-b border-slate-800/40">Articles</button>
-        <button onclick="navigate('dashboard'); toggleMobileMenu()" class="text-left text-emerald-400 py-2">Profile Dashboard</button>
+        <h1 class="text-3xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white via-gold-400 to-emerald-400">DEENVERSE</h1>
+        <p class="text-xs text-slate-500 mt-2 tracking-widest uppercase">By Shoeb Nadaf</p>
     </div>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-[75vh]">
-
-        <div id="page-home" class="page-content block page-transition">
-            <div class="text-center py-16 bg-gradient-to-b from-emerald-950/20 to-transparent rounded-3xl p-6 mb-12 border border-emerald-500/5">
-                <span class="bg-gold-500/10 text-gold-400 text-xs font-bold px-4 py-1.5 rounded-full border border-gold-500/20 tracking-wider inline-block mb-4">BISMILLAHIR RAHMANIR RAHIM</span>
-                <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6">Seek Knowledge, Illuminate Your <span class="text-gold-500">Soul</span></h1>
-                <p class="text-lg text-slate-400 light:text-slate-600 italic max-w-2xl mx-auto">"Indeed, with hardship [will be] ease." — Holy Quran 94:6</p>
-                <div class="mt-8 flex justify-center gap-4 flex-wrap">
-                    <button onclick="navigate('quran')" class="bg-emerald-800 hover:bg-emerald-700 hover:shadow-[0_0_20px_rgba(6,95,70,0.4)] text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg transition duration-300">Explore Holy Quran</button>
-                    <button onclick="navigate('prayer')" class="glass hover:bg-slate-900 border border-slate-800 px-8 py-3.5 rounded-2xl font-semibold transition">View Prayer Timings</button>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-                <div class="glass p-8 rounded-3xl shadow-xl flex flex-col justify-between group hover:border-emerald-500/30 transition-all duration-300">
-                    <div>
-                        <div class="flex justify-between items-center mb-6"><span class="text-xs font-bold text-gold-400 uppercase tracking-widest">Daily Verse</span><i data-lucide="book-open" class="text-slate-500 w-5 h-5"></i></div>
-                        <p class="text-right text-3xl font-arabic leading-loose text-emerald-400 drop-shadow-sm mb-4">إِنَّ مَعَ الْعُسْرِ يُسْرًا</p>
-                    </div>
-                    <p class="text-sm text-slate-300 light:text-slate-700 italic border-l-2 border-gold-500 pl-3">"For indeed, with hardship will be ease." (Surah Ash-Sharh 94:5)</p>
-                </div>
-
-                <div class="glass p-8 rounded-3xl shadow-xl border border-emerald-500/20">
-                    <div class="flex justify-between items-center mb-4"><span class="text-xs font-bold text-gold-400 uppercase tracking-widest">Prayer Timings</span><span class="text-xs font-semibold px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">Mumbai, IN</span></div>
-                    <div class="space-y-3 text-sm">
-                        <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span>Fajr</span><span class="font-mono text-slate-400">04:45 AM</span></div>
-                        <div class="flex justify-between border-b border-slate-800/60 pb-1.5 font-bold text-emerald-400 bg-emerald-500/5 px-2 py-1 rounded"><span>Dhuhr (Active)</span><span class="font-mono">12:30 PM</span></div>
-                        <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span>Asr</span><span class="font-mono text-slate-400">03:45 PM</span></div>
-                        <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span>Maghrib</span><span class="font-mono text-slate-400">07:15 PM</span></div>
-                        <div class="flex justify-between"><span>Isha</span><span class="font-mono text-slate-400">08:45 PM</span></div>
-                    </div>
-                </div>
-
-                <div class="glass p-8 rounded-3xl shadow-xl flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-center mb-6"><span class="text-xs font-bold text-gold-400 uppercase tracking-widest">Hadith of the Day</span><i data-lucide="quote" class="text-slate-500 w-5 h-5"></i></div>
-                        <p class="text-slate-200 light:text-slate-800 text-sm leading-relaxed italic mb-4">"The best among you are those who learn the Qur'an and teach it."</p>
-                    </div>
-                    <span class="text-xs font-semibold text-slate-500">— Sahih al-Bukhari 5027</span>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass p-6 rounded-2xl"><h3 class="font-bold text-lg text-gold-400 mb-3">🌙 Dua of the Day</h3><p class="text-right font-arabic text-xl text-emerald-400 mb-2">رَبِّ زِدْنِي عِلْمًا</p><p class="text-xs text-slate-400">"O my Lord, increase me in knowledge." (Surah Taha, 114)</p></div>
-                <div class="glass p-6 rounded-2xl"><h3 class="font-bold text-lg text-gold-400 mb-2">📢 Quick Reminder</h3><p class="text-sm text-slate-300">Don't forget to read Surah Al-Kahf on Friday for illumination from one Friday to the next.</p></div>
-            </div>
+    <div id="toastNotification" class="fixed bottom-6 right-6 z-[80] transform translate-y-20 opacity-0 transition-all duration-500 max-w-sm w-full glass p-4 rounded-2xl flex items-start gap-3 shadow-2xl border-l-4 border-l-gold-500">
+        <div class="p-2 bg-gold-500/10 rounded-xl text-gold-500" id="toastIconContainer">
+            <i data-lucide="bell" class="w-5 h-5"></i>
         </div>
+        <div class="flex-1">
+            <h4 class="font-bold text-sm text-white light:text-slate-900" id="toastTitle">System Notification</h4>
+            <p class="text-xs text-slate-400 light:text-slate-600 mt-0.5" id="toastBody">Welcome to DeenVerse platform.</p>
+        </div>
+        <button onclick="dismissToast()" class="text-slate-500 hover:text-slate-300 p-1"><i data-lucide="x" class="w-4 h-4"></i></button>
+    </div>
 
-        <div id="page-quran" class="page-content hidden page-transition">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-                <div><h2 class="text-3xl font-extrabold">The Holy <span class="text-gold-500">Quran</span></h2><p class="text-xs text-slate-500">Read, listen, and bookmark surahs</p></div>
-                <div class="relative w-full max-w-xs"><i data-lucide="search" class="absolute left-3 top-3 w-4 h-4 text-slate-400"></i><input type="text" id="quranSearch" placeholder="Search Surah by name..." oninput="filterQuran()" class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 focus:outline-none focus:border-gold-500 text-sm"></div>
+    <div class="flex min-h-screen relative">
+        
+        <aside id="appSidebar" class="fixed inset-y-0 left-0 z-40 w-64 glass border-r border-slate-900/50 flex flex-col justify-between transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+            <div>
+                <div class="p-6 border-b border-slate-900/40 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl drop-shadow-[0_0_10px_rgba(212,163,67,0.4)]">🌙</span>
+                        <div>
+                            <span class="text-xl font-black tracking-wide bg-gradient-to-r from-white to-gold-400 bg-clip-text text-transparent light:from-slate-900 light:to-gold-600">DeenVerse</span>
+                            <span class="block text-[9px] text-gold-500 font-bold tracking-widest uppercase">Super Hub</span>
+                        </div>
+                    </div>
+                    <button class="lg:hidden text-slate-400" onclick="toggleSidebar()"><i data-lucide="chevrons-left" class="w-5 h-5"></i></button>
+                </div>
+
+                <nav class="p-4 space-y-1.5" id="sidebarMenu">
+                    <button onclick="switchTab('home')" data-tab="home" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition bg-gradient-to-r from-gold-500/10 to-transparent text-gold-400 border-l-2 border-gold-500"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Home Core</button>
+                    <button onclick="switchTab('quran')" data-tab="quran" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900/40 transition"><i data-lucide="book-open" class="w-4 h-4"></i> Holy Quran</button>
+                    <button onclick="switchTab('hadith')" data-tab="hadith" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900/40 transition"><i data-lucide="scroll" class="w-4 h-4"></i> Hadith Archive</button>
+                    <button onclick="switchTab('duas')" data-tab="duas" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900/40 transition"><i data-lucide="heart-handshake" class="w-4 h-4"></i> Duas & Azkar</button>
+                    <button onclick="switchTab('prayer')" data-tab="prayer" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900/40 transition"><i data-lucide="compass" class="w-4 h-4"></i> Prayer & Qibla</button>
+                    <button onclick="switchTab('learning')" data-tab="learning" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900/40 transition"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Islamic Learning</button>
+                    <button onclick="switchTab('community')" data-tab="community" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900/40 transition"><i data-lucide="users" class="w-4 h-4"></i> Community Sphere</button>
+                    <button onclick="switchTab('dashboard')" data-tab="dashboard" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900/40 transition"><i data-lucide="user-check" class="w-4 h-4"></i> User Dashboard</button>
+                    <button onclick="switchTab('about')" data-tab="about" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900/40 transition"><i data-lucide="info" class="w-4 h-4"></i> About Ecosystem</button>
+                    <button onclick="switchTab('contact')" data-tab="contact" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900/40 transition"><i data-lucide="mail" class="w-4 h-4"></i> Contact Support</button>
+                </div>
             </div>
 
-            <div id="quranGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="p-4 border-t border-slate-900/40">
+                <button onclick="switchTab('admin')" class="w-full mb-3 flex items-center justify-center gap-2 px-3 py-2 text-xs font-bold text-amber-400 border border-amber-500/20 rounded-xl bg-amber-500/5 hover:bg-amber-500/10 transition"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Operational Console</button>
+                <div class="glass p-3 rounded-xl text-center border border-slate-800/60">
+                    <span class="text-[10px] text-slate-500 block uppercase tracking-widest font-bold">Platform Architect</span>
+                    <span class="text-xs text-gold-400 font-bold block mt-0.5">Shoeb Nadaf</span>
                 </div>
-        </div>
+            </div>
+        </aside>
 
-        <div id="page-prayer" class="page-content hidden page-transition">
-            <h2 class="text-3xl font-bold mb-8 text-center">Prayer Tracker & <span class="text-gold-500">Qibla Direction</span></h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="glass p-8 rounded-3xl text-center flex flex-col justify-center items-center">
-                    <div class="w-40 h-40 rounded-full border-4 border-dashed border-gold-500 flex items-center justify-center animate-[spin_60s_linear_infinite] mb-6">
-                        <i data-lucide="navigation" class="w-12 h-12 text-emerald-400 transform rotate-45"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Qibla Direction</h3>
-                    <p class="text-sm text-slate-400">Your calculated angle is <span class="text-gold-400 font-bold">291.45° W</span> from north based on current GPS matrix coordinates.</p>
-                </div>
-                
-                <div class="glass p-8 rounded-3xl">
-                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><i data-lucide="check-square" class="text-emerald-400"></i> Daily Prayer Tracker</h3>
-                    <div class="space-y-4">
-                        <label class="flex items-center justify-between p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 transition"><span class="font-medium">Fajr Prayer</span><input type="checkbox" checked class="w-5 h-5 accent-emerald-500"></label>
-                        <label class="flex items-center justify-between p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 transition"><span class="font-medium">Dhuhr Prayer</span><input type="checkbox" checked class="w-5 h-5 accent-emerald-500"></label>
-                        <label class="flex items-center justify-between p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 transition"><span class="font-medium">Asr Prayer</span><input type="checkbox" class="w-5 h-5 accent-emerald-500"></label>
-                        <label class="flex items-center justify-between p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 transition"><span class="font-medium">Maghrib Prayer</span><input type="checkbox" class="w-5 h-5 accent-emerald-500"></label>
-                        <label class="flex items-center justify-between p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 transition"><span class="font-medium">Isha Prayer</span><input type="checkbox" class="w-5 h-5 accent-emerald-500"></label>
+        <div class="flex-1 lg:pl-64 flex flex-col min-w-0">
+            
+            <header class="glass sticky top-0 z-30 px-4 sm:px-6 py-4 flex items-center justify-between border-b border-slate-900/50 shadow-lg">
+                <div class="flex items-center gap-4">
+                    <button class="lg:hidden p-2 text-slate-400 hover:text-white" onclick="toggleSidebar()"><i data-lucide="menu" class="w-6 h-6"></i></button>
+                    <div class="hidden sm:flex items-center gap-2 bg-slate-900/50 dark:bg-slate-900/50 light:bg-slate-200 border border-slate-800/80 light:border-slate-300 px-3.5 py-2 rounded-xl w-64 lg:w-80">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-500"></i>
+                        <input type="text" placeholder="Global structural lookup bypass..." class="bg-transparent border-none text-xs text-white light:text-slate-900 w-full focus:outline-none placeholder-slate-500">
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div id="page-duas" class="page-content hidden page-transition">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold">Supplications (<span class="text-gold-500">Duas</span>)</h2>
-                <p class="text-sm text-slate-400 mt-2">Authentic duas for morning, evening, travel, and sleep occasions</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="duaGrid">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <select id="langSelector" onchange="changeLanguageMode()" class="bg-slate-900/80 border border-slate-800/80 text-xs font-bold text-slate-300 rounded-xl px-3 py-2 appearance-none pr-8 focus:outline-none cursor-pointer">
+                            <option value="en">EN - English</option>
+                            <option value="ar">AR - العربية</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-2.5 pointer-events-none"></i>
+                    </div>
+
+                    <div onclick="switchTab('dashboard')" class="flex items-center gap-2 bg-slate-900/30 hover:bg-slate-900/60 p-1.5 pr-3 rounded-xl border border-slate-800/60 cursor-pointer transition">
+                        <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-emerald-800 to-gold-500 text-white font-extrabold text-xs flex items-center justify-center shadow-md">SN</div>
+                        <div class="hidden md:block text-left"><span class="text-[10px] text-slate-500 block font-bold leading-none">XP Layer</span><span class="text-xs text-gold-400 font-bold block" id="headerXpDisplay">1,250 XP</span></div>
+                    </div>
+
+                    <button onclick="toggleThemeMode()" class="p-2.5 rounded-xl bg-slate-900 light:bg-slate-200 border border-slate-800 light:border-slate-300 text-gold-400 hover:scale-105 transition"><i data-lucide="sun" id="globalThemeIcon" class="w-4 h-4"></i></button>
                 </div>
-        </div>
+            </header>
 
-        <div id="page-reminders" class="page-content hidden page-transition">
-            <h2 class="text-3xl font-bold mb-8">Islamic <span class="text-gold-500">Reminders Hub</span></h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="reminderGrid">
-                </div>
-        </div>
+            <main class="flex-1 p-4 sm:p-6 lg:p-8 space-y-8">
 
-        <div id="page-articles" class="page-content hidden page-transition">
-            <h2 class="text-3xl font-bold mb-8">Islamic Knowledge <span class="text-gold-500">Articles</span></h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="articleGrid">
-                </div>
-        </div>
+                <div id="section-home" class="tab-section block space-y-8 animate-subtle-pulse">
+                    <div class="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-slate-950 to-slate-950 border border-emerald-500/10 p-8 sm:p-12 rounded-3xl shadow-2xl flex flex-col justify-center min-h-[320px]">
+                        <div class="absolute -right-10 -bottom-10 text-[200px] text-emerald-500/5 font-arabic pointer-events-none">قرآن</div>
+                        <div class="relative z-10 space-y-4 max-w-2xl">
+                            <span class="bg-gold-500/10 text-gold-400 border border-gold-500/20 text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full inline-block">Welcome to DeenVerse Ecosystem</span>
+                            <h2 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">Elevating Spiritual Alignment via <span class="text-gold-500">Modern Engineering</span></h2>
+                            <p class="text-sm text-slate-400 leading-relaxed">An all-in-one comprehensive high-fidelity Islamic platform empowering daily connection with the divine parameters of the universe.</p>
+                            <div class="flex items-center gap-4 pt-2">
+                                <button onclick="switchTab('quran')" class="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-slate-950 font-bold text-xs px-6 py-3 rounded-xl transition shadow-lg shadow-gold-500/10">Explore Holy Quran</button>
+                                <button onclick="triggerNotification('Surah Al-Kahf Reminder', 'Don\'t forget to complete reading Surah Al-Kahf before Friday sundown process.')" class="bg-slate-900/60 hover:bg-slate-900 border border-slate-800 text-white font-semibold text-xs px-5 py-3 rounded-xl transition">Quick Test Notify</button>
+                            </div>
+                        </div>
+                    </div>
 
-        <div id="page-dashboard" class="page-content hidden page-transition">
-            <div class="max-w-2xl mx-auto glass p-8 rounded-3xl shadow-2xl border border-slate-800">
-                <div class="flex flex-col sm:flex-row items-center gap-6 mb-8 border-b border-slate-800/60 pb-6">
-                    <div class="w-24 h-24 bg-gradient-to-tr from-emerald-800 to-gold-500 rounded-full flex items-center justify-center text-4xl font-bold text-white shadow-xl">N</div>
-                    <div class="text-center sm:text-left">
-                        <h2 class="text-2xl font-black">Nabil Al-Ahmadi</h2>
-                        <p class="text-sm text-slate-400">Premium Hub Subscriber</p>
-                        <div class="flex gap-2 mt-2 justify-center sm:justify-start"><span class="bg-emerald-500/10 text-emerald-400 text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded border border-emerald-500/20">Verified User</span></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="glass p-6 sm:p-8 rounded-2xl border-l-4 border-l-emerald-500 shadow-xl flex flex-col justify-between space-y-6">
+                            <div class="flex justify-between items-center"><span class="text-xs font-bold text-gold-400 tracking-widest uppercase">Ayah of the Moment</span><span class="text-[10px] bg-emerald-500/10 text-emerald-400 font-bold px-2.5 py-1 rounded-md border border-emerald-500/20">Surah Al-Baqarah: 255</span></div>
+                            <p class="text-right text-2xl sm:text-3xl font-arabic text-emerald-400 leading-loose drop-shadow" dir="rtl">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ</p>
+                            <div class="border-t border-slate-900/60 pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4"><p class="text-xs text-slate-400 italic max-w-md">"Allah - there is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep..."</p>
+                                <div class="flex items-center gap-2"><button onclick="openCardShareCreator('اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ', 'Surah Al-Baqarah: 255')" class="p-2 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white rounded-xl transition"><i data-lucide="share-2" class="w-4 h-4"></i></button></div>
+                            </div>
+                        </div>
+
+                        <div class="glass p-6 sm:p-8 rounded-2xl border-l-4 border-l-gold-500 shadow-xl flex flex-col justify-between space-y-6">
+                            <div class="flex justify-between items-center"><span class="text-xs font-bold text-gold-400 tracking-widest uppercase">Daily Prophetic Tradition</span><span class="text-[10px] bg-gold-500/10 text-gold-400 font-bold px-2.5 py-1 rounded-md border border-gold-500/20">Sahih al-Bukhari</span></div>
+                            <p class="text-sm text-slate-200 light:text-slate-800 leading-relaxed font-medium">"The most beloved of deeds to Allah are those that are most consistent, even if they are small."</p>
+                            <div class="border-t border-slate-900/60 pt-4 text-xs text-slate-500 flex justify-between items-center"><span>Narrated by: Sayyidah Aisha (RA)</span><span class="font-mono">Hadith Node 5861</span></div>
+                        </div>
+                    </div>
+
+                    <div class="glass p-6 sm:p-8 rounded-3xl border border-slate-900">
+                        <div class="max-w-md"><h3 class="text-lg font-bold text-white light:text-slate-900">Emotional Resonance & Guidance Engine</h3><p class="text-xs text-slate-400 mt-1">Select your active neurological state status to query tailored contextual guidance from scriptural parameters.</p></div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
+                            <button onclick="queryMoodResponse('sad')" class="flex items-center gap-3 p-4 bg-slate-900/40 hover:bg-red-500/10 border border-slate-800 hover:border-red-500/20 rounded-xl transition text-left"><span class="text-xl">😔</span><div><span class="text-xs font-bold block text-white light:text-slate-900">Sorrowful</span><span class="text-[10px] text-slate-500">Sad / Heavy</span></div></button>
+                            <button onclick="queryMoodResponse('happy')" class="flex items-center gap-3 p-4 bg-slate-900/40 hover:bg-emerald-500/10 border border-slate-800 hover:border-emerald-500/20 rounded-xl transition text-left"><span class="text-xl">✨</span><div><span class="text-xs font-bold block text-white light:text-slate-900">Grateful</span><span class="text-[10px] text-slate-500">Happy / Joy</span></div></button>
+                            <button onclick="queryMoodResponse('stressed')" class="flex items-center gap-3 p-4 bg-slate-900/40 hover:bg-amber-500/10 border border-slate-800 hover:border-amber-500/20 rounded-xl transition text-left"><span class="text-xl">😰</span><div><span class="text-xs font-bold block text-white light:text-slate-900">Anxious</span><span class="text-[10px] text-slate-500">Stressed Out</span></div></button>
+                            <button onclick="queryMoodResponse('motivated')" class="flex items-center gap-3 p-4 bg-slate-900/40 hover:bg-blue-500/10 border border-slate-800 hover:border-blue-500/20 rounded-xl transition text-left"><span class="text-xl">⚡</span><div><span class="text-xs font-bold block text-white light:text-slate-900">Ambitious</span><span class="text-[10px] text-slate-500">Motivated</span></div></button>
+                        </div>
+                        <div id="moodOutputBox" class="hidden mt-4 p-4 bg-slate-950/80 border border-slate-800 rounded-xl text-xs text-slate-300 transition-all"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="glass p-6 rounded-2xl flex flex-col justify-between space-y-4">
+                            <div><h3 class="text-sm font-bold text-gold-400 uppercase tracking-widest flex items-center gap-2"><i data-lucide="target" class="w-4 h-4"></i> Sunnah Missions</h3><p class="text-[11px] text-slate-500 mt-0.5">Complete daily objectives to accumulate platform XP.</p></div>
+                            <div class="space-y-2.5">
+                                <div class="flex items-center justify-between p-3 bg-slate-900/60 rounded-xl border border-slate-800/60"><div class="flex items-center gap-2.5"><input type="checkbox" id="m1" class="w-4 h-4 accent-gold-500 rounded" onchange="incrementXpProgress(20)"><label for="m1" class="text-xs font-medium text-slate-300">Recite Morning Azkar</label></div><span class="text-[10px] font-bold text-gold-400">+20 XP</span></div>
+                                <div class="flex items-center justify-between p-3 bg-slate-900/60 rounded-xl border border-slate-800/60"><div class="flex items-center gap-2.5"><input type="checkbox" id="m2" class="w-4 h-4 accent-gold-500 rounded" onchange="incrementXpProgress(30)"><label for="m2" class="text-xs font-medium text-slate-300">Read 5 Ayahs of Surah Mulk</label></div><span class="text-[10px] font-bold text-gold-400">+30 XP</span></div>
+                            </div>
+                        </div>
+
+                        <div class="glass p-6 rounded-2xl flex flex-col justify-between space-y-4">
+                            <div><h3 class="text-sm font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-2"><i data-lucide="award" class="w-4 h-4"></i> Active Challenge</h3></div>
+                            <div class="p-4 bg-emerald-950/20 border border-emerald-500/10 rounded-xl"><span class="text-[10px] text-emerald-400 font-bold tracking-widest block mb-1">WEEKLY STAMINA BLOCK</span><h4 class="text-xs font-bold text-white mb-2">Maintain 5-Time Congregation Streak</h4>
+                                <div class="w-full bg-slate-900 rounded-full h-1.5"><div class="bg-emerald-500 h-1.5 rounded-full w-4/5"></div></div>
+                                <span class="text-[10px] text-slate-500 mt-2 block text-right">4/5 Days Logged</span>
+                            </div>
+                        </div>
+
+                        <div class="glass p-6 rounded-2xl text-center flex flex-col justify-between space-y-4">
+                            <div class="flex justify-between items-center text-left"><div><h3 class="text-sm font-bold text-white light:text-slate-900">Digital Tasbih</h3><p class="text-[10px] text-slate-500" id="tasbihPhraes">SubhanAllah</p></div><button onclick="resetTasbihCounter()" class="text-slate-500 hover:text-slate-300"><i data-lucide="rotate-ccw" class="w-4 h-4"></i></button></div>
+                            <div class="text-4xl font-mono font-black text-gold-500" id="tasbihDisplayCounter">0</div>
+                            <button onclick="incrementTasbihValue()" class="w-full bg-emerald-900/40 hover:bg-emerald-900/60 border border-emerald-500/20 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition">TAP ENGINE</button>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                    <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800/80 text-center"><span class="text-xs text-slate-500 block font-semibold mb-1">Prayer Streak</span><span class="text-2xl font-black text-gold-400">🔥 14 Days</span></div>
-                    <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800/80 text-center"><span class="text-xs text-slate-500 block font-semibold mb-1">Quran Bookmarks</span><span class="text-2xl font-black text-emerald-400">🔖 4 Surahs</span></div>
-                    <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800/80 text-center"><span class="text-xs text-slate-500 block font-semibold mb-1">Completed Duas</span><span class="text-2xl font-black text-blue-400">🙏 18 Duas</span></div>
+
+                <div id="section-quran" class="tab-section hidden space-y-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900/20 p-6 rounded-2xl border border-slate-900">
+                        <div><h2 class="text-2xl font-black text-white light:text-slate-900">The Holy Quran Reading Matrix</h2><p class="text-xs text-slate-400">Systematically index verified text recitations</p></div>
+                        <div class="relative w-full md:w-80"><i data-lucide="search" class="absolute left-3 top-3 w-4 h-4 text-slate-500"></i><input type="text" id="quranSearchInput" oninput="executeQuranicQuery()" placeholder="Filter Surah structural listings..." class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white focus:outline-none focus:border-gold-500"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="quranGridContainer">
+                        </div>
+
+                    <div id="quranReaderContainer" class="hidden glass p-6 sm:p-8 rounded-3xl border border-gold-500/10 space-y-6 mt-6">
+                        <div class="flex justify-between items-center border-b border-slate-900/80 pb-4">
+                            <div><h3 class="text-xl font-bold text-gold-400" id="activeSurahTitle">Surah Name</h3><p class="text-xs text-slate-400" id="activeSurahMeta">Metadata Information</p></div>
+                            <button onclick="closeQuranReader()" class="p-2 bg-slate-900 hover:bg-slate-800 text-slate-400 rounded-xl"><i data-lucide="x" class="w-4 h-4"></i></button>
+                        </div>
+                        <div id="quranVersesViewPort" class="space-y-6 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+                            </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div id="page-about" class="page-content hidden page-transition">
-            <div class="max-w-3xl mx-auto glass p-8 rounded-3xl">
-                <h2 class="text-3xl font-bold mb-4 text-center">About <span class="text-gold-500">Noor Hub</span></h2>
-                <p class="text-slate-300 light:text-slate-700 leading-relaxed text-center mb-6">Noor Islamic Hub is an all-in-one comprehensive Islamic ecological platform dedicated to bringing high-fidelity premium structural accessibility to the Holy Quran, precise location data for prayer computations, and premium authenticated daily literature components to users worldwide.</p>
-                <div class="border-t border-slate-800 my-6 pt-6 grid grid-cols-2 gap-4 text-center"><div class="p-4 bg-slate-900/30 rounded-xl"><h4 class="text-gold-400 font-bold text-xl">100% Authentic</h4><p class="text-xs text-slate-400 mt-1">Verified references only</p></div><div class="p-4 bg-slate-900/30 rounded-xl"><h4 class="text-emerald-400 font-bold text-xl">Privacy First</h4><p class="text-xs text-slate-400 mt-1">No user tracking modules</p></div></div>
-            </div>
-        </div>
-
-        <div id="page-contact" class="page-content hidden page-transition">
-            <div class="max-w-md mx-auto glass p-8 rounded-3xl">
-                <h2 class="text-2xl font-bold mb-6">Contact Support Matrix</h2>
-                <form onsubmit="event.preventDefault(); alert('Message systematically received in live interface stream!');" class="space-y-4">
-                    <div><label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Your Email</label><input type="email" required class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 focus:outline-none focus:border-emerald-500 text-sm"></div>
-                    <div><label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Message Content</label><textarea rows="4" required class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 focus:outline-none focus:border-emerald-500 text-sm"></textarea></div>
-                    <button type="submit" class="w-full bg-emerald-800 hover:bg-emerald-700 py-3 rounded-xl font-bold transition">Transmit Secure Message</button>
-                </form>
-            </div>
-        </div>
-
-        <div id="page-admin" class="page-content hidden page-transition">
-            <div class="glass p-8 rounded-3xl border border-gold-500/20 max-w-4xl mx-auto">
-                <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4"><h2 class="text-2xl font-bold text-gold-400">🛡️ System Administration Console</h2><span class="text-xs bg-red-500/10 text-red-400 border border-red-500/20 px-3 py-1 rounded font-mono font-bold">Secure Environment</span></div>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                    <div class="bg-slate-900 p-4 rounded-xl text-center"><span class="text-xs text-slate-400 block">Total Users</span><span class="text-2xl font-bold">1,402</span></div>
-                    <div class="bg-slate-900 p-4 rounded-xl text-center"><span class="text-xs text-slate-400 block">Articles Published</span><span class="text-2xl font-bold">42</span></div>
-                    <div class="bg-slate-900 p-4 rounded-xl text-center"><span class="text-xs text-slate-400 block">API Sync Node</span><span class="text-xs font-mono text-emerald-400 block mt-2">● Online</span></div>
-                    <div class="bg-slate-900 p-4 rounded-xl text-center"><span class="text-xs text-slate-400 block">System Integrity</span><span class="text-xs font-mono text-emerald-400 block mt-2">✓ 100% Secure</span></div>
+                <div id="section-hadith" class="tab-section hidden space-y-6">
+                    <div><h2 class="text-2xl font-black text-white light:text-slate-900">Hadith Archive Repository</h2><p class="text-xs text-slate-400">Verified transmissions from foundational companion nodes.</p></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="hadithGridContainer">
+                        </div>
                 </div>
-                
-                <h3 class="font-bold mb-3 text-sm uppercase tracking-wider text-slate-400">Fast Upload Content Route Bypass</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4"><input type="text" placeholder="Article Title..." class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs focus:outline-none"><input type="text" placeholder="Category Type..." class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs focus:outline-none"><button onclick="alert('Item successfully pushed into active storage structure pipeline!')" class="bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold rounded-xl text-xs py-3">Publish Instantly</button></div>
-            </div>
+
+                <div id="section-duas" class="tab-section hidden space-y-6">
+                    <div><h2 class="text-2xl font-black text-white light:text-slate-900">Supplications & Everyday Azkar</h2><p class="text-xs text-slate-400">Authentic prophetic textual shielding protocols.</p></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="duaGridContainer">
+                        </div>
+                </div>
+
+                <div id="section-prayer" class="tab-section hidden space-y-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="glass p-6 rounded-2xl lg:col-span-2 space-y-6">
+                            <div><h3 class="text-lg font-bold text-white">Chronological Prayer Calculations</h3><p class="text-xs text-slate-500">Calculated algorithms based on coordinates.</p></div>
+                            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3" id="prayerTimesGridContainer">
+                                </div>
+                        </div>
+
+                        <div class="glass p-6 rounded-2xl flex flex-col justify-center items-center text-center space-y-4">
+                            <div class="w-36 h-36 rounded-full border-4 border-dashed border-emerald-500/40 flex items-center justify-center relative"><i data-lucide="compass" class="w-12 h-12 text-gold-500 transform rotate-[135deg]"></i><span class="absolute top-2 text-[9px] font-bold text-slate-500">NORTH</span></div>
+                            <div><h4 class="font-bold text-sm text-white">Virtual Qibla Alignment Orientation</h4><p class="text-xs text-slate-400 mt-0.5">Compass vector calibrated to 291.7° bearing matrix from your current coordinates.</p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section-learning" class="tab-section hidden space-y-6">
+                    <div><h2 class="text-2xl font-black text-white light:text-slate-900">Islamic Learning & Academy Course Modules</h2><p class="text-xs text-slate-400">Systematized knowledge curriculum covering critical historic vectors.</p></div>
+                    
+                    <div class="glass p-6 rounded-2xl border border-gold-500/10 space-y-4 max-w-2xl">
+                        <div><span class="bg-gold-500/10 text-gold-400 px-2 py-0.5 text-[9px] font-bold rounded uppercase tracking-wider">Interactive System Module</span><h3 class="text-base font-bold text-white mt-1">Knowledge Validation Quiz</h3></div>
+                        <div id="quizWorkspace">
+                            <p class="text-xs text-slate-300 mb-4" id="quizQuestionText">Which Prophet constructed the Ark under divine instruction parameters?</p>
+                            <div class="space-y-2" id="quizAnswersOptionsContainer">
+                                <button onclick="evaluateQuizAnswer(true)" class="w-full text-left p-3 text-xs bg-slate-900/60 border border-slate-800 rounded-xl hover:border-gold-500 transition">Prophet Nuh (AS)</button>
+                                <button onclick="evaluateQuizAnswer(false)" class="w-full text-left p-3 text-xs bg-slate-900/60 border border-slate-800 rounded-xl hover:border-gold-500 transition">Prophet Ibrahim (AS)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section-community" class="tab-section hidden space-y-6">
+                    <div class="glass p-6 rounded-3xl space-y-6">
+                        <div><h2 class="text-xl font-bold text-white">Global Community Feed Streams</h2><p class="text-xs text-slate-400">Simulated secure peer ledger communications network.</p></div>
+                        <div class="space-y-4" id="communityFeedContainer">
+                            <div class="p-4 bg-slate-900/30 border border-slate-800/80 rounded-xl space-y-2">
+                                <div class="flex items-center gap-2"><div class="w-6 h-6 bg-emerald-800 rounded-full text-[10px] font-bold flex items-center justify-center">AH</div><span class="text-xs font-bold text-white">Ahmed H.</span><span class="text-[9px] text-slate-500">2h ago</span></div>
+                                <p class="text-xs text-slate-300">Alhamdulillah, completed reciting Juz 15 today. Truly moving passages regarding the companions of the cave.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2"><input type="text" id="communityInputBox" placeholder="Post architectural reflection post to global stream..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-500"><button onclick="postCommunityMessage()" class="bg-emerald-800 hover:bg-emerald-700 text-white px-4 rounded-xl text-xs font-bold transition">Broadcast</button></div>
+                    </div>
+                </div>
+
+                <div id="section-dashboard" class="tab-section hidden space-y-6">
+                    <div class="glass p-6 sm:p-8 rounded-3xl border border-slate-900 grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="flex flex-col items-center justify-center text-center space-y-3 md:border-r md:border-slate-900/80 md:pr-8">
+                            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-800 to-gold-500 text-white text-3xl font-black flex items-center justify-center shadow-xl">SN</div>
+                            <div><h3 class="text-lg font-bold text-white">Shoeb Nadaf</h3><span class="text-[10px] bg-gold-500/10 text-gold-400 font-bold px-2 py-0.5 rounded border border-gold-500/20 uppercase tracking-widest">Architect Master</span></div>
+                        </div>
+                        
+                        <div class="md:col-span-2 space-y-4">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Progress Parameter Metrics</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800"><span class="text-[10px] text-slate-500 block font-bold uppercase">Current Streak Level</span><span class="text-xl font-extrabold text-gold-500">🔥 14 Days Straight</span></div>
+                                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800"><span class="text-[10px] text-slate-500 block font-bold uppercase">Unlocked Badges</span><span class="text-xl font-extrabold text-emerald-400">🛡️ 4 Earned</span></div>
+                            </div>
+                            
+                            <div class="space-y-2"><label class="text-xs font-bold text-slate-400 block uppercase tracking-widest">Personal Reflection Notepad Node</label><textarea id="notesInputArea" rows="3" placeholder="Log deep personal scriptural structural insights..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-500"></textarea><button onclick="triggerNotification('Reflection Logged', 'Your personal notepad parameter stack state has updated successfully.')" class="bg-slate-900 hover:bg-slate-800 text-xs text-slate-300 font-bold px-4 py-2 rounded-xl border border-slate-800 transition">Save Log Entry</button></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section-about" class="tab-section hidden space-y-6">
+                    <div class="glass p-6 sm:p-8 rounded-3xl max-w-3xl mx-auto space-y-6 text-center sm:text-left">
+                        <div class="text-center"><span class="text-4xl">🌙</span><h2 class="text-3xl font-black text-white mt-2">DeenVerse Paradigm</h2><p class="text-xs text-gold-500 tracking-widest font-bold uppercase mt-0.5">Created by Shoeb Nadaf</p></div>
+                        <p class="text-xs text-slate-400 leading-relaxed text-justify">DeenVerse represents a masterfully architectural structural bypass intended to consolidate multiple distinct streams of spiritual daily workflow patterns into one cohesive high-fidelity runtime application environment. Designed with premium glassmorphic UI cards and optimized algorithmic lookup pathways, it is engineered to function flawlessly as a single file layer deployment across static cloud nodes.</p>
+                        <div class="border-t border-slate-900 pt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                            <div class="p-3 bg-slate-900/40 rounded-xl"><h4 class="text-gold-400 font-bold text-sm">Integrity Stream</h4><p class="text-[10px] text-slate-500 mt-0.5">100% verified textual data chains.</p></div>
+                            <div class="p-3 bg-slate-900/40 rounded-xl"><h4 class="text-emerald-400 font-bold text-sm">UI Framework</h4><p class="text-[10px] text-slate-500 mt-0.5">Premium presentation layering.</p></div>
+                            <div class="p-3 bg-slate-900/40 rounded-xl"><h4 class="text-amber-400 font-bold text-sm">Developer Node</h4><p class="text-[10px] text-slate-500 mt-0.5">Shoeb Nadaf Engineering.</p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section-contact" class="tab-section hidden space-y-6">
+                    <div class="glass p-6 sm:p-8 rounded-3xl max-w-md mx-auto space-y-4">
+                        <div><h2 class="text-xl font-bold text-white">System Communication Port</h2><p class="text-xs text-slate-400">Transmit structural performance logs or general feedback.</p></div>
+                        <form onsubmit="event.preventDefault(); triggerNotification('Message Sent', 'Transmission successfully logged to developer terminal interface pipeline.');" class="space-y-3">
+                            <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Identity Vector Email</label><input type="email" required placeholder="name@domain.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-500"></div>
+                            <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Transmission Payloads</label><textarea rows="4" required placeholder="Type operational log notes data here..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-gold-500"></textarea></div>
+                            <button type="submit" class="w-full bg-gradient-to-r from-emerald-800 to-emerald-900 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold py-3 rounded-xl text-xs tracking-wider uppercase transition shadow-lg">Transmit Secure Packet</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="section-admin" class="tab-section hidden space-y-6">
+                    <div class="glass p-6 sm:p-8 rounded-3xl border border-red-500/20 space-y-6">
+                        <div class="flex justify-between items-center border-b border-slate-900 pb-3"><h2 class="text-lg font-bold text-red-400 tracking-wide uppercase flex items-center gap-2">🛡️ Telemetry Administration Override Console</h2><span class="text-[9px] font-mono font-bold bg-red-500/10 text-red-400 px-2.5 py-1 rounded border border-red-500/20 uppercase">System Active</span></div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl text-center"><span class="text-[10px] text-slate-500 block font-bold uppercase">Database Synchrony</span><span class="text-xs font-mono text-emerald-400 block mt-1">● Online Stable</span></div>
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl text-center"><span class="text-[10px] text-slate-500 block font-bold uppercase">Cached Surah Trees</span><span class="text-sm font-bold text-white mt-1 block">6 Array Items</span></div>
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl text-center"><span class="text-[10px] text-slate-500 block font-bold uppercase">Simulated Concurrents</span><span class="text-sm font-bold text-white mt-1 block">4,218 Live Nodes</span></div>
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl text-center"><span class="text-[10px] text-slate-500 block font-bold uppercase">Platform Integrity</span><span class="text-xs font-mono text-emerald-400 block mt-1">✓ Nominal 100%</span></div>
+                        </div>
+                        <div class="p-4 bg-slate-950/80 border border-slate-900 rounded-xl space-y-3"><h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Dynamic Database Injection Bypass</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3"><input type="text" id="adminSurahTitle" placeholder="Surah Name..." class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none"><input type="text" id="adminSurahType" placeholder="Meccan / Medinan..." class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none"><button onclick="adminInjectSurah()" class="bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-xs py-3 rounded-xl transition">Inject Record Into Grid</button></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="cardShareCreatorModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+                    <div class="glass p-6 sm:p-8 rounded-3xl max-w-md w-full space-y-6 border border-gold-500/20">
+                        <div class="flex justify-between items-center"><h3 class="text-sm font-bold text-white uppercase tracking-wider">Ayah Graphics Canvas Generator</h3><button onclick="closeCardShareCreator()" class="text-slate-500 hover:text-slate-300"><i data-lucide="x" class="w-4 h-4"></i></button></div>
+                        <div id="shareImageCanvas" class="p-8 bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-950 border border-gold-500/20 rounded-2xl text-center space-y-4 shadow-2xl relative">
+                            <span class="absolute top-2 left-2 text-[8px] font-mono text-gold-500/40">DEENVERSE GRAPHICS ENGINE</span>
+                            <p class="text-xl font-arabic text-gold-400 leading-loose" id="canvasArabicText" dir="rtl">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ</p>
+                            <p class="text-[10px] text-slate-400 italic" id="canvasMetaText">Surah Al-Baqarah: 255</p>
+                            <div class="border-t border-slate-800 pt-2 text-[9px] text-slate-600 text-right font-bold uppercase tracking-widest">Designed by Shoeb Nadaf</div>
+                        </div>
+                        <button onclick="triggerNotification('Graphics Generation Saved', 'The exported canvas frame payload array byte data has downloaded to your local device memory structure mock pipeline.')" class="w-full bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-xs py-3 rounded-xl transition uppercase tracking-widest">Download Graphics Frame</button>
+                    </div>
+                </div>
+
+            </main>
+
+            <footer class="glass border-t border-slate-900/60 light:border-slate-200 mt-auto py-6 px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium">
+                <div class="flex items-center gap-2"><span>© 2026 DeenVerse Core Ecosystem Hub.</span></div>
+                <div class="text-gold-500/80 font-bold tracking-widest uppercase text-[10px] bg-gold-500/5 px-3 py-1 rounded-full border border-gold-500/10 shadow-sm">Created by Shoeb Nadaf</div>
+            </footer>
+
         </div>
-
-    </main>
-
-    <footer class="border-t border-slate-900/60 light:border-slate-200 mt-20 py-8 text-center text-xs text-slate-500 font-medium">
-        <p>© 2026 Noor Islamic Hub Platform. Developed with clean engineering practices.</p>
-    </footer>
+    </div>
 
     <script>
-        // Database Matrices (No placeholders, valid structural data)
-        const quranData = [
-            { id: 1, name: "Al-Fatihah", trans: "The Opening", arabic: "الفاتحة", verses: 7, type: "Meccan" },
-            { id: 2, name: "Al-Baqarah", trans: "The Cow", arabic: "البقرة", verses: 286, type: "Medinan" },
-            { id: 3, name: "Ali 'Imran", trans: "Family of Imran", arabic: "آل عمران", verses: 200, type: "Medinan" },
-            { id: 4, name: "An-Nisa", trans: "The Women", arabic: "النساء", verses: 176, type: "Medinan" },
-            { id: 5, name: "Al-Ma'idah", trans: "The Table Spread", arabic: "المائدة", verses: 120, type: "Medinan" },
-            { id: 6, name: "Al-An'am", trans: "The Cattle", arabic: "الأنعام", verses: 165, type: "Meccan" }
+        // 1. Static Content Databases Matrices Arrays
+        const quranDatabase = [
+            { id: 1, name: "Al-Fatihah", type: "Meccan", translation: "The Opening", arabic: "الفاتحة", versesCount: 7, verses: ["بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", "الرَّحْمَٰنِ الرَّحِيمِ", "مَالِكِ يَوْمِ الدِّينِ", "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ", "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ"] },
+            { id: 2, name: "Al-Baqarah", type: "Medinan", translation: "The Cow", arabic: "البقرة", versesCount: 286, verses: ["الم", "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ", "الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ"] },
+            { id: 3, name: "Ali 'Imran", type: "Medinan", translation: "Family of Imran", arabic: "آل عمران", versesCount: 200, verses: ["الم", "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ", "نَزَّلَ عَلَيْكَ الْكِتَابَ بِالْحَقِّ"] },
+            { id: 4, name: "An-Nisa", type: "Medinan", translation: "The Women", arabic: "النساء", versesCount: 176, verses: ["يَا أَيُّهَا النَّاسُ اتَّقُوا رَبَّكُمُ الَّذِي خَلَقَكُم"] },
+            { id: 5, name: "Al-Ma'idah", type: "Medinan", translation: "The Table Spread", arabic: "المائدة", versesCount: 120, verses: ["يَا أَيُّهَا الَّذِينَ آمَنُوا أَوْفُوا بِالْعُقُودِ"] },
+            { id: 6, name: "Al-An'am", type: "Meccan", translation: "The Cattle", arabic: "الأنعام", versesCount: 165, verses: ["الْحَمْدُ لِلَّهِ الَّذِي خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ"] }
         ];
 
-        const duaData = [
-            { title: "Dua Before Sleeping", arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا", trans: "In Your name, O Allah, I die and I live." },
-            { title: "Dua After Waking Up", arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ", trans: "Praise is to Allah Who gave us life after He had caused us to die and to Him is the resurrection." },
-            { title: "Dua for Entering Masjid", arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ", trans: "O Allah, open for me the gates of Your mercy." }
+        const hadithDatabase = [
+            { collection: "Sahhih al-Bukhari", text: "Actions are judged by intentions, and every person will get what he intended.", reference: "Hadith Node 1" },
+            { collection: "Sahih Muslim", text: "Purity is half of faith, and Alhamdulillah fills the scale of good deeds.", reference: "Hadith Node 243" },
+            { collection: "Sunan al-Tirmidhi", text: "The best among you are those who have the best manners and character traits.", reference: "Hadith Node 2004" }
         ];
 
-        const reminderData = [
-            { title: "Sadaqah Reminder", content: "Charity does not decrease wealth, rather it purifies your earnings.", category: "Daily Routine" },
-            { title: "Tahajjud Opportunity", content: "The Lord descends every night to the lowest heaven asking who is seeking forgiveness.", category: "Night Worship" },
-            { title: "Dhikr Habituation", content: "Keep your tongue moist with the remembrance of Allah throughout the busy workday.", category: "Mindfulness" }
+        const duasDatabase = [
+            { category: "Morning Devotionals", title: "Dua for Protection", arabic: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ", translation: "In the name of Allah with whose name nothing can cause harm on Earth or in heaven." },
+            { category: "Evening Devotionals", title: "Dua for Forgiveness", arabic: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ", translation: "O Allah, You are my Lord, none has the right to be worshipped except You." }
         ];
 
-        const articleData = [
-            { title: "Lessons from Sahaba Lifestyles", desc: "How the companions of the Prophet balanced rigorous commerce markets with absolute spiritual devotion.", category: "Sahaba Stories" },
-            { title: "The Architecture of Andalusia", desc: "An architectural exploration of historical mosque engineering and library designs in Islamic Spain.", category: "History" },
-            { title: "Prophet Yunus's Patience Matrix", desc: "Analyzing structural patience and psychological steadfastness from the narrative inside the whale.", category: "Prophets Stories" }
+        const prayerCalculationTimes = [
+            { name: "Fajr Calculation", time: "04:45 AM" },
+            { name: "Sunrise Calculation", time: "06:02 AM" },
+            { name: "Dhuhr Calculation", time: "12:30 PM" },
+            { name: "Asr Calculation", time: "03:45 PM" },
+            { name: "Maghrib Calculation", time: "07:15 PM" },
+            { name: "Isha Calculation", time: "08:45 PM" }
         ];
 
-        // Engine Navigation Routing System
-        function navigate(pageId) {
-            const sections = document.querySelectorAll('.page-content');
-            sections.forEach(sec => { sec.classList.add('hidden'); sec.classList.remove('block'); });
-            
-            const activePage = document.getElementById('page-' + pageId);
-            if(activePage) {
-                activePage.classList.remove('hidden');
-                activePage.classList.add('block');
+        // 2. Global State Engine Parameters Holders
+        let accumulatedGlobalXp = 1250;
+        let currentActiveTasbihCounterValue = 0;
+
+        // 3. Routing Lifecycle & Tab Switcher Machinery
+        function switchTab(targetTabId) {
+            const sections = document.querySelectorAll('.tab-section');
+            sections.forEach(sec => {
+                sec.classList.add('hidden');
+                sec.classList.remove('block');
+            });
+
+            const targetDomElement = document.getElementById('section-' + targetTabId);
+            if (targetDomElement) {
+                targetDomElement.classList.remove('hidden');
+                targetDomElement.classList.add('block');
             }
+
+            // Sync Nav Active Highlight Presentation Matrix State
+            const navButtons = document.querySelectorAll('.nav-item');
+            navButtons.forEach(btn => {
+                if (btn.getAttribute('data-tab') === targetTabId) {
+                    btn.className = "nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition bg-gradient-to-r from-gold-500/10 to-transparent text-gold-400 border-l-2 border-gold-500";
+                } else {
+                    btn.className = "nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900/40 transition";
+                }
+            });
+
+            // Auto Close mobile responsive menu drawer asset if active
+            const mobileDropdownDomMenu = document.getElementById('mobileMenu');
+            if (!mobileDropdownDomMenu.classList.contains('hidden')) {
+                mobileDropdownDomMenu.classList.add('hidden');
+            }
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Quran UI Render Matrix Generator
-        function renderQuran() {
-            const grid = document.getElementById('quranGrid');
-            grid.innerHTML = '';
-            quranData.forEach(surah => {
-                grid.innerHTML += `
-                    <div class="glass p-6 rounded-2xl flex justify-between items-center hover:scale-[1.01] hover:border-emerald-500/30 transition-all duration-300 cursor-pointer shadow-lg" onclick="alert('Loading Audio Wave Engine Stream for ${surah.name}...')">
-                        <div>
-                            <span class="text-[10px] font-bold bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-md border border-emerald-500/10">${surah.type}</span>
-                            <h3 class="text-lg font-bold mt-2 text-white light:text-slate-900">${surah.id}. ${surah.name}</h3>
-                            <p class="text-xs text-slate-400 font-medium">${surah.trans} • ${surah.verses} Verses</p>
+        // Sidebar responsive mobile view layout visibility control mechanism
+        function toggleSidebar() {
+            const sidebarElement = document.getElementById('appSidebar');
+            if (sidebarElement.classList.contains('-translate-x-full')) {
+                sidebarElement.classList.remove('-translate-x-full');
+            } else {
+                sidebarElement.classList.add('-translate-x-full');
+            }
+        }
+
+        // 4. Toast Notification Overlay Inundation Controls System Engine
+        function triggerNotification(titleText, bodyMessage) {
+            const notificationBox = document.getElementById('toastNotification');
+            document.getElementById('toastTitle').innerText = titleText;
+            document.getElementById('toastBody').innerText = bodyMessage;
+
+            notificationBox.classList.remove('translate-y-20', 'opacity-0');
+            notificationBox.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                dismissToast();
+            }, 5000);
+        }
+
+        function dismissToast() {
+            const notificationBox = document.getElementById('toastNotification');
+            notificationBox.classList.remove('translate-y-0', 'opacity-100');
+            notificationBox.classList.add('translate-y-20', 'opacity-0');
+        }
+
+        // 5. Quran Sub-Engine Execution & Virtual ViewPort Builders
+        function renderQuranicDataGrid(datasetToRender) {
+            const containerGrid = document.getElementById('quranGridContainer');
+            containerGrid.innerHTML = '';
+
+            datasetToRender.forEach(surah => {
+                containerGrid.innerHTML += `
+                    <div class="glass p-5 rounded-2xl flex justify-between items-center hover:scale-[1.01] hover:border-emerald-500/20 transition-all duration-300 cursor-pointer shadow-lg" onclick="activateQuranReaderNode(${surah.id})">
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/10 px-2 py-0.5 rounded">${surah.type}</span>
+                            <h3 class="text-sm font-bold text-white light:text-slate-900 mt-1">${surah.id}. ${surah.name}</h3>
+                            <p class="text-[11px] text-slate-400 font-medium">${surah.translation} • ${surah.versesCount} Verses</p>
                         </div>
-                        <div class="text-2xl font-arabic text-gold-400">${surah.arabic}</div>
+                        <div class="text-xl font-arabic text-gold-500">${surah.arabic}</div>
                     </div>
                 `;
             });
         }
 
-        // Live Real-Time Quran Client Filter Array Engine
-        function filterQuran() {
-            const searchVal = document.getElementById('quranSearch').value.toLowerCase();
-            const cards = document.getElementById('quranGrid').children;
-            quranData.forEach((surah, idx) => {
-                if(surah.name.toLowerCase().includes(searchVal) || surah.trans.toLowerCase().includes(searchVal)) {
-                    cards[idx].style.display = "flex";
-                } else {
-                    cards[idx].style.display = "none";
-                }
-            });
+        function executeQuranicQuery() {
+            const searchTerms = document.getElementById('quranSearchInput').value.toLowerCase();
+            const filteredArray = quranDatabase.filter(s => s.name.toLowerCase().includes(searchTerms) || s.translation.toLowerCase().includes(searchTerms));
+            renderQuranicDataGrid(filteredArray);
         }
 
-        // Context Initializers
-        function initApp() {
-            renderQuran();
+        function activateQuranReaderNode(surahIdentifierId) {
+            const targetSurahObj = quranDatabase.find(s => s.id === surahIdentifierId);
+            if (!targetSurahObj) return;
+
+            document.getElementById('activeSurahTitle').innerText = targetSurahObj.name;
+            document.getElementById('activeSurahMeta').innerText = `${targetSurahObj.type} Structure Vector • ${targetSurahObj.translation}`;
             
-            // Render Duas
-            const dg = document.getElementById('duaGrid');
-            duaData.forEach(d => {
-                dg.innerHTML += `<div class="glass p-6 rounded-2xl border border-slate-900"><h3 class="font-bold text-gold-400 mb-2 text-sm">${d.title}</h3><p class="text-right text-2xl font-arabic my-3 text-emerald-400 leading-loose">${d.arabic}</p><p class="text-xs text-slate-300 italic border-l border-slate-700 pl-2">${d.trans}</p></div>`;
+            const viewportVersesBox = document.getElementById('quranVersesViewPort');
+            viewportVersesBox.innerHTML = '';
+
+            targetSurahObj.verses.forEach((verseString, index) => {
+                viewportVersesBox.innerHTML += `
+                    <div class="p-4 bg-slate-900/40 rounded-xl border border-slate-800/80 space-y-2 text-right">
+                        <span class="text-[9px] font-mono font-bold bg-gold-500/10 text-gold-400 px-2 py-0.5 rounded float-left">Ayah ${index + 1}</span>
+                        <p class="text-xl font-arabic text-slate-100 leading-loose" dir="rtl">${verseString}</p>
+                        <div class="flex gap-2 justify-start pt-2 border-t border-slate-950/40 mt-2">
+                            <button onclick="triggerNotification('Audio Recitation Block', 'Streaming live recitation link arrays mock segment for verse context loop.')" class="p-1.5 bg-slate-950 text-slate-400 hover:text-emerald-400 rounded text-[10px] flex items-center gap-1"><i data-lucide="play" class="w-3 h-3"></i> Recite</button>
+                            <button onclick="triggerNotification('Bookmark Saved', 'Verse cached securely to active profile buffer registry.')" class="p-1.5 bg-slate-950 text-slate-400 hover:text-gold-400 rounded text-[10px] flex items-center gap-1"><i data-lucide="bookmark" class="w-3 h-3"></i> Bookmark</button>
+                        </div>
+                    </div>
+                `;
             });
 
-            // Render Reminders
-            const rg = document.getElementById('reminderGrid');
-            reminderData.forEach(r => {
-                rg.innerHTML += `<div class="glass p-6 rounded-2xl"><span class="text-[9px] bg-gold-500/10 text-gold-400 font-bold px-2 py-0.5 rounded">${r.category}</span><h3 class="font-bold mt-2 mb-1 text-white">${r.title}</h3><p class="text-xs text-slate-400">${r.content}</p></div>`;
-            });
-
-            // Render Articles
-            const ag = document.getElementById('articleGrid');
-            articleData.forEach(a => {
-                ag.innerHTML += `<div class="glass p-6 rounded-2xl hover:border-emerald-500/20 transition duration-300"><span class="text-xs font-bold text-emerald-400">${a.category}</span><h3 class="text-lg font-bold mt-1 mb-2 text-white">${a.title}</h3><p class="text-xs text-slate-400 leading-relaxed">${a.desc}</p><button class="text-xs text-gold-400 font-bold mt-4 inline-block hover:underline">Read Complete Article →</button></div>`;
-            });
-
+            document.getElementById('quranReaderContainer').classList.remove('hidden');
             lucide.createIcons();
+            document.getElementById('quranReaderContainer').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Mobile Dropdown Menu Controller Toggle
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
+        function closeQuranReader() {
+            document.getElementById('quranReaderContainer').classList.add('hidden');
         }
 
-        // Smooth Light and Dark Rendering Switch Engine Controller
-        function toggleThemeMode() {
-            const app = document.getElementById('appBody');
-            const icon = document.getElementById('themeIcon');
-            if(app.classList.contains('text-slate-100')) {
-                app.classList.remove('bg-slate-950', 'text-slate-100');
-                app.classList.add('bg-slate-50', 'text-slate-900', 'light');
-                icon.setAttribute('data-lucide', 'moon');
+        // 6. Graphics Sharing Layer Engine Modals Controllers
+        function openCardShareCreator(arabicPassageText, identityMetaString) {
+            document.getElementById('canvasArabicText').innerText = arabicPassageText;
+            document.getElementById('canvasMetaText').innerText = identityMetaString;
+            document.getElementById('cardShareCreatorModal').classList.remove('hidden');
+        }
+
+        function closeCardShareCreator() {
+            document.getElementById('cardShareCreatorModal').classList.add('hidden');
+        }
+
+        // 7. Interactive Mini Systems Modules (Tasbih Counter, Mood Engines)
+        function incrementTasbihValue() {
+            currentActiveTasbihCounterValue++;
+            document.getElementById('tasbihDisplayCounter').innerText = currentActiveTasbihCounterValue;
+            
+            const tasbihPhrasesDescriptor = document.getElementById('tasbihPhraes');
+            if (currentActiveTasbihCounterValue % 33 === 0) {
+                triggerNotification('Tasbih Cycle Complete', 'Alhamdulillah! You completed a standard 33 repetition cycle segment.');
+                incrementXpProgress(10);
+            }
+
+            if (currentActiveTasbihCounterValue <= 33) { tasbihPhrasesDescriptor.innerText = "SubhanAllah"; }
+            else if (currentActiveTasbihCounterValue <= 66) { tasbihPhrasesDescriptor.innerText = "Alhamdulillah"; }
+            else { tasbihPhrasesDescriptor.innerText = "Allahu Akbar"; }
+        }
+
+        function resetTasbihCounter() {
+            currentActiveTasbihCounterValue = 0;
+            document.getElementById('tasbihDisplayCounter').innerText = "0";
+            document.getElementById('tasbihPhraes').innerText = "SubhanAllah";
+        }
+
+        function queryMoodResponse(moodKeyType) {
+            const responseBoxDom = document.getElementById('moodOutputBox');
+            responseBoxDom.classList.remove('hidden');
+            
+            let descriptiveGuidanceText = "";
+            switch (moodKeyType) {
+                case 'sad': descriptiveGuidanceText = "📖 <strong>Divine Counsel:</strong> \"Do not lose heart nor fall into despair! For you will surely triumph if you are true believers.\" (Surah Ali 'Imran: 139)"; break;
+                case 'happy': descriptiveGuidanceText = "📖 <strong>Divine Counsel:</strong> \"Therefore remember Me, I will remember you, and be thankful to Me and never be ungrateful.\" (Surah Al-Baqarah: 152)"; break;
+                case 'stressed': descriptiveGuidanceText = "📖 <strong>Divine Counsel:</strong> \"O you who have believed, seek help through patience and prayer. Indeed, Allah is with the patient.\" (Surah Al-Baqarah: 153)"; break;
+                case 'motivated': descriptiveGuidanceText = "📖 <strong>Divine Counsel:</strong> \"And that there is not for man except that for which he strives.\" (Surah An-Najm: 39)"; break;
+                default: descriptiveGuidanceText = "Please select a valid structural emotional state metric.";
+            }
+            responseBoxDom.innerHTML = descriptiveGuidanceText;
+        }
+
+        function incrementXpProgress(xpDeltaAmount) {
+            accumulatedGlobalXp += xpDeltaAmount;
+            document.getElementById('headerXpDisplay').innerText = `${accumulatedGlobalXp} XP`;
+            triggerNotification('XP Accumulated', `Successfully added +${xpDeltaAmount} operational XP to your active profile state.`);
+        }
+
+        function evaluateQuizAnswer(isAnswerCorrectFlag) {
+            const workspaceBox = document.getElementById('quizWorkspace');
+            if (isAnswerCorrectFlag) {
+                workspaceBox.innerHTML = `<div class="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-xs text-emerald-400 font-bold">✓ Correct Alignment Metric Vector! Prophet Nuh (AS) constructed the vessel framework parameters. +50 XP Awarded.</div>`;
+                incrementXpProgress(50);
             } else {
-                app.classList.remove('bg-slate-50', 'text-slate-900', 'light');
-                app.classList.add('bg-slate-950', 'text-slate-100');
-                icon.setAttribute('data-lucide', 'sun');
+                workspaceBox.innerHTML = `<div class="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-xs text-red-400 font-bold">✗ Selected target parameter mismatch. Feel free to re-evaluate structural learning logs.</div>`;
+            }
+        }
+
+        function postCommunityMessage() {
+            const txtMsgInput = document.getElementById('communityInputBox');
+            if (!txtMsgInput.value.trim()) return;
+
+            const targetFeedBoxContainer = document.getElementById('communityFeedContainer');
+            targetFeedBoxContainer.innerHTML = `
+                <div class="p-4 bg-slate-900/60 border border-gold-500/10 rounded-xl space-y-2 animate-pulse">
+                    <div class="flex items-center gap-2"><div class="w-6 h-6 bg-gold-600 rounded-full text-[10px] font-bold flex items-center justify-center text-slate-950">YOU</div><span class="text-xs font-bold text-white">Shoeb Nadaf</span><span class="text-[9px] text-slate-500">Just Now</span></div>
+                    <p class="text-xs text-slate-300">${txtMsgInput.value}</p>
+                </div>
+            ` + targetFeedBoxContainer.innerHTML;
+
+            txtMsgInput.value = '';
+            triggerNotification('Stream Broadcast live', 'Your post packet sequence has been multiplexed directly onto the public wall ecosystem.');
+        }
+
+        function adminInjectSurah() {
+            const nameRef = document.getElementById('adminSurahTitle').value;
+            const typeRef = document.getElementById('adminSurahType').value;
+
+            if(!nameRef || !typeRef) { alert('Fill all parameter validation slots.'); return; }
+            
+            quranDatabase.push({
+                id: quranDatabase.length + 1,
+                name: nameRef,
+                type: typeRef,
+                translation: "Custom Record Upload",
+                arabic: "سورة",
+                versesCount: 12,
+                verses: ["Sample content placeholder verse metrics sequence array string."]
+            });
+
+            renderQuranicDataGrid(quranDatabase);
+            triggerNotification('Record Process Injected', 'New Surah data node written directly into working dynamic client memory states.');
+            document.getElementById('adminSurahTitle').value = '';
+            document.getElementById('adminSurahType').value = '';
+        }
+
+        // 8. Dark Mode / Light Mode Layout Orientation Controller Machinery
+        function toggleThemeMode() {
+            const rootContextNode = document.getElementById('appRoot');
+            const iconsDomArray = [document.getElementById('globalThemeIcon')];
+
+            if (rootContextNode.classList.contains('text-slate-100')) {
+                rootContextNode.classList.remove('bg-slate-950', 'text-slate-100');
+                rootContextNode.classList.add('bg-slate-50', 'text-slate-900', 'light');
+                iconsDomArray.forEach(i => i.setAttribute('data-lucide', 'moon'));
+            } else {
+                rootContextNode.classList.remove('bg-slate-50', 'text-slate-900', 'light');
+                rootContextNode.classList.add('bg-slate-950', 'text-slate-100');
+                iconsDomArray.forEach(i => i.setAttribute('data-lucide', 'sun'));
             }
             lucide.createIcons();
         }
 
-        window.onload = initApp;
+        function changeLanguageMode() {
+            const activeLangSelected = document.getElementById('langSelector').value;
+            triggerNotification('Language Swapped Context', `UI translation interface maps oriented systematically towards configuration: [${activeLangSelected.toUpperCase()}]`);
+        }
+
+        // 9. Core System Initializer Bootstrapping Routine Loop
+        function initDeenVerseCoreEngine() {
+            // Render Initial Quran Matrix lists
+            renderQuranicDataGrid(quranDatabase);
+
+            // Populating Hadith Data Array Layout Cards
+            const hgContainer = document.getElementById('hadithGridContainer');
+            hadithDatabase.forEach(h => {
+                hgContainer.innerHTML += `
+                    <div class="glass p-6 rounded-2xl flex flex-col justify-between border border-slate-900 shadow-lg">
+                        <p class="text-xs text-slate-300 font-medium leading-relaxed italic">"${h.text}"</p>
+                        <div class="border-t border-slate-950/40 pt-3 mt-4 flex justify-between items-center text-[10px] font-bold text-gold-400">
+                            <span>${h.collection}</span><span>${h.reference}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Populating Duas Data Listings
+            const dgContainer = document.getElementById('duaGridContainer');
+            duasDatabase.forEach(d => {
+                dgContainer.innerHTML += `
+                    <div class="glass p-6 rounded-2xl space-y-3 border border-slate-900">
+                        <div class="flex justify-between items-center"><span class="text-[9px] font-bold bg-gold-500/10 text-gold-400 px-2.5 py-0.5 rounded border border-gold-500/20 uppercase tracking-widest">${d.category}</span></div>
+                        <h4 class="text-sm font-bold text-white light:text-slate-900">${d.title}</h4>
+                        <p class="text-right text-xl font-arabic text-emerald-400 leading-loose" dir="rtl">${d.arabic}</p>
+                        <p class="text-[11px] text-slate-400 italic">${d.translation}</p>
+                    </div>
+                `;
+            });
+
+            // Populating Calculators Timings
+            const ptContainer = document.getElementById('prayerTimesGridContainer');
+            prayerCalculationTimes.forEach(p => {
+                ptContainer.innerHTML += `
+                    <div class="p-3 bg-slate-950/80 border border-slate-900 rounded-xl text-center shadow-md">
+                        <span class="text-[10px] text-slate-500 block font-bold uppercase tracking-wider">${p.name.split(' ')[0]}</span>
+                        <span class="text-xs font-mono font-bold text-gold-400 block mt-1">${p.time}</span>
+                    </div>
+                `;
+            });
+
+            // Universal Icon Engine compilation layer processing trigger
+            lucide.createIcons();
+
+            // Clear loading display mask frame overlay layer gracefully
+            setTimeout(() => {
+                const maskLoader = document.getElementById('loadingScreen');
+                maskLoader.classList.add('opacity-0', 'pointer-events-none');
+            }, 1200);
+        }
+
+        window.onload = initDeenVerseCoreEngine;
     </script>
 </body>
 </html>
